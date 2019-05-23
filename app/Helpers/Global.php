@@ -1,6 +1,7 @@
 <?php
 
 use App\proposal_ta;
+use \App\Mahasiswa;
 //use Auth;
 
 function cekStatusFinalisasi_dataProposal($reviske){
@@ -237,6 +238,14 @@ function cekStatusFinalisasi_justifikasi($reviske){
     }
 
     return $button;
+}
+
+function generateNamaLaporanTA($nim,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = "LaporanTA_".$nim."_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
+
+    return $namafile;
 }
 
 ?>

@@ -238,8 +238,6 @@ class proposal_taController extends Controller
     public function storeJustifikasiAnggaran(Request $request){
         
         $proposal_ta = \App\proposal_ta::updateOrCreate([
-            //Add unique field combo to match here
-            //For example, perhaps you only want one entry per user:
             'nim'   => Auth::user()->username,
             'revisike' => $request->get('revisike'),
         ],[

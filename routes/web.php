@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth','checkRole:mhs,admin']], function () {
     Route::get('/Mahasiswa/Profile', 'MahasiswaController@profile');
     Route::post('/Mahasiswa/{NIM}/update', 'MahasiswaController@update'); 
     Route::post('/Mahasiswa/changePassword', 'MahasiswaController@changePassword');
+    Route::get('/Mahasiswa/CreateUser', 'MahasiswaController@createUserMahasiswa');
 
     Route::post('/Proposal/Store/Finalisasi', 'proposal_taController@storefinalisasi');
 
@@ -57,5 +58,8 @@ Route::group(['middleware' => ['auth','checkRole:mhs,admin']], function () {
     Route::post('/Proposal/Store/BiayaJadwal', 'proposal_taController@storeBiayaJadwal');
     Route::post('/Proposal/Store/DaftarPustaka', 'proposal_taController@storeDaftarPustaka');
     Route::post('/Proposal/Store/JustifikasiAnggaran', 'proposal_taController@storeJustifikasiAnggaran');
+
+    Route::get('/Laporan/TA', 'laporanTAController@create');
+    Route::post('/LaporanTA/Store', 'laporanTAController@store');
     
 });

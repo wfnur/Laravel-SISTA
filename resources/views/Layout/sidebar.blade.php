@@ -113,33 +113,43 @@
 
             <!--Proposal TA-->
             <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon fa fa-group"></i>
-                  <p>Propsal Tugas Akhir</p>
-                    <i class="fa fa-angle-left pull-right" style="margin-top:5px;" ></i>
+              <a href="#" class="nav-link">
+                <i class="nav-icon fa fa-group"></i>
+                <p>Propsal Tugas Akhir</p>
+                  <i class="fa fa-angle-left pull-right" style="margin-top:5px;" ></i>
+                </p>
+              </a>
+
+              <ul class="nav nav-treeview" style="display: none;">
+                <li class="nav-item">
+                  <a href="/Proposal/TA/R0" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R0" ? "active" : "" }}">
+                    <i class="fa fa-check nav-icon"></i>
+                    <p>Revisi 0</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Proposal/TA/R1" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R1" ? "active" : "" }}">
+                    <i class="fa fa-check nav-icon"></i>
+                    <p>Revisi 1</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="Proposal-Manpro-Dosen_2" class="nav-link">
+                    <i class="fa fa-check nav-icon"></i>
+                    <p>Revisi 2</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <!--Laporan TA-->
+              <li class="nav-item ">
+                <a href="/Laporan/TA" class="nav-link {{ Request::getPathInfo() === "/Laporan/TA" ? "active" : "" }} ">
+                  <i class="nav-icon fa fa-book"></i>
+                  <p>
+                    Laporan Tugas Akhir
                   </p>
                 </a>
-
-                <ul class="nav nav-treeview" style="display: none;">
-                  <li class="nav-item">
-                    <a href="/Proposal/TA/R0" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R0" ? "active" : "" }}">
-                      <i class="fa fa-check nav-icon"></i>
-                      <p>Revisi 0</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                      <a href="/Proposal/TA/R1" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R1" ? "active" : "" }}">
-                      <i class="fa fa-check nav-icon"></i>
-                      <p>Revisi 1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="Proposal-Manpro-Dosen_2" class="nav-link">
-                      <i class="fa fa-check nav-icon"></i>
-                      <p>Revisi 2</p>
-                    </a>
-                  </li>
-                </ul>
               </li>
           @endif
           
