@@ -11,6 +11,7 @@
         </div>
     </div>       
 @endif
+{{dd($data)}}
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -52,7 +53,6 @@
                         <h1>Data User</h1>
                     </div>           
                     
-            
                     <div class="col-md-12">
                         <table class="table table-hover table-bordered table-responsive">
                             <thead align='center' >

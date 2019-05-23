@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Dosen;
+use App\User;
 
 class DosenController extends Controller
 {
@@ -62,4 +64,36 @@ class DosenController extends Controller
         $user->delete();
         return redirect('/Dosen')->with('sukses','Data Berhasil Hapus');
    }
+
+    public function createUserDosen(){
+        ini_set('max_execution_time', 600);
+        $dosen = Dosen::all();
+
+        $data = array();
+        $i=0;
+        foreach($dosen as $value){
+            $user = User::firstOrNew([
+                'username' => $value->kode_dosen
+            ]);
+
+            if($user->username) {
+                
+            }else{
+                $userCreate = New User;
+                $userCreate->username = $value->kode_dosen;
+                $userCreate->password = bcrypt('321dosen');
+                $userCreate->tipe_user = 'dsn';
+                $userCreate->status = 1;
+                $userCreate->remember_token = str_random(60);
+                $userCreate->save();
+
+                if (!$userCreate->save()) {
+                    $data[$i] = $value->NIM." Gagal Ditambah";
+                }
+            }
+        $i++;
+        }
+        return redirect()->back()->with("sukses","User Berhasil Ditambah !");
+    
+    }
 }

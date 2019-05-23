@@ -123,12 +123,12 @@ class MahasiswaController extends Controller
     }
 
     public function createUserMahasiswa(){
+        ini_set('max_execution_time', 600);
         $mahasiswa = Mahasiswa::all();
 
         $data = array();
         $i=0;
         foreach($mahasiswa as $value){
-            echo $value->NIM."<br>";
             $user = User::firstOrNew([
                 'username' => $value->NIM
             ]);
@@ -144,9 +144,7 @@ class MahasiswaController extends Controller
                 $userCreate->remember_token = str_random(60);
                 $userCreate->save();
 
-                if ($userCreate->save()) {
-                    $data[$i] = $value->NIM." Berhasil Ditambah";
-                } else {
+                if (!$userCreate->save()) {
                     $data[$i] = $value->NIM." Gagal Ditambah";
                 }
                 
@@ -154,35 +152,8 @@ class MahasiswaController extends Controller
             }
         $i++;
         }
-        return view('Mahasiswa.createUser',compact('data'));
+        return redirect()->back()->with("sukses","User Berhasil Ditambah !");
         
-        /*
-        $data = array();
-        $i=0;
-        foreach($mahasiswa as $value){
-            dd($value->NIM);
-            /*$user = User::firstOrNew([
-                'username' => $value->NIM
-            ]);*/
-            
-            /*if($user->username) {
-                // The user exists and was retrieved from the database...
-            }
-            
-            if (!$user->id) {
-                // The user was not found in the database and a new User model was created...
-            }
-
-            if ($user) {
-                $data[$i] = $value->nim." Berhasil disimpan";
-            }else{
-                $data[$i] = $value->nim." gagal disimpan";
-            }            
-        $i++;
-        }
-        */
-
-        //return dd($i);
-        //return view('Mahasiswa.createUser',compact('mahasiswa'));
+        
     }
 }

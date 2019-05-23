@@ -26,12 +26,14 @@ Route::group(['middleware' => ['auth','checkRole:admin']], function () {
     Route::get('/Mahasiswa/{NIM}/edit', 'MahasiswaController@edit');
     Route::post('/Mahasiswa/{NIM}/update', 'MahasiswaController@update');
     Route::get('/Mahasiswa/{NIM}/delete', 'MahasiswaController@delete');
+    Route::get('/Mahasiswa/CreateUser', 'MahasiswaController@createUserMahasiswa');
 
     Route::get('/Dosen', 'DosenController@index');
     Route::get('/', 'DosenController@edit');
     Route::post('/Dosen/{kode_dosen}/update', 'DosenController@update');
     Route::get('/Dosen/{kode_dosen}/delete', 'DosenController@delete');
     Route::post('/Dosen/create', 'DosenController@create');
+    Route::get('/Dosen/CreateUser', 'DosenController@createUserDosen');
 
     Route::resource('BAB', 'BabController');
     Route::resource('SubBab', 'SubBabController');
@@ -44,7 +46,7 @@ Route::group(['middleware' => ['auth','checkRole:mhs,admin']], function () {
     Route::get('/Mahasiswa/Profile', 'MahasiswaController@profile');
     Route::post('/Mahasiswa/{NIM}/update', 'MahasiswaController@update'); 
     Route::post('/Mahasiswa/changePassword', 'MahasiswaController@changePassword');
-    Route::get('/Mahasiswa/CreateUser', 'MahasiswaController@createUserMahasiswa');
+    
 
     Route::post('/Proposal/Store/Finalisasi', 'proposal_taController@storefinalisasi');
 

@@ -51,17 +51,18 @@
                     <div class="col-4">
                         <h1>Data Dosen</h1>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <form class="form-inline float-right" method="GET" action="/Dosen" >
                             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="cari">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
                     </div>
-                    <div class="col-2">
+                    <div class="col-4">
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal" style="margin-right:40px;">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-right:40px;">
                             Tambah
                         </button>
+                        <a href={{url('/Dosen/CreateUser')}} class="btn btn-warning float-right">Tambah User</a>
                     </div>              
                     
             
