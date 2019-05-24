@@ -3,6 +3,7 @@
   if ($user == null) {
       $user = \App\Mahasiswa::find(auth()->user()->username);            
   }
+  $tipe_user = explode(",",auth()->user()->tipe_user);
 ?>
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-danger elevation-4">
@@ -28,7 +29,8 @@
     <!-- Sidebar Menu -->
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          @if (auth()->user()->tipe_user =='admin')
+        
+          @php if(in_array("admin",$tipe_user)){ @endphp
             <!--Dashboard-->
             <li class="nav-item ">
               <a href="/Dashboard-Admin" class="nav-link {{ Request::getPathInfo() == "/Dashboard-Admin" ? "active" : "" }} ">
@@ -98,9 +100,9 @@
                 </p>
               </a>
             </li>
-          @endif
+          @php } @endphp
 
-          @if (auth()->user()->tipe_user =='mhs')
+          @php if (in_array("mhs",$tipe_user)){ @endphp
             @php
                 $mhs = \App\Mahasiswa::where('NIM','=',auth()->user()->username)->first();
                 $kelas = date('Y') - $mhs->angkatan;
@@ -164,7 +166,7 @@
             
 
             
-          @endif
+          @php } @endphp
           
 
         

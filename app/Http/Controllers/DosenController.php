@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Dosen;
 use App\User;
 
@@ -25,9 +26,14 @@ class DosenController extends Controller
     }
 
     public function edit($kodedosen){
-        $dosen = \App\Dosen::find($kodedosen);
-        //return dd($mahasiswa);
-        return view('Dosen/Edit_dosen',['dosen'=>$dosen]);
+        //$dosen = Dosen::find($kodedosen);
+        $dosen = DB::table('dosen')
+            ->select('users.*', 'dosen.*')
+            ->join('users', 'users.username', '=', 'dosen.kode_dosen')
+            ->where('dosen.kode_dosen','=',$kodedosen)
+            ->first();
+        $tipe_user = explode(",",$dosen->tipe_user);
+        return view('Dosen.Edit_dosen',compact('tipe_user','dosen'));
     }
 
     public function create(Request $request){
@@ -50,8 +56,15 @@ class DosenController extends Controller
     }
 
     public function update(Request $request, $kode_dosen){
-        $dosen = \App\Dosen::find($kode_dosen);
+        
+        $dosen = Dosen::find($kode_dosen);
         $dosen->update($request->all());
+
+        $tipe_user = implode(",",$request->tipe_user);
+        $user = User::where('username', "=", $kode_dosen)->first();
+        $user->tipe_user = $tipe_user;
+        $user->update();
+
         return redirect('/Dosen')->with('sukses','Data Berhasil Diupdate');
        //return dd($mahasiswa);
 

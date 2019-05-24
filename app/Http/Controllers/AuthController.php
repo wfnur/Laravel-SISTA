@@ -16,29 +16,25 @@ class AuthController extends Controller
         if (Auth::attempt($request->only('username','password'))) {
              $tipe_user = Auth::user()->tipe_user;
              $username = Auth::user()->username;
-             if ($tipe_user == 'admin') {
+             /*if ($tipe_user == 'admin') {
                 return redirect('/Dashboard-Admin');
              }elseif ($tipe_user =='mhs') {
                 return redirect('/Mahasiswa/Beranda');
+             }*/
+             $arr_tu = explode(",",$tipe_user);
+             
+             if (in_array("admin", $arr_tu)) {
+                //return "ada admin";
+                return redirect('/Dashboard-Admin');
+             }elseif (in_array("mhs",$arr_tu)) {
+                return "ada mhs";
+                //return redirect('/Mahasiswa/Beranda');
+             }else{
+                 return "kosong";
              }
         }
-        /*
-        $user = \App\User::where('username', $request->username)
-                  ->where('password',md5($request->password))
-                  ->first();
-        if ($user) {
-            $tipe_user = $user->tipe_user;
-            $username = $request->username;
-            if ($tipe_user == 'panitia_reviewerSKTA') {
-                return redirect()->Action('DashboardController@admin', ['username' => $username]);
-                dd($request->username);
-                //return redirect('/Dashboard-Admin')->compact('user');
-                //return "login";
-            }else{
-                dd($user->username);
-            }
-        }*/
-        return redirect('/Login')->with('gagal','Username / Password Salah');
+        
+        //return redirect('/Login')->with('gagal','Username / Password Salah');
     }
 
     public function logout(){

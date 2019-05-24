@@ -1,5 +1,7 @@
 @extends('Layout.master')
 
+@section('title','Ubah Data Dosen')
+
 @section('content')
     @if (session('sukses'))
     <div class="alert alert-success" role="alert">
@@ -67,7 +69,40 @@
                                     <div class="form-group">
                                         <label>Email</label>
                                         <input type="text" name="email" class="form-control" value="{{$dosen->email}}">  
-                                    </div>  
+                                    </div> 
+                                    
+                                    <div class="form-group">
+                                        <label for="">Tipe User</label>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="tipe_user[]" value="admin" class="custom-control-input" id="customCheck1" @if(in_array("admin",$tipe_user)) checked @endif>
+                                            <label class="custom-control-label" for="customCheck1">Administrator</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="tipe_user[]" value="dosen" class="custom-control-input" id="customCheck2" @if(in_array("dosen",$tipe_user)) checked @endif>
+                                            <label class="custom-control-label" for="customCheck2">Dosen</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="tipe_user[]" value="panitia" class="custom-control-input" id="customCheck3" @if(in_array("panitia",$tipe_user)) checked @endif>
+                                            <label class="custom-control-label" for="customCheck3">Panitia Tugas Akhir</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="tipe_user[]" value="reviewer_proposalPKMPolban" class="custom-control-input" id="customCheck4" @if(in_array("reviewer_proposalPKMPolban",$tipe_user)) checked @endif>
+                                            <label class="custom-control-label" for="customCheck4">Reviwer Proposal PKM POLBAN</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="tipe_user[]" value="reviewer_proposalPKMBelmawa" class="custom-control-input" id="customCheck5">
+                                            <label class="custom-control-label" for="customCheck5">Reviwer Proposal PKM BELMAWA</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="tipe_user[]" value="reviewer_proposalTA" class="custom-control-input" id="customCheck6">
+                                            <label class="custom-control-label" for="customCheck6">Reviwer Proposal Tugas Akhir</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="tipe_user[]" value="reviewer_SKTA" class="custom-control-input" id="customCheck7">
+                                            <label class="custom-control-label" for="customCheck7">Reviwer SKTA</label>
+                                        </div>
+                                        
+                                    </div> 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-warning" value="Simpan"> Update</button>
                             </div>

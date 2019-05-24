@@ -14,10 +14,17 @@ class CheckRole
      * @return mixed
      */
     public function handle($request, Closure $next,...$tipe_user)
-    {
-        if (in_array($request->user()->tipe_user, $tipe_user)) {
+    {   
+        $arr_tu = explode(",",$request->user()->tipe_user);
+        $a = array_intersect($arr_tu,$tipe_user);
+        $str = implode($a);
+        //return dd($a);
+        
+        if (in_array($str, $tipe_user)) {
             return $next($request);
         }
+        
         return redirect('/Login')->with('gagal','Limited Access');
+        
     }
 }

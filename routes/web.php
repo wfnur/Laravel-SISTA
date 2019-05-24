@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth','checkRole:admin']], function () {
     Route::get('/Mahasiswa/CreateUser', 'MahasiswaController@createUserMahasiswa');
 
     Route::get('/Dosen', 'DosenController@index');
-    Route::get('/', 'DosenController@edit');
+    Route::get('/Dosen/{kode_dosen}/edit', 'DosenController@edit');
     Route::post('/Dosen/{kode_dosen}/update', 'DosenController@update');
     Route::get('/Dosen/{kode_dosen}/delete', 'DosenController@delete');
     Route::post('/Dosen/create', 'DosenController@create');
@@ -41,12 +41,11 @@ Route::group(['middleware' => ['auth','checkRole:admin']], function () {
     Route::resource('Deadline', 'DeadlineController');
 });
 
-Route::group(['middleware' => ['auth','checkRole:mhs,admin']], function () {
+Route::group(['middleware' => ['auth','checkRole:mhs']], function () {
     Route::get('/Mahasiswa/Beranda', 'DashboardController@mahasiswa');
     Route::get('/Mahasiswa/Profile', 'MahasiswaController@profile');
     Route::post('/Mahasiswa/{NIM}/update', 'MahasiswaController@update'); 
     Route::post('/Mahasiswa/changePassword', 'MahasiswaController@changePassword');
-    
 
     Route::post('/Proposal/Store/Finalisasi', 'proposal_taController@storefinalisasi');
 
