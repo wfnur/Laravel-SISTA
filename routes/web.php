@@ -62,6 +62,8 @@ Route::group(['middleware' => ['auth','checkRole:mhs']], function () {
 
     Route::get('/Laporan/TA', 'laporanTAController@create');
     Route::post('/LaporanTA/Store', 'laporanTAController@store');
+
+    Route::resource('Bimbingan', 'BimbinganController');
     
 });
 

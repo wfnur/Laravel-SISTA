@@ -153,6 +153,16 @@
 
                 <!--Laporan TA-->
                 <li class="nav-item ">
+                  <a href="/Bimbingan/create" class="nav-link {{ Request::getPathInfo() === "/Bimbingan/create" ? "active" : "" }} ">
+                    <i class="nav-icon fa fa-book"></i>
+                    <p>
+                      Bimbingan
+                    </p>
+                  </a>
+                </li>
+
+                <!--Laporan TA-->
+                <li class="nav-item ">
                   <a href="/Laporan/TA" class="nav-link {{ Request::getPathInfo() === "/Laporan/TA" ? "active" : "" }} ">
                     <i class="nav-icon fa fa-book"></i>
                     <p>

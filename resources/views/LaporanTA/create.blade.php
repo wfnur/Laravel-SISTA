@@ -222,7 +222,6 @@
                                   </div>
 
                                   <!--Upload Laporan-->
-                                  <!---Lembar Pengesahan--->
                                     <div class="form-group row">
                                         <label for="exampleInputFile"> Berkas Laporan Tugas AKhir Final (PDF) </label>
                                         <input type="file" name="laporanTA" accept=".pdf"  class="form-control" required>         

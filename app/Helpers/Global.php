@@ -248,4 +248,11 @@ function generateNamaLaporanTA($nim,$ext){
     return $namafile;
 }
 
+function generateNamaFormBimbingan($nim,$pembimbing,$tanggal,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = "FormBimbingan".$nim."_".$str_name."_".$pembimbing."_".$tanggal.".".$ext;
+    return $namafile;
+}
+
 ?>

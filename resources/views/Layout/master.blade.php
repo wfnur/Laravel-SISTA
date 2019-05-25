@@ -85,8 +85,11 @@
   $('.tanggalawal').datepicker({  
      format: 'yyyy-mm-dd 00:00:00'
    }); 
-   $('.tanggalakhir').datepicker({  
+  $('.tanggalakhir').datepicker({  
     format: 'yyyy-mm-dd 23:59:59'
+  });
+  $('.tanggalbimbingan').datepicker({  
+    format: 'yyyy-mm-dd 12:00:00'
   }); 
   //$('.collapse').collapse() 
 </script> 
