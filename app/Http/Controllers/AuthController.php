@@ -27,14 +27,17 @@ class AuthController extends Controller
                 //return "ada admin";
                 return redirect('/Dashboard-Admin');
              }elseif (in_array("mhs",$arr_tu)) {
-                return "ada mhs";
-                //return redirect('/Mahasiswa/Beranda');
+                //return "ada mhs";
+                return redirect('/Mahasiswa/Beranda');
+             }elseif (in_array("dsn",$arr_tu)) {
+                //return "ada mhs";
+                return redirect('/Dosen/Beranda');
              }else{
                  return "kosong";
              }
         }
         
-        //return redirect('/Login')->with('gagal','Username / Password Salah');
+        return redirect('/Login')->with('gagal','Username / Password Salah');
     }
 
     public function logout(){

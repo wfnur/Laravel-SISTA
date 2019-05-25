@@ -78,7 +78,7 @@
                                             <label class="custom-control-label" for="customCheck1">Administrator</label>
                                         </div>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="tipe_user[]" value="dosen" class="custom-control-input" id="customCheck2" @if(in_array("dosen",$tipe_user)) checked @endif>
+                                            <input type="checkbox" name="tipe_user[]" value="dsn" class="custom-control-input" id="customCheck2" @if(in_array("dsn",$tipe_user)) checked @endif>
                                             <label class="custom-control-label" for="customCheck2">Dosen</label>
                                         </div>
                                         <div class="custom-control custom-checkbox">
@@ -86,19 +86,19 @@
                                             <label class="custom-control-label" for="customCheck3">Panitia Tugas Akhir</label>
                                         </div>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="tipe_user[]" value="reviewer_proposalPKMPolban" class="custom-control-input" id="customCheck4" @if(in_array("reviewer_proposalPKMPolban",$tipe_user)) checked @endif>
+                                            <input type="checkbox" name="tipe_user[]" value="reviewer_proposalPKMPolban" class="custom-control-input" id="customCheck4" @if(in_array("reviewer_proposalPKMPolban",$tipe_user)) checked @endif >
                                             <label class="custom-control-label" for="customCheck4">Reviwer Proposal PKM POLBAN</label>
                                         </div>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="tipe_user[]" value="reviewer_proposalPKMBelmawa" class="custom-control-input" id="customCheck5">
+                                            <input type="checkbox" name="tipe_user[]" value="reviewer_proposalPKMBelmawa" class="custom-control-input" id="customCheck5" @if(in_array("reviewer_proposalPKMBelmawa",$tipe_user)) checked @endif >
                                             <label class="custom-control-label" for="customCheck5">Reviwer Proposal PKM BELMAWA</label>
                                         </div>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="tipe_user[]" value="reviewer_proposalTA" class="custom-control-input" id="customCheck6">
+                                            <input type="checkbox" name="tipe_user[]" value="reviewer_proposalTA" class="custom-control-input" id="customCheck6" @if(in_array("reviewer_proposalTA",$tipe_user)) checked @endif>
                                             <label class="custom-control-label" for="customCheck6">Reviwer Proposal Tugas Akhir</label>
                                         </div>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="tipe_user[]" value="reviewer_SKTA" class="custom-control-input" id="customCheck7">
+                                            <input type="checkbox" name="tipe_user[]" value="reviewer_SKTA" class="custom-control-input" id="customCheck7" @if(in_array("reviewer_SKTA",$tipe_user)) checked @endif>
                                             <label class="custom-control-label" for="customCheck7">Reviwer SKTA</label>
                                         </div>
                                         

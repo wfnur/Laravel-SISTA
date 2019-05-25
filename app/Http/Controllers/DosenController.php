@@ -4,16 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use App\Dosen;
 use App\User;
+use Auth;
 
 class DosenController extends Controller
 {
-    public function index(Request $request){
+    public function index(){
+        $Dosen = Dosen::find(Auth::user()->username);
+        return view('Dosen.index',['Dosen' => $Dosen]);
+    }
+    public function profile(){
+        $dosen = Dosen::find(Auth::user()->username);
+        return view('Dosen.profile',compact('dosen'));
+    }
+    public function create(Request $request){
         //$user = \App\Dosen::all();
         
         if ($request->has('cari')) {
-            $data_dosen = \App\Dosen::where('nama','=',$request->cari)
+            $data_dosen = \App\Dosen::where('nama','LIKE','%'.$request->cari.'%')
             ->orwhere('kode_dosen','LIKE','%'.$request->cari.'%')
             ->paginate(20);
             
@@ -22,7 +33,7 @@ class DosenController extends Controller
         }
         
         //View::make('Mahasiswa.List_mahasiswa', compact('data_mahasiswa','user'));
-        return view('Dosen.index',compact('data_dosen','user'));
+        return view('Dosen.create',compact('data_dosen','user'));
     }
 
     public function edit($kodedosen){
@@ -36,8 +47,7 @@ class DosenController extends Controller
         return view('Dosen.Edit_dosen',compact('tipe_user','dosen'));
     }
 
-    public function create(Request $request){
-        //return $request->all();
+    public function store(Request $request){
 
         //insert user
         $user = new \App\User;
@@ -52,20 +62,30 @@ class DosenController extends Controller
         $request ->request->add(['user_id' => $user -> id]);
         $dosen = \App\Dosen::create($request->all()); 
 
-        return redirect('/Dosen')->with('sukses','Data Berhasil Disimpan'); 
+        return redirect('/Dosen/Create')->with('sukses','Data Berhasil Disimpan'); 
     }
 
     public function update(Request $request, $kode_dosen){
         
         $dosen = Dosen::find($kode_dosen);
         $dosen->update($request->all());
+        if ($request->hasFile('foto')) {
+            //Storage::putFile('photo', new File('Images/'));
+            $imgName = md5(str_random(30).time().'_'.$request->file('image_icon')).'.'.$request->file('foto')->getClientOriginalExtension();
+            $request->file('foto')->move('Images/',$imgName);
+            $dosen->foto = $imgName;
+            $dosen->save();
+        }
 
-        $tipe_user = implode(",",$request->tipe_user);
-        $user = User::where('username', "=", $kode_dosen)->first();
-        $user->tipe_user = $tipe_user;
-        $user->update();
+        if ($request->has('tipe_user')) {
+            $tipe_user = implode(",",$request->tipe_user);
+            $user = User::where('username', "=", $kode_dosen)->first();
+            $user->tipe_user = $tipe_user;
+            $user->update();
+        }
+        
 
-        return redirect('/Dosen')->with('sukses','Data Berhasil Diupdate');
+        return redirect()->back()->with('sukses','Data Berhasil Diupdate');
        //return dd($mahasiswa);
 
    }
@@ -108,5 +128,37 @@ class DosenController extends Controller
         }
         return redirect()->back()->with("sukses","User Berhasil Ditambah !");
     
+    }
+
+    public function changePassword(Request $request){
+        if (!Hash::check($request->get('current-password'),auth()->user()->password)) {
+            // The passwords matches
+            return redirect()->back()->with("error","Your current password does not matches with the password you provided. Please try again.");
+        }
+        if(strcmp($request->get('current-password'), $request->get('new-password')) == 0){
+            //Current password and new password are same
+            return redirect()->back()->with("error","New Password cannot be same as your current password. Please choose a different password.");
+        }
+        if(strcmp($request->get('new-password'), $request->get('new-password-confirm')) == 0){
+            //New password and confirm password are not same
+            return redirect()->back()->with("error","New Password should be same as your confirmed password. Please retype new password.");
+        }
+        //Change Password
+        /*
+        $user = DB::table('users')->where('username', '=', auth()->user()->username)->get();
+        $user->password = bcrypt($request->get('new-password'));
+        $user->save();
+        */
+        $user =  User::find(auth()->user()->id);
+        //dd($user);
+        $user->password = bcrypt($request->get('new-password'));
+        $user->save();
+
+        if (!$user->save()) {
+            return redirect()->back()->with('gagal','Password gagal Diubah');
+        } else {
+            return redirect()->back()->with("success","Password changed successfully !");
+        }
+        
     }
 }

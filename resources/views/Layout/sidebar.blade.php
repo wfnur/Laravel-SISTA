@@ -31,6 +31,7 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         
           @php if(in_array("admin",$tipe_user)){ @endphp
+
             <!--Dashboard-->
             <li class="nav-item ">
               <a href="/Dashboard-Admin" class="nav-link {{ Request::getPathInfo() == "/Dashboard-Admin" ? "active" : "" }} ">
@@ -53,7 +54,7 @@
 
             <!--Dosen-->
             <li class="nav-item">
-              <a href="/Dosen" class="nav-link {{ Request::getPathInfo() == "/Dosen" ? "active" : "" }} ">
+              <a href="/Dosen/Create" class="nav-link {{ Request::getPathInfo() == "/Dosen/Create" ? "active" : "" }} ">
                 <i class="nav-icon fa fa-group"></i>
                 <p>
                   Dosen
@@ -161,12 +162,141 @@
                 </li>
               @endif
               
-            @endif
-
-            
-
-            
+            @endif            
           @php } @endphp
+
+          @php if(in_array("panitia",$tipe_user)){ @endphp
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <p>Bimbingan</p>
+                  <i class="fa fa-angle-left pull-right" style="margin-top:5px;" ></i>
+                </p>
+              </a>
+
+              <ul class="nav nav-treeview" style="display: none;">
+                <li class="nav-item">
+                  <a href="#" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R0" ? "active" : "" }}">
+                    <i class="fa fa-check nav-icon"></i>
+                    <p>Verifikasi Bimbingan</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R1" ? "active" : "" }}">
+                    <i class="fa fa-bars nav-icon"></i>
+                    <p>Rekap Bimbingan</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          @php } @endphp
+
+          @php if(in_array("reviewer_proposalPKMPolban",$tipe_user)){ @endphp
+            <!--Proposal TA-->
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <p>Review Proposal <br> PKM POLBAN </p>
+                  <i class="fa fa-angle-left pull-right" style="margin-top:5px;" ></i>
+                </p>
+              </a>
+
+              <ul class="nav nav-treeview" style="display: none;">
+                <li class="nav-item">
+                  <a href="#" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R0" ? "active" : "" }}">
+                    <i class="fa fa-check nav-icon"></i>
+                    <p>Revisi 0</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R1" ? "active" : "" }}">
+                    <i class="fa fa-check nav-icon"></i>
+                    <p>Revisi 1</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="fa fa-check nav-icon"></i>
+                    <p>Revisi 2</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          @php } @endphp
+
+          @php if(in_array("reviewer_proposalPKMBelmawa",$tipe_user)){ @endphp
+            <!--Proposal TA-->
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <p>Review Proposal <br> PKM BELMAWA </p>
+                  <i class="fa fa-angle-left pull-right" style="margin-top:5px;" ></i>
+                </p>
+              </a>
+
+              <ul class="nav nav-treeview" style="display: none;">
+                <li class="nav-item">
+                  <a href="#" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R0" ? "active" : "" }}">
+                    <i class="fa fa-check nav-icon"></i>
+                    <p>Revisi 0</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R1" ? "active" : "" }}">
+                    <i class="fa fa-check nav-icon"></i>
+                    <p>Revisi 1</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="fa fa-check nav-icon"></i>
+                    <p>Revisi 2</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          @php } @endphp
+
+          @php if(in_array("reviewer_proposalTA",$tipe_user)){ @endphp
+            <!--Proposal TA-->
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <p>Review Proposal TA </p>
+                  <i class="fa fa-angle-left pull-right" style="margin-top:5px;" ></i>
+                </p>
+              </a>
+
+              <ul class="nav nav-treeview" style="display: none;">
+                <li class="nav-item">
+                  <a href="#" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R0" ? "active" : "" }}">
+                    <i class="fa fa-check nav-icon"></i>
+                    <p>Revisi 0</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R1" ? "active" : "" }}">
+                    <i class="fa fa-check nav-icon"></i>
+                    <p>Revisi 1</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="fa fa-check nav-icon"></i>
+                    <p>Revisi 2</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          @php } @endphp
+
+          @php if(in_array("reviewer_SKTA",$tipe_user)){ @endphp
+            <!--Bimbingan-->
+            <li class="nav-item ">
+              <a href="#" class="nav-link {{ Request::getPathInfo() === "/Dashboard-Mahasiswa" ? "active" : "" }} ">
+                <p>
+                  Review SKTA
+                </p>
+              </a>
+            </li> 
+          @php } @endphp
+
           
 
         

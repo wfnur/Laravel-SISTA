@@ -28,11 +28,11 @@ Route::group(['middleware' => ['auth','checkRole:admin']], function () {
     Route::get('/Mahasiswa/{NIM}/delete', 'MahasiswaController@delete');
     Route::get('/Mahasiswa/CreateUser', 'MahasiswaController@createUserMahasiswa');
 
-    Route::get('/Dosen', 'DosenController@index');
+    Route::get('/Dosen/Create', 'DosenController@create');
     Route::get('/Dosen/{kode_dosen}/edit', 'DosenController@edit');
     Route::post('/Dosen/{kode_dosen}/update', 'DosenController@update');
     Route::get('/Dosen/{kode_dosen}/delete', 'DosenController@delete');
-    Route::post('/Dosen/create', 'DosenController@create');
+    Route::post('/Dosen/Store', 'DosenController@store');
     Route::get('/Dosen/CreateUser', 'DosenController@createUserDosen');
 
     Route::resource('BAB', 'BabController');
@@ -63,4 +63,11 @@ Route::group(['middleware' => ['auth','checkRole:mhs']], function () {
     Route::get('/Laporan/TA', 'laporanTAController@create');
     Route::post('/LaporanTA/Store', 'laporanTAController@store');
     
+});
+
+Route::group(['middleware' => ['auth','checkRole:dsn']], function () {
+    Route::get('/Dosen/Beranda', 'DosenController@index');
+    Route::get('/Dosen/Profile', 'DosenController@profile');
+    Route::post('/Dosen/{kode_dosen}/update', 'DosenController@update');
+    Route::post('/Dosen/changePassword', 'DosenController@changePassword');
 });

@@ -14,6 +14,7 @@ class DashboardController extends Controller
         //dd($user);
         return view('Dashboard.admin',['user' => $user]);
     }
+    
     public function mahasiswa(){
         $user = \App\Mahasiswa::find(auth()->user()->username);
         return view('Dashboard.mahasiswa',['user' => $user]);
