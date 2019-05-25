@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth','checkRole:admin']], function () {
 
     Route::get('/Dosen/Create', 'DosenController@create');
     Route::get('/Dosen/{kode_dosen}/edit', 'DosenController@edit');
-    Route::post('/Dosen/{kode_dosen}/update', 'DosenController@update');
+    Route::post('/Dosen/{kode_dosen}/updateAdmin', 'DosenController@updateAdmin');
     Route::get('/Dosen/{kode_dosen}/delete', 'DosenController@delete');
     Route::post('/Dosen/Store', 'DosenController@store');
     Route::get('/Dosen/CreateUser', 'DosenController@createUserDosen');

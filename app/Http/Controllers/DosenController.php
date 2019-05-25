@@ -88,7 +88,32 @@ class DosenController extends Controller
         return redirect()->back()->with('sukses','Data Berhasil Diupdate');
        //return dd($mahasiswa);
 
-   }
+    }
+
+    public function updateAdmin(Request $request, $kode_dosen){
+        
+        $dosen = Dosen::find($kode_dosen);
+        $dosen->update($request->all());
+        if ($request->hasFile('foto')) {
+            //Storage::putFile('photo', new File('Images/'));
+            $imgName = md5(str_random(30).time().'_'.$request->file('image_icon')).'.'.$request->file('foto')->getClientOriginalExtension();
+            $request->file('foto')->move('Images/',$imgName);
+            $dosen->foto = $imgName;
+            $dosen->save();
+        }
+
+        if ($request->has('tipe_user')) {
+            $tipe_user = implode(",",$request->tipe_user);
+            $user = User::where('username', "=", $kode_dosen)->first();
+            $user->tipe_user = $tipe_user;
+            $user->update();
+        }
+        
+
+        return redirect()->back()->with('sukses','Data Berhasil Diupdate');
+       //return dd($mahasiswa);
+
+    }
 
    public function delete($kode_dosen){
        $dosen = \App\Dosen::find($kode_dosen);

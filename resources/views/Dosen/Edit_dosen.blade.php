@@ -39,7 +39,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col-12">
-                        <form action="/Dosen/{{$dosen->kode_dosen}}/update" method="POST">
+                        <form action="/Dosen/{{$dosen->kode_dosen}}/updateAdmin" method="POST">
                             {{ csrf_field() }}
                                     <div class="form-group">
                                         <label>Kode Dosen</label>
