@@ -9,4 +9,9 @@ class Mahasiswa extends Model
     protected $table = 'mahasiswa';
     protected $primaryKey = 'NIM';
     protected $fillable = ['user_id','NIM','nama','jk','alamat','telpon','email','angkatan','kelas','nourut','prodi','ttl','created_at','updated_at'];
+
+    public function bimbingan()
+    {
+        return $this->hasMany('App\bimbingan');
+    }
 }

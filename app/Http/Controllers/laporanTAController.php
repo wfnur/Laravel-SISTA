@@ -62,7 +62,6 @@ class laporanTAController extends Controller
             }
          }
          
-        //$imgName = generateNamaLaporanTA(Auth::user()->username,$request->file('laporanTA')->getClientOriginalExtension());
 
         if (!$laporanTA) {
             return redirect()->back()->with('gagal','Data Gagal Diubah/Disimpan');

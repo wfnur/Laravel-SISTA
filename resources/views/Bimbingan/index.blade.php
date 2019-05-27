@@ -130,14 +130,14 @@
     <div class="content-header">
         <div class="container-fluid">
         <div class="row mb-2">
-            <div class="offset-2">
-                <h1 class="m-0 text-dark">Upload Form Bimbingan</h1>
+            <div class="offset-1">
+                <h1 class="m-0 text-dark">Bimbingan</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-left" style="margin-top:7px;">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item">Bimbingan</li>
-                <li class="breadcrumb-item active">Tambah Bimbingan</li>
+                <li class="breadcrumb-item active">History Bimbingan</li>
             </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -152,37 +152,43 @@
         <!-- Main row -->
         <div class="row">
             <!-- Left col -->
-            <section class="col-8 offset-2">
+            <section class="col-10 offset-1">
             <!-- Custom tabs (Charts with tabs)-->
             <div class="card">
                 <div class="card-body">
-                    <div class="col-12">
-                        <form action="{{ route('Bimbingan.store') }}" method="POST" enctype="multipart/form-data">              
-                            {{csrf_field()}}
-                            <div class="form-group">
-                                <label>Tanggal Bimbingan</label>
-                                <input type="text" name="tanggalbimbingan" class="tanggalbimbingan form-control" autocomplete="off" required>
-                            </div> 
-
-                            <div class="form-group">
-                                <label>Pembimbing </label>
-                                <select name="pembimbing" class="form-control">
-                                    <option value="P1">Pembimbing 1</option>
-                                    <option value="P1">Pembimbing 2</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group ">
-                                <label> Form Bimbingan (PDF) </label>
-                                <input type="file" name="formBimbingan" accept=".pdf"  class="form-control">         
-                            </div>
-                                
-                            
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary"> Simpan</button>
-                            </div>
-                        </form>
-                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <th>No</th> <th> Tanggal Bimbingan </th> <th> Minggu Ke- </th> <th> Pembimbing </th> <th> Status </th> <th> Lihat Form </th>
+                        </thead>
+                        <tbody>
+                            @php $i=1 @endphp
+                            @foreach ($bimbingan as $item)
+                                <tr>
+                                    <td>{{ $i }}</td>
+                                    <td>{{ Carbon\Carbon::parse($item->tanggalbimbingan)->formatLocalized('%A, %d %B %Y')}}</td>
+                                    <td>{{ $item->mingguBimbingan->mingguke }}</td>
+                                    <td>
+                                        @if ($item->pembimbing == "P1")
+                                            Pembimbing 1
+                                        @elseif($item->pembimbing == "P2")
+                                            Pembimbing 2
+                                        @else
+                                            Error
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($item->status == 1)
+                                            Sudah Diverifikasi
+                                        @else
+                                            Belum Diverifikasi
+                                        @endif
+                                    </td>
+                                    <td> <a href="Form_Bimbingan/{{ $item->formBimbingan }}" class="btn btn-warning" target="_blank">view</a> </td>
+                                </tr>
+                            @php $i++ @endphp   
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div><!-- /.card-body -->
             </div>
             <!-- /.card -->

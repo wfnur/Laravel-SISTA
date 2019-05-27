@@ -52,7 +52,7 @@
                         <h1>Data Dosen</h1>
                     </div>
                     <div class="col-4">
-                        <form class="form-inline float-right" method="GET" action="/Dosen" >
+                        <form class="form-inline float-right" method="GET" action="/Dosen/Create" >
                             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="cari">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>

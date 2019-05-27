@@ -18,11 +18,12 @@ class CheckRole
         $arr_tu = explode(",",$request->user()->tipe_user);
         $a = array_intersect($arr_tu,$tipe_user);
         $str = implode($a);
-        //return dd($a);
+        //return dd($tipe_user);
         
         if (in_array($str, $tipe_user)) {
             return $next($request);
         }
+        
         
         return redirect('/Login')->with('gagal','Limited Access');
         

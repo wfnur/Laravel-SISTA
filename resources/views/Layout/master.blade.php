@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="{{asset('adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{asset('adminlte/plugins/datatables/dataTables.bootstrap4.css')}}">
   <style>
   .alert-fixed {
     position:fixed; 
@@ -69,7 +71,9 @@
 <script src="{{asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- datepicker -->
 <script src="{{asset('adminlte/plugins/datepicker/bootstrap-datepicker.js')}}"></script>
-
+<!-- DataTables -->
+<script src={{asset('adminlte/plugins/datatables/jquery.dataTables.js')}}></script>
+<script src={{asset('adminlte/plugins/datatables/dataTables.bootstrap4.js')}}></script>
 <!-- AdminLTE App -->
 <script src="{{asset('adminlte/dist/js/adminlte.js')}}"></script>
 

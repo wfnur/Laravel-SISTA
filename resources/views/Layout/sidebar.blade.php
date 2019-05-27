@@ -123,7 +123,6 @@
                 <!--Proposal TA-->
                 <li class="nav-item has-treeview">
                   <a href="#" class="nav-link">
-                    <i class="nav-icon fa fa-group"></i>
                     <p>Propsal Tugas Akhir </p>
                       <i class="fa fa-angle-left pull-right" style="margin-top:5px;" ></i>
                     </p>
@@ -151,20 +150,37 @@
                   </ul>
                 </li>
 
-                <!--Laporan TA-->
-                <li class="nav-item ">
-                  <a href="/Bimbingan/create" class="nav-link {{ Request::getPathInfo() === "/Bimbingan/create" ? "active" : "" }} ">
-                    <i class="nav-icon fa fa-book"></i>
-                    <p>
-                      Bimbingan
+                <!--Bimbingan Mahasiswa-->
+                <li class="nav-item has-treeview">
+                  <a href="#" class="nav-link
+                  @if(Request::getPathInfo() == "/Bimbingan/create" || Request::getPathInfo() == "/Bimbingan" )
+                  active
+                  @endif
+                  ">
+                    <p>Bimbingan</p>
+                      <i class="fa fa-angle-left pull-right" style="margin-top:5px;" ></i>
                     </p>
                   </a>
+    
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="/Bimbingan/create" class="nav-link {{ Request::getPathInfo() == "/Bimbingan/create" ? "active" : "" }}">
+                        <i class="fa fa-cloud-upload nav-icon"></i>
+                        <p>Upload Bimbingan</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Bimbingan" class="nav-link {{ Request::getPathInfo() === "/Bimbingan" ? "active" : "" }}">
+                        <i class="fa fa-bars nav-icon"></i>
+                        <p>History Bimbingan</p>
+                      </a>
+                    </li>
+                  </ul>
                 </li>
 
                 <!--Laporan TA-->
                 <li class="nav-item ">
                   <a href="/Laporan/TA" class="nav-link {{ Request::getPathInfo() === "/Laporan/TA" ? "active" : "" }} ">
-                    <i class="nav-icon fa fa-book"></i>
                     <p>
                       Laporan Tugas Akhir
                     </p>
@@ -176,6 +192,7 @@
           @php } @endphp
 
           @php if(in_array("panitia",$tipe_user)){ @endphp
+            <!--Bimbingan Dosen -->
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
                 <p>Bimbingan</p>
@@ -185,7 +202,7 @@
 
               <ul class="nav nav-treeview" style="display: none;">
                 <li class="nav-item">
-                  <a href="#" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R0" ? "active" : "" }}">
+                  <a href="/Bimbingan/Verifikasi" class="nav-link {{ Request::getPathInfo() === "/Bimbingan/Verifikasi" ? "active" : "" }}">
                     <i class="fa fa-check nav-icon"></i>
                     <p>Verifikasi Bimbingan</p>
                   </a>

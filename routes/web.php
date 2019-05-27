@@ -63,7 +63,9 @@ Route::group(['middleware' => ['auth','checkRole:mhs']], function () {
     Route::get('/Laporan/TA', 'laporanTAController@create');
     Route::post('/LaporanTA/Store', 'laporanTAController@store');
 
-    Route::resource('Bimbingan', 'BimbinganController');
+    Route::get('Bimbingan', 'BimbinganController@index');
+    Route::get('Bimbingan/create', 'BimbinganController@create');
+    Route::post('Bimbingan/store', 'BimbinganController@store');
     
 });
 
@@ -72,4 +74,7 @@ Route::group(['middleware' => ['auth','checkRole:dsn']], function () {
     Route::get('/Dosen/Profile', 'DosenController@profile');
     Route::post('/Dosen/{kode_dosen}/update', 'DosenController@update');
     Route::post('/Dosen/changePassword', 'DosenController@changePassword');
+    Route::get('/Bimbingan/Verifikasi', 'BimbinganController@verifikasi');
+    Route::get('/Bimbingan/ListVerifikasi', 'BimbinganController@ListVerifikasi');
+    Route::post('/Bimbingan/saveBimbingan', 'BimbinganController@saveBimbingan');
 });
