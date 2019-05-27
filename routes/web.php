@@ -75,6 +75,7 @@ Route::group(['middleware' => ['auth','checkRole:dsn']], function () {
     Route::post('/Dosen/{kode_dosen}/update', 'DosenController@update');
     Route::post('/Dosen/changePassword', 'DosenController@changePassword');
     Route::get('/Bimbingan/Verifikasi', 'BimbinganController@verifikasi');
+    Route::get('/Bimbingan/Rekap', 'BimbinganController@rekap');
     Route::get('/Bimbingan/ListVerifikasi', 'BimbinganController@ListVerifikasi');
     Route::post('/Bimbingan/saveBimbingan', 'BimbinganController@saveBimbingan');
 });

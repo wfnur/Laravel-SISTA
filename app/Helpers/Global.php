@@ -2,6 +2,8 @@
 
 use App\proposal_ta;
 use \App\Mahasiswa;
+use \App\mingguBimbingan;
+use \App\bimbingan;
 //use Auth;
 
 function cekStatusFinalisasi_dataProposal($reviske){
@@ -253,6 +255,22 @@ function generateNamaFormBimbingan($nim,$pembimbing,$tanggal,$ext){
     $str_name= str_replace(" ","",$mahasiswa->nama);
     $namafile = "Bimbingan_".$nim."_".$str_name."_".$pembimbing."_".$tanggal.".".$ext;
     return $namafile;
+}
+
+function fixkelas($angkatan,$kelas){
+    $tahun = date("Y")-$angkatan;
+    $fixkelas = $tahun.$kelas;
+    return $fixkelas;
+}
+
+function hitungMinggu($NIM, $kode_minggu,$pembimbing){
+    $minggu = Bimbingan::where([
+        ['nim', '=', $NIM],
+        ['status', '=' , 1],
+        ['pembimbing' ,'=', $pembimbing],
+        ['mingguBimbingan_id', '=' ,$kode_minggu]
+        ])->count();
+    return $minggu;
 }
 
 ?>

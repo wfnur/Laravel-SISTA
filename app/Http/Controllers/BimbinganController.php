@@ -9,6 +9,8 @@ use Illuminate\Support\Carbon;
 use Auth;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
+use App\Mahasiswa;
+use Illuminate\Support\Facades\DB;
 
 class BimbinganController extends Controller
 {
@@ -153,6 +155,16 @@ class BimbinganController extends Controller
 
         }else{
             return view('Bimbingan.verifikasi',compact('mingguBimbingan'));
+        }
+    }
+
+    public function rekap(Request $request){
+        if ($request->has('kelas')) {
+            $mahasiswa = Mahasiswa::where('kelas','=',$request->kelas)->get();
+            $mingguBimbingan = mingguBimbingan::get();
+            return view('Bimbingan.rekap',compact('mahasiswa','mingguBimbingan'));
+        }else{
+            return view('Bimbingan.rekap');
         }
         
     }

@@ -1,3 +1,6 @@
+<?php
+use \App\Bimbingan;
+?>
 @extends('Layout.master')
 
 @section('title','Bimbingan')
@@ -137,7 +140,7 @@
             <ol class="breadcrumb float-sm-left" style="margin-top:7px;">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item">Bimbingan</li>
-                <li class="breadcrumb-item active">Verifikasi Bimbingan</li>
+                <li class="breadcrumb-item active">Rekap Bimbingan</li>
             </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -156,14 +159,14 @@
             <!-- Custom tabs (Charts with tabs)-->
             <div class="card">
                 <div class="card-body">
-                    <form method="GET" action="/Bimbingan/Verifikasi">
+                    <form method="GET" action="/Bimbingan/Rekap">
                         <div class="form-group">
-                            <label>Pilih Minggu </label>
-                            <select name="cari" onchange="showUser(this.value)" class='form-control'>
-                                <option value="">Pilih Minggu:</option>
-                                @foreach ($mingguBimbingan as $item)
-                                    <option value={{$item->id}}>Minggu ke -{{ $item->mingguke }}</option>
-                                @endforeach
+                            <label>Pilih Kelas : </label>
+                            <select name="kelas" class='form-control'>
+                                <option value="">Pilih Kelas :</option>
+                                <option value="A">Kelas A</option>
+                                <option value="B">Kelas B</option>
+                                <option value="NK">Kelas NK</option>
                             </select>
                         </div>
                         <div class="form-grou">
@@ -171,60 +174,47 @@
                         </div>
                     </form>
                     <br>
-                    @php if(isset($bimbingan)){ @endphp
-                        <table class="table table-bordered tabled-hover" id="example1">
+                    @php if(isset($mahasiswa)){ @endphp
+                        <table class="table table-bordered tabled-hover table-responsive">
                             <thead>
-                                <th>No. </th>
-                                <th>NIM </th>
-                                <th>Nama </th>
-                                <th>Kelas </th>
-                                <th>Tanggal Bimbingan </th>
-                                <th>Pembimbing </th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <tr>
+                                    <th rowspan="3">NIM</th>
+                                    <th rowspan="3">NAMA</th>
+                                    <th colspan="32"><center>Minggu Ke- </center></th>
+                                    <th rowspan="2" colspan='2'>Jumlah</th>
+                                </tr>
+                                <tr>
+                                    @for ($j=1; $j<=16 ; $j++)
+                                        <th colspan='2'><center> {{$j}} </center></th>
+                                    @endfor
+                                </tr>
+                                <tr>
+                                    @for ($j=1; $j<=17 ; $j++)
+                                        <th>P1</th><th>P2</th>
+                                    @endfor
+                                </tr>
                             </thead>
                             <tbody>
-                                @php $i=1; @endphp 
-                                @foreach ($bimbingan as $item)
+                                @foreach ($mahasiswa as $item)
+                                    @php  $fixkelas = fixkelas($item->angkatan,$item->kelas) @endphp
+                                    @if ($fixkelas == "3A" OR $fixkelas == "3B" OR $fixkelas == "4NK")
                                     <tr>
-                                        <td>{{ $i }}</td>
-                                        <td>{{ $item->nim }}</td>
-                                        <td>{{ $item->mahasiswa->nama }}</td>
-                                        <td>{{ $item->mahasiswa->kelas }}</td>
-                                        <td>{{ Carbon\Carbon::parse($item->tanggalbimbingan)->formatLocalized('%A, %d %B %Y')}}</td>
-                                        <td>
-                                            @if ($item->pembimbing == "P1")
-                                                Pembimbing 1
-                                            @elseif($item->pembimbing == "P2")
-                                                Pembimbing 2
-                                            @else
-                                                Error
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <?php 
-                                                if($item->status == 1){
-                                                    $status = "Sudah Diverifikasi";
-                                                    $Bstatus = "Batalkan";
-                                                }else{
-                                                    $status = "Belum Diverifikasi";
-                                                    $Bstatus = "Verifikasi";
-                                                }
+                                        <td>{{ $item->NIM }}</td>
+                                        <td>{{ $item->nama }}</td>
+                                        @foreach($mingguBimbingan as $value)
+                                            <?php
+                                            $p1 = hitungMinggu($item->NIM, $value->id,"P1");
+                                            $p2 = hitungMinggu($item->NIM, $value->id,"P2");
                                             ?>
-                                            <div id={{$item->id}}> {{ $status }} </div>
-                                        </td>
-                                        <td>
-                                            <form onsubmit='save({{$item->id}}); return false;' id={{$item->id}}  action=''>
-                                                {{ csrf_field() }}
-                                                <input type='hidden' name='kode_bimbingan' id='verifikasi' value={{$item->id}} />
-                                                <input type='hidden' name='status' id={{$item->id}} value={{$item->status}} />
-                                                <button class="btn btn-warning" id={{$item->id}}> {{$Bstatus}} </button>
-                                            </form>
-                                        </td>
+                                            <td>{{ $p1 }}</td>
+                                            <td>{{ $p2 }}</td>
+                                        @endforeach
                                     </tr>
-                                @php $i++; @endphp
+                                    @endif
+
                                 @endforeach
                             </tbody>
+                           
                             
                         </table>
                     @php } @endphp

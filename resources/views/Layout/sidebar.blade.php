@@ -208,7 +208,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R1" ? "active" : "" }}">
+                    <a href="/Bimbingan/Rekap" class="nav-link {{ Request::getPathInfo() === "/Bimbingan/Rekap" ? "active" : "" }}">
                     <i class="fa fa-bars nav-icon"></i>
                     <p>Rekap Bimbingan</p>
                   </a>
