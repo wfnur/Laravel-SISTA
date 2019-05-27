@@ -196,7 +196,11 @@ use \App\Bimbingan;
                             </thead>
                             <tbody>
                                 @foreach ($mahasiswa as $item)
-                                    @php  $fixkelas = fixkelas($item->angkatan,$item->kelas) @endphp
+                                    @php  
+                                    $fixkelas = fixkelas($item->angkatan,$item->kelas);
+                                    $arrayp1 =array();
+                                    $arrayp2 = array();
+                                    @endphp
                                     @if ($fixkelas == "3A" OR $fixkelas == "3B" OR $fixkelas == "4NK")
                                     <tr>
                                         <td>{{ $item->NIM }}</td>
@@ -204,11 +208,22 @@ use \App\Bimbingan;
                                         @foreach($mingguBimbingan as $value)
                                             <?php
                                             $p1 = hitungMinggu($item->NIM, $value->id,"P1");
+                                            if($p1 > 2){
+                                                $p1 = 2;
+                                            }
                                             $p2 = hitungMinggu($item->NIM, $value->id,"P2");
+                                            if($p2 > 2){
+                                                $p2 = 2;
+                                            }
+
+                                            $arrayp1[] = intval($p1);
+                                            $arrayp2[] = intval($p2);
                                             ?>
                                             <td>{{ $p1 }}</td>
                                             <td>{{ $p2 }}</td>
                                         @endforeach
+                                        <td> {{ array_sum($arrayp1) }}</td>
+                                        <td> {{ array_sum($arrayp2) }}</td>
                                     </tr>
                                     @endif
 

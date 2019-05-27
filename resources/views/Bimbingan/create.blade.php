@@ -157,7 +157,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col-12">
-                        <form action="{{ route('Bimbingan.store') }}" method="POST" enctype="multipart/form-data">              
+                        <form action="/Bimbingan/store" method="POST" enctype="multipart/form-data">              
                             {{csrf_field()}}
                             <div class="form-group">
                                 <label>Tanggal Bimbingan</label>
@@ -168,7 +168,7 @@
                                 <label>Pembimbing </label>
                                 <select name="pembimbing" class="form-control">
                                     <option value="P1">Pembimbing 1</option>
-                                    <option value="P1">Pembimbing 2</option>
+                                    <option value="P2">Pembimbing 2</option>
                                 </select>
                             </div>
 

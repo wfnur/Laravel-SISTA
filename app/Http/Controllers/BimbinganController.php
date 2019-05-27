@@ -21,7 +21,7 @@ class BimbinganController extends Controller
      */
     public function index()
     {
-        $bimbingan = Bimbingan::all();
+        $bimbingan = Bimbingan::where('nim', '=', '161331063')->get();
         return view('Bimbingan.index',compact('bimbingan'));
     }
 
