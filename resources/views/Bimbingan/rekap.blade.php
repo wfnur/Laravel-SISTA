@@ -14,10 +14,10 @@ use \App\Bimbingan;
       <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a href="/Dosen/Beranda" class="nav-link">Beranda</a>
+        <a href="{{url('/Dosen/Beranda')}}" class="nav-link">Beranda</a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a href="/Dosen/Profile" class="nav-link">Profile</a>
+        <a href="{{url('/Dosen/Profile')}}" class="nav-link">Profile</a>
     </li>
   </ul>
 
@@ -175,7 +175,7 @@ use \App\Bimbingan;
                     </form>
                     <br>
                     @php if(isset($mahasiswa)){ @endphp
-                        <table class="table table-bordered tabled-hover table-responsive">
+                        <table class="table table-bordered table-striped table-responsive">
                             <thead>
                                 <tr>
                                     <th rowspan="3">NIM</th>
@@ -222,8 +222,8 @@ use \App\Bimbingan;
                                             <td>{{ $p1 }}</td>
                                             <td>{{ $p2 }}</td>
                                         @endforeach
-                                        <td> {{ array_sum($arrayp1) }}</td>
-                                        <td> {{ array_sum($arrayp2) }}</td>
+                                        <td class="bg-info"> {{ array_sum($arrayp1) }}</td>
+                                        <td class="bg-info"> {{ array_sum($arrayp2) }}</td>
                                     </tr>
                                     @endif
 
@@ -300,6 +300,6 @@ use \App\Bimbingan;
         }
         $(function () {
             $("#example1").DataTable();
-          });
+        });
     </script>
 @endpush

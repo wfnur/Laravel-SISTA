@@ -11,10 +11,10 @@
       <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a href="/Dosen/Beranda" class="nav-link">Beranda</a>
+        <a href="{{url('/Dosen/Beranda')}}" class="nav-link">Beranda</a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a href="/Dosen/Profile" class="nav-link">Profile</a>
+        <a href="{{url('/Dosen/Profile')}}" class="nav-link">Profile</a>
     </li>
   </ul>
 

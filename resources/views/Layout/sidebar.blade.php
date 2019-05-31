@@ -19,7 +19,7 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="{{asset('adminlte/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
+        <!--<img src="{{asset('adminlte/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">-->
       </div>
       <div class="info">
         <a href="#" class="d-block">{{$user->nama}}</a>
@@ -34,7 +34,7 @@
 
             <!--Dashboard-->
             <li class="nav-item ">
-              <a href="/Dashboard-Admin" class="nav-link {{ Request::getPathInfo() == "/Dashboard-Admin" ? "active" : "" }} ">
+              <a href="{{url('/Dashboard-Admin')}}" class="nav-link {{ Request::getPathInfo() == "/Dashboard-Admin" ? "active" : "" }} ">
                 <i class="nav-icon fa fa-dashboard"></i>
                 <p>
                   Dashboard
@@ -44,7 +44,7 @@
 
             <!--Mahasiswa-->
             <li class="nav-item">
-              <a href="/Mahasiswa" class="nav-link {{ Request::getPathInfo() == "/Mahasiswa" ? "active" : "" }} ">
+              <a href="{{url('/Mahasiswa')}}" class="nav-link {{ Request::getPathInfo() == "/Mahasiswa" ? "active" : "" }} ">
                 <i class="nav-icon fa fa-group"></i>
                 <p>
                   Mahasiswa
@@ -54,7 +54,7 @@
 
             <!--Dosen-->
             <li class="nav-item">
-              <a href="/Dosen/Create" class="nav-link {{ Request::getPathInfo() == "/Dosen/Create" ? "active" : "" }} ">
+              <a href="{{url('/Dosen/Create')}}" class="nav-link {{ Request::getPathInfo() == "/Dosen/Create" ? "active" : "" }} ">
                 <i class="nav-icon fa fa-group"></i>
                 <p>
                   Dosen
@@ -64,7 +64,7 @@
 
             <!--BAB-->
             <li class="nav-item">
-              <a href="/BAB" class="nav-link {{ Request::getPathInfo() == "/BAB" ? "active" : "" }} ">
+              <a href="{{url('/BAB')}}" class="nav-link {{ Request::getPathInfo() == "/BAB" ? "active" : "" }} ">
                 <i class="nav-icon fa fa-group"></i>
                 <p>
                   BAB
@@ -74,7 +74,7 @@
 
             <!--SubBab-->
             <li class="nav-item">
-              <a href="/SubBab" class="nav-link {{ Request::getPathInfo() == "/SubBab" ? "active" : "" }} ">
+              <a href="{{url('/SubBab')}}" class="nav-link {{ Request::getPathInfo() == "/SubBab" ? "active" : "" }} ">
                 <i class="nav-icon fa fa-group"></i>
                 <p>
                   Sub BAB
@@ -84,7 +84,7 @@
 
             <!--Minggu-Bimbingan-->
             <li class="nav-item">
-              <a href="/Minggu-Bimbingan" class="nav-link {{ Request::getPathInfo() == "/Minggu-Bimbingan" ? "active" : "" }} ">
+              <a href="{{url('/Minggu-Bimbingan')}}" class="nav-link {{ Request::getPathInfo() == "/Minggu-Bimbingan" ? "active" : "" }} ">
                 <i class="nav-icon fa fa-group"></i>
                 <p>
                   Minggu Bimbingan
@@ -94,13 +94,34 @@
 
             <!--Deadline-->
             <li class="nav-item">
-              <a href="/Deadline" class="nav-link {{ Request::getPathInfo() == "/Deadline" ? "active" : "" }} ">
+              <a href="{{url('/Deadline')}}" class="nav-link {{ Request::getPathInfo() == "/Deadline" ? "active" : "" }} ">
                 <i class="nav-icon fa fa-group"></i>
                 <p>
                   Deadline
                 </p>
               </a>
             </li>
+
+            <!--Poin Penilaian-->
+            <li class="nav-item">
+              <a href="{{url('/Poin-Penilaian')}}" class="nav-link {{ Request::getPathInfo() == "/Poin-Penilaian" ? "active" : "" }} ">
+                <i class="nav-icon fa fa-group"></i>
+                <p>
+                  Poin Penilaian
+                </p>
+              </a>
+            </li>
+
+            <!--Jadwal Sidang-->
+            <li class="nav-item">
+              <a href="{{url('/Jadwal-Sidang')}}" class="nav-link {{ Request::getPathInfo() == "/Jadwal-Sidang" ? "active" : "" }} ">
+                <i class="nav-icon fa fa-group"></i>
+                <p>
+                  Jadwal Sidang
+                </p>
+              </a>
+            </li>
+
           @php } @endphp
 
           @php if (in_array("mhs",$tipe_user)){ @endphp
@@ -110,7 +131,7 @@
             @endphp
             <!--Dashboard
             <li class="nav-item ">
-              <a href="/Dashboard-Mahasiswa" class="nav-link {{ Request::getPathInfo() === "/Dashboard-Mahasiswa" ? "active" : "" }} ">
+              <a href="{{url('/Dashboard-Mahasiswa')}}" class="nav-link {{ Request::getPathInfo() === "/Dashboard-Mahasiswa" ? "active" : "" }} ">
                 <i class="nav-icon fa fa-dashboard"></i>
                 <p>
                   Dashboard
@@ -130,19 +151,19 @@
 
                   <ul class="nav nav-treeview" style="display: none;">
                     <li class="nav-item">
-                      <a href="/Proposal/TA/R0" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R0" ? "active" : "" }}">
+                      <a href="{{url('/Proposal/TA/R0')}}" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R0" ? "active" : "" }}">
                         <i class="fa fa-check nav-icon"></i>
                         <p>Revisi 0</p>
                       </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/Proposal/TA/R1" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R1" ? "active" : "" }}">
+                        <a href="{{url('/Proposal/TA/R1')}}" class="nav-link {{ Request::getPathInfo() === "/Proposal/TA/R1" ? "active" : "" }}">
                         <i class="fa fa-check nav-icon"></i>
                         <p>Revisi 1</p>
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a href="Proposal-Manpro-Dosen_2" class="nav-link">
+                      <a href="#" class="nav-link">
                         <i class="fa fa-check nav-icon"></i>
                         <p>Revisi 2</p>
                       </a>
@@ -164,13 +185,13 @@
     
                   <ul class="nav nav-treeview">
                     <li class="nav-item">
-                      <a href="/Bimbingan/create" class="nav-link {{ Request::getPathInfo() == "/Bimbingan/create" ? "active" : "" }}">
+                      <a href="{{url('/Bimbingan/create')}}" class="nav-link {{ Request::getPathInfo() == "/Bimbingan/create" ? "active" : "" }}">
                         <i class="fa fa-cloud-upload nav-icon"></i>
                         <p>Upload Bimbingan</p>
                       </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/Bimbingan" class="nav-link {{ Request::getPathInfo() === "/Bimbingan" ? "active" : "" }}">
+                        <a href="{{url('/Bimbingan')}}" class="nav-link {{ Request::getPathInfo() === "/Bimbingan" ? "active" : "" }}">
                         <i class="fa fa-bars nav-icon"></i>
                         <p>History Bimbingan</p>
                       </a>
@@ -180,7 +201,7 @@
 
                 <!--Laporan TA-->
                 <li class="nav-item ">
-                  <a href="/Laporan/TA" class="nav-link {{ Request::getPathInfo() === "/Laporan/TA" ? "active" : "" }} ">
+                  <a href="{{url('/Laporan/TA')}}" class="nav-link {{ Request::getPathInfo() === "/Laporan/TA" ? "active" : "" }} ">
                     <p>
                       Laporan Tugas Akhir
                     </p>
@@ -202,13 +223,13 @@
 
               <ul class="nav nav-treeview" style="display: none;">
                 <li class="nav-item">
-                  <a href="/Bimbingan/Verifikasi" class="nav-link {{ Request::getPathInfo() === "/Bimbingan/Verifikasi" ? "active" : "" }}">
+                  <a href="{{url('/Bimbingan/Verifikasi')}}" class="nav-link {{ Request::getPathInfo() === "/Bimbingan/Verifikasi" ? "active" : "" }}">
                     <i class="fa fa-check nav-icon"></i>
                     <p>Verifikasi Bimbingan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/Bimbingan/Rekap" class="nav-link {{ Request::getPathInfo() === "/Bimbingan/Rekap" ? "active" : "" }}">
+                    <a href="{{url('/Bimbingan/Rekap')}}" class="nav-link {{ Request::getPathInfo() === "/Bimbingan/Rekap" ? "active" : "" }}">
                     <i class="fa fa-bars nav-icon"></i>
                     <p>Rekap Bimbingan</p>
                   </a>
@@ -322,14 +343,10 @@
                 </p>
               </a>
             </li> 
-          @php } @endphp
-
-          
-
-        
+          @php } @endphp       
         
         <li class="nav-item">
-          <a href="/Logout" class="nav-link">
+          <a href="{{url('/Logout')}}" class="nav-link">
             <i class="nav-icon fa fa-power-off"></i>
             <p>
               Logout

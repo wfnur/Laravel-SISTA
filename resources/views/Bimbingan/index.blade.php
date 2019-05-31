@@ -11,10 +11,10 @@
       <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a href="/Mahasiswa/Beranda" class="nav-link">Beranda</a>
+        <a href="{{url('/Mahasiswa/Beranda')}}" class="nav-link">Beranda</a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a href="/Mahasiswa/Profile" class="nav-link">Profile</a>
+        <a href="{{url('/Mahasiswa/Profile')}}" class="nav-link">Profile</a>
     </li>
   </ul>
 

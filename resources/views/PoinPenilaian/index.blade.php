@@ -1,8 +1,6 @@
 @extends('Layout.master')
 
-@section('title','Sub Bab')
-    
-@endsection
+@section('title','Poin Penilaian')
 
 @section('content')
 @if (session('sukses'))
@@ -40,7 +38,7 @@
     <!-- Main row -->
     <div class="row">
         <!-- Left col -->
-        <section class="col-8 offset-2">
+        <section class="col-12">
         <!-- Custom tabs (Charts with tabs)-->
         <div class="card">
             <div class="card-header">
@@ -64,24 +62,27 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-hover table-responsive">
-                            <thead align='center' >
+                        <table class="table table-hover table-responsive" id="poin">
+                            <thead >
                                 <tr>
-                                    <th>BAB</th>
-                                    <th>Sub BAB</th>
-                                    <th colspan="2">Action</th>
+                                    <td>Poin Penilaian</td>
+                                    <td>Bobot</td>
+                                    <td>Kategori</td>
+                                    <td>Keterangan</td>
+                                    <td>Action</td>
+                                    <td></td>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($subbab as $item)
+                                @foreach ($PoinPenilaian as $item)
                                 <tr>
+                                    <td>{{ $item->poin_penilaian }}</td>
+                                    <td>{{ $item->bobot }}</td>
+                                    <td>{{ $item->kategori }}</td>
+                                    <td>{{ $item->ket }}</td>
+                                    <td><a href="{{ route('Poin-Penilaian.edit',$item->id) }}" class="btn btn-warning">Edit</a></td>
                                     <td>
-                                        {{ $item->bab }}
-                                    </td>
-                                    <td>{{ $item->subbab }}</td>
-                                    <td><a href="{{ route('SubBab.edit',$item->id) }}" class="btn btn-warning">Edit</a></td>
-                                    <td>
-                                        <form action="{{ route('SubBab.destroy', $item->id)}}" method="post">
+                                        <form action="{{ route('Poin-Penilaian.destroy', $item->id)}}" method="post">
                                                 <input type="hidden" name="_method" value="DELETE">                 
                                                 {{csrf_field()}}
                                             <button class="btn btn-danger" type="submit" onclick="return confirm('Yakin anda akan menghapus data ini ?')">Delete</button>
@@ -119,21 +120,32 @@
             </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('SubBab.store') }}" method="POST">
+                <form action="{{ route('Poin-Penilaian.store') }}" method="POST">
                     {{ csrf_field() }}
                     <div class="form-group">
-                        <label>Bab</label>
-                        <Select class="form-control" name='bab_id'>
-                            @foreach ($bab as $value)
-                                <option value="{{$value->id}}" >{{$value->bab}} {{$value->ket}}</option>
-                            @endforeach
+                        <label>Poin Penilaian</label>
+                        <input type="text" name="poin_penilaian" class="form-control">
+                    </div>
+                    <div class="form-group">
+                            <label>Bobot</label>
+                            <input type="text" name="bobot" class="form-control">
+                        </div>
+                    <div class="form-group">
+                        <label>Kategori Nilai</label>
+                        <Select class="form-control" name='kategori'>
+                            <option value="Nilai Pembimbing">Nilai Pembimbing</option>
+                            <option value="Nilai Presentasi">Nilai Presentasi</option>
+                            <option value="Nilai Demo Alat">Nilai Demo Alat</option>
+                            <option value="Nilai Tanya Jawab"Tanya Jawab</option>
                         </Select>
                     </div>
                     <div class="form-group">
-                        <label>Sub BAB</label>
-                        <input type="text" name="subbab"  class="form-control" required>
-                        <input type="hidden" name="ket"  value="0" required>  
-                    </div>             
+                        <label>Keterangan</label>
+                        <Select class="form-control" name='ket'>
+                            <option value="Pembimbing">Pembimbing</option>
+                            <option value="Penguji">Penguji</option>
+                        </Select>
+                    </div>          
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -145,3 +157,11 @@
     </div>
      
 @endsection
+
+@push('scripts')
+    <script>
+        $(function () {
+            $("#poin").DataTable();
+        });
+    </script>
+@endpush

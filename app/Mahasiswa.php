@@ -14,4 +14,9 @@ class Mahasiswa extends Model
     {
         return $this->hasMany('App\bimbingan');
     }
+
+    public function JadwalSidang()
+    {
+        return $this->hasMany('App\JadwalSidang');
+    }
 }

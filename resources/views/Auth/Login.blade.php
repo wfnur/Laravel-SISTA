@@ -36,7 +36,7 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="/postlogin" method="post">
+      <form action="{{url('/postlogin')}}" method="post">
         {{ csrf_field() }}
         <div class="form-group has-feedback">
           <input type="text" class="form-control" placeholder="NIM/Kode Dosen" name="username" required autofocus>

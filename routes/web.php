@@ -39,6 +39,8 @@ Route::group(['middleware' => ['auth','checkRole:admin']], function () {
     Route::resource('SubBab', 'SubBabController');
     Route::resource('Minggu-Bimbingan', 'MinggubimbinganController');
     Route::resource('Deadline', 'DeadlineController');
+    Route::resource('Poin-Penilaian', 'PoinPenilaianController');
+    Route::resource('Jadwal-Sidang', 'JadwalSidangController');
 });
 
 Route::group(['middleware' => ['auth','checkRole:mhs']], function () {

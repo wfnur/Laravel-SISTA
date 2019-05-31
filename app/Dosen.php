@@ -10,4 +10,9 @@ class Dosen extends Model
     public $incrementing = false;
     protected $primaryKey = 'kode_dosen';
     protected $fillable = ['kode_dosen','nama','jk','alamat','telpon','email','status','created_at','updated_at'];
+
+    public function JadwalSidang()
+    {
+        return $this->hasMany('App\JadwalSidang');
+    }
 }
