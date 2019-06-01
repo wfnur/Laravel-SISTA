@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
+use \App\Deadline;
 
 class AuthController extends Controller
 {
     public function login(){
-        return view('Auth.Login');
+        $deadline = Deadline::where('status','=',1)->first();
+        //return($deadline->nama);
+        return view('Auth.Login',compact('deadline'));
     }
 
     public function postlogin(Request $request){

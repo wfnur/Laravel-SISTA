@@ -61,6 +61,7 @@ class proposal_taController extends Controller
             );
 
             return view('ProposalTA.editR0',compact(
+                'proposal_ta',
                 'pembimbing1',
                 'pembimbing2',
                 'bidang',
@@ -248,6 +249,150 @@ class proposal_taController extends Controller
             return redirect()->back()->with('sukses','Pendahuluan Berhasil Diubah/Disimpan');
         }else{
             return redirect()->back()->with('gagal','Pendahuluan Gagal Diubah/Disimpan');
+        }
+    }
+
+    public function storeUploadFile(Request $request){
+        
+        if ($request->hasFile('pengesahan')) {
+            $imgName = generateNamaPengesahan(Auth::user()->username,$request->file('pengesahan')->getClientOriginalExtension());
+            $request->file('pengesahan')->move('public/Lembar_Pengesahan/',$imgName);
+
+            $proposal_ta = proposal_ta::updateOrCreate([
+                'nim'   => Auth::user()->username,
+                'revisike' => $request->get('revisike'),
+            ],[
+                'pengesahan' => $imgName,
+                
+            ]);
+            if(!$proposal_ta){
+                return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
+            }
+        }
+
+        if ($request->hasFile('biodata')) {
+            $imgName = generateNamaBiodata(Auth::user()->username,$request->file('biodata')->getClientOriginalExtension());
+            $request->file('biodata')->move('public/Biodata_Mahasiswa/',$imgName);
+
+            $proposal_ta = proposal_ta::updateOrCreate([
+                'nim'   => Auth::user()->username,
+                'revisike' => $request->get('revisike'),
+            ],[
+                'biodata' => $imgName,
+                
+            ]);
+            if(!$proposal_ta){
+                return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
+            }
+        }
+
+        if ($request->hasFile('biodata_pembimbing')) {
+            $imgName = generateNamaBiodata_Pembimbing(Auth::user()->username,$request->file('biodata_pembimbing')->getClientOriginalExtension());
+            $request->file('biodata_pembimbing')->move('public/Biodata_Pembimbing/',$imgName);
+
+            $proposal_ta = proposal_ta::updateOrCreate([
+                'nim'   => Auth::user()->username,
+                'revisike' => $request->get('revisike'),
+            ],[
+                'biodata_pembimbing' => $imgName,
+                
+            ]);
+            if(!$proposal_ta){
+                return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
+            }
+        }
+
+        if ($proposal_ta) {
+            return redirect()->back()->with('sukses','Upload File Berhasil Diubah/Disimpan');
+        }else{
+            return redirect()->back()->with('gagal','Upload File Gagal Diubah/Disimpan');
+        }
+    }
+
+    public function storeGambaranTeknologi(Request $request){
+        
+        $proposal_ta = proposal_ta::updateOrCreate([
+            //Add unique field combo to match here
+            //For example, perhaps you only want one entry per user:
+            'nim'   => Auth::user()->username,
+            'revisike' => $request->get('revisike'),
+        ],[
+            'penjelasan_ilustrasi'      => $request->penjelasan_ilustrasi,
+            'spek_teknis'               => $request->spek_teknis,
+            'penjelasan_blok_diagram'   => $request->penjelasan_blok_diagram,
+            'penjelasan_blok_diagram2'  => $request->penjelasan_blok_diagram2,
+            'penjelasan_flowchart'      => $request->penjelasan_flowchart,
+            'komponen'                  => $request->komponen_utama
+        ]);
+
+        if ($request->hasFile('gambar_ilustrasi')) {
+            $imgName = generateNamaGambarIlustrasi(Auth::user()->username,$request->file('gambar_ilustrasi')->getClientOriginalExtension());
+            $request->file('gambar_ilustrasi')->move('public/Gambar_Ilustrasi/',$imgName);
+
+            $proposal_ta = proposal_ta::updateOrCreate([
+                'nim'   => Auth::user()->username,
+                'revisike' => $request->get('revisike'),
+            ],[
+                'gambar_ilustrasi' => $imgName,
+                
+            ]);
+            if(!$proposal_ta){
+                return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
+            }
+        }
+
+        if ($request->hasFile('blok_diagram')) {
+            $imgName = generateNamaBlokDiagram(Auth::user()->username,$request->file('blok_diagram')->getClientOriginalExtension());
+            $request->file('blok_diagram')->move('public/Blok_Diagram/',$imgName);
+
+            $proposal_ta = proposal_ta::updateOrCreate([
+                'nim'   => Auth::user()->username,
+                'revisike' => $request->get('revisike'),
+            ],[
+                'gambar_blok_diagram' => $imgName,
+                
+            ]);
+            if(!$proposal_ta){
+                return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
+            }
+        }
+
+        if ($request->hasFile('blok_diagram2')) {
+            $imgName = generateNamaBlokDiagram2(Auth::user()->username,$request->file('blok_diagram2')->getClientOriginalExtension());
+            $request->file('blok_diagram2')->move('public/Blok_Diagram/',$imgName);
+
+            $proposal_ta = proposal_ta::updateOrCreate([
+                'nim'   => Auth::user()->username,
+                'revisike' => $request->get('revisike'),
+            ],[
+                'gambar_blok_diagram2' => $imgName,
+                
+            ]);
+            if(!$proposal_ta){
+                return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
+            }
+        }
+
+        if ($request->hasFile('gambar_flowchart')) {
+            $imgName = generateNamaFlowchart(Auth::user()->username,$request->file('gambar_flowchart')->getClientOriginalExtension());
+            $request->file('gambar_flowchart')->move('public/Flowchart/',$imgName);
+
+            $proposal_ta = proposal_ta::updateOrCreate([
+                'nim'   => Auth::user()->username,
+                'revisike' => $request->get('revisike'),
+            ],[
+                'gambar_flowchart' => $imgName,
+                
+            ]);
+            if(!$proposal_ta){
+                return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
+            }
+        }
+
+        if ($proposal_ta) {
+            return redirect()->back()->with('sukses','Gambaran Teknologi Berhasil Diubah/Disimpan');
+        }else{
+            return redirect()->back()->with('gagal','Gambaran Teknologi Gagal Diubah/Disimpan');
         }
     }
 }

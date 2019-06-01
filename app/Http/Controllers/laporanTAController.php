@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \App\Dosen;
 use \App\Bidang;
 use \App\laporanTA;
+use \App\JadwalSidang;
 use Auth;
 
 class laporanTAController extends Controller
@@ -37,7 +38,7 @@ class laporanTAController extends Controller
 
     public function store(Request $request){
         
-        $laporanTA = \App\laporanTA::updateOrCreate([
+        $laporanTA = laporanTA::updateOrCreate([
             'nim'   => Auth::user()->username,
         ],[
             'judul_ta'    => $request->judul_ta,
@@ -49,9 +50,9 @@ class laporanTAController extends Controller
 
         if ($request->hasFile('laporanTA')) {
             $imgName = generateNamaLaporanTA(Auth::user()->username,$request->file('laporanTA')->getClientOriginalExtension());
-            $request->file('laporanTA')->move('Berkas_LaporanTA/',$imgName);
+            $request->file('laporanTA')->move('public/Berkas_LaporanTA/',$imgName);
 
-            $laporanTAUpload = \App\laporanTA::updateOrCreate([
+            $laporanTAUpload = laporanTA::updateOrCreate([
                 'nim'   => Auth::user()->username,
             ],[
                 'laporan' => $imgName,
@@ -60,13 +61,40 @@ class laporanTAController extends Controller
             if(!$laporanTAUpload){
                 return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
             }
-         }
-         
+        }
 
+        if ($request->hasFile('form_permohonan')) {
+            $imgName = generateNamaFormPermohonan(Auth::user()->username,$request->file('form_permohonan')->getClientOriginalExtension());
+            $request->file('form_permohonan')->move('public/Form_Permohonan/',$imgName);
+
+            $laporanPermohonan = laporanTA::updateOrCreate([
+                'nim'   => Auth::user()->username,
+            ],[
+                'form_permohonan' => $imgName,
+                
+            ]);
+
+
+            if(!$laporanPermohonan){
+                return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
+            }
+        }
+        
         if (!$laporanTA) {
             return redirect()->back()->with('gagal','Data Gagal Diubah/Disimpan');
         }else{
             return redirect()->back()->with('sukses','Data Berhasil Diubah/Disimpan');
         }
+
+    }
+
+    public function listMahasiswa(){
+        $listmhs = JadwalSidang::where('pembimbing', '=',Auth::user()->username)
+        ->orWhere('ketua_penguji','=',Auth::user()->username)
+        ->orWhere('penguji1','=',Auth::user()->username)
+        ->orWhere('penguji2','=',Auth::user()->username)
+        ->get();
+        //return dd($listmhs);
+        return view('LaporanTA.ListPenilaianTA',compact('listmhs'));
     }
 }

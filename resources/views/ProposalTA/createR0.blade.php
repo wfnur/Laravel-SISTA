@@ -1,6 +1,6 @@
 @extends('Layout.master')
 
-@section('title','Propsal TA R0')
+@section('title','Propsal TA Revisi 0')
 
 @section('navbar')
 <!-- Navbar -->
@@ -11,14 +11,12 @@
       <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a href="/Mahasiswa/Beranda" class="nav-link">Beranda</a>
+        <a href="{{url('/Mahasiswa/Beranda')}}" class="nav-link">Beranda</a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a href="/Mahasiswa/Profile" class="nav-link">Profile</a>
+        <a href="{{url('/Mahasiswa/Profile')}}" class="nav-link">Profile</a>
     </li>
-  </ul>
-
- 
+  </ul> 
 
   <!-- Right navbar links -->
   <ul class="navbar-nav ml-auto">
@@ -752,13 +750,13 @@ $justifikasi_anggaran ="
                               <div class='form-group row'>
                                 <div class='col-md-12'>
                                     <label>{!! $keterangan[$i] !!}</label>
-                                    <textarea @if($proposal_ta->status_pendahuluan == 1) disabled @endif name='pendahuluan[]' rows='5' class='form-control' required ></textarea>
+                                    <textarea  name='pendahuluan[]' rows='5' class='form-control' required ></textarea>
                                 </div>
                               </div> 
                             @endfor                             
 
                             <div class='form-group'>
-                                <input type="submit" value="Simpan" class='btn btn-info' @if($proposal_ta->status_pendahuluan == 1) disabled @endif>
+                                <input type="submit" value="Simpan" class='btn btn-info' >
                             </div>
                         </form>
                         
@@ -1211,6 +1209,7 @@ $justifikasi_anggaran ="
               </div>
               <!-- ./row -->
 
+
               <!-- ./Upload FIle-->
               <div class="row">
                 <div class="col-md-12">
@@ -1230,14 +1229,15 @@ $justifikasi_anggaran ="
                       </div>
                       <!-- /. tools -->
                     </div>
-
                     <!-- /.card-header -->
-                    <div class="card-body" style="display: block;">
 
+                    <div class="card-body" style="display: block;">
+                      <form role="form" method='post' action='uploadfile' enctype='multipart/form-data'>
+                        {{ csrf_field() }}
                       <!---Lembar Pengesahan--->
                       <div class="form-group row">
                         <div class="col-md-6">
-                          <form role="form" method='post' action='upload_lembarPengesahan' enctype='multipart/form-data'>
+                          
                             <input type="hidden" name="nim" value="{{auth()->user()->username}}">
                             <input type="hidden" name="revisike" value="0">
                             <label for="exampleInputFile">

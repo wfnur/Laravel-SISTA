@@ -242,10 +242,144 @@ function cekStatusFinalisasi_justifikasi($reviske){
     return $button;
 }
 
+function cekStatusFinalisasi_uploadFile($reviske){
+    
+    $proposal_ta = proposal_ta::where('nim', '=',auth()->user()->username)
+        ->where('revisike','=',$reviske)
+        ->first();
+    $pengesahan = $proposal_ta->pengesahan;
+    $biodata = $proposal_ta->biodata;
+    $biodata_pembimbing = $proposal_ta->biodata_pembimbing;
+
+    if ( $pengesahan != "" || $biodata != "" || $biodata_pembimbing != "" ) {
+        if ($proposal_ta->status_uploadFile == "1") {
+            $button = "<span class='btn btn-lg btn-danger' >Sudah difinalisasi</span>";
+        }else{
+            $button = "
+            <p>
+            Dengan menekan tombol dibawah ini, saya sudah yakin dengan data-data diatas dan siap untuk dinilai dan dikomentari
+            oleh reviewer.
+            <span style='color:red'> Setelah menekan tombol dibawah ini, data-data diatas sudah tidak bisa diubah kembali, jadi pastikan data tersebut
+            SUDAH DIISI DAN DISIMPAN (dengan menekan tombol simpan sebagai draft) TERLEBIH DAHULU !!!</span>
+            </p>
+            <button class='btn btn-lg btn-success col-md-12'> Finalisasi</button>";
+        }
+    }else{
+        $button = "";
+    }
+
+    return $button;
+}
+
+function cekStatusFinalisasi_gambaranTeknologi($reviske){
+    
+    $proposal_ta = proposal_ta::where('nim', '=',auth()->user()->username)
+        ->where('revisike','=',$reviske)
+        ->first();
+    $gambar_ilustrasi = $proposal_ta->gambar_ilustrasi;
+    $penjelasan_ilustrasi = $proposal_ta->penjelasan_ilustrasi;
+    $spek_teknis = $proposal_ta->spek_teknis;
+    $gambar_blok_diagram = $proposal_ta->gambar_blok_diagram;
+    $penjelasan_blok_diagram = $proposal_ta->penjelasan_blok_diagram;
+    $gambar_blok_diagram2 = $proposal_ta->gambar_blok_diagram2;
+    $penjelasan_blok_diagram2 = $proposal_ta->penjelasan_blok_diagram2;
+    $gambar_flowchart = $proposal_ta->gambar_flowchart;
+    $penjelasan_flowchart = $proposal_ta->penjelasan_flowchart;
+    $komponen = $proposal_ta->komponen;
+
+
+    if ( $gambar_ilustrasi != "" || $penjelasan_ilustrasi != "" || $spek_teknis != "" || $gambar_blok_diagram != "" || $penjelasan_blok_diagram != "" || $gambar_blok_diagram2 != "" || $penjelasan_blok_diagram2 != "" || $gambar_flowchart != "" || $penjelasan_flowchart != "" || $komponen != "" ) {
+        if ($proposal_ta->status_gambaranTeknologi == "1") {
+            $button = "<span class='btn btn-lg btn-danger' >Sudah difinalisasi</span>";
+        }else{
+            $button = "
+            <p>
+            Dengan menekan tombol dibawah ini, saya sudah yakin dengan data-data diatas dan siap untuk dinilai dan dikomentari
+            oleh reviewer.
+            <span style='color:red'> Setelah menekan tombol dibawah ini, data-data diatas sudah tidak bisa diubah kembali, jadi pastikan data tersebut
+            SUDAH DIISI DAN DISIMPAN (dengan menekan tombol simpan sebagai draft) TERLEBIH DAHULU !!!</span>
+            </p>
+            <button class='btn btn-lg btn-success col-md-12'> Finalisasi</button>";
+        }
+    }else{
+        $button = "";
+    }
+
+    return $button;
+}
+
+
+
 function generateNamaLaporanTA($nim,$ext){
     $mahasiswa = Mahasiswa::find($nim);
     $str_name= str_replace(" ","",$mahasiswa->nama);
     $namafile = "LaporanTA_".$nim."_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
+
+    return $namafile;
+}
+
+function generateNamaFormPermohonan($nim,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = "FormPermohonan_".$nim."_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
+
+    return $namafile;
+}
+
+function generateNamaPengesahan($nim,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = "Lembar_Pengesahan_".$nim."_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
+
+    return $namafile;
+}
+
+function generateNamaGambarIlustrasi($nim,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = "Gambar_Ilustrasi_".$nim."_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
+
+    return $namafile;
+}
+function generateNamaBlokDiagram($nim,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = "Blok_Diagram1_".$nim."_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
+
+    return $namafile;
+}
+
+function generateNamaBlokDiagram2($nim,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = "Blok_Diagram2_".$nim."_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
+
+    return $namafile;
+}
+
+function generateNamaFlowchart($nim,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = "FlowChart_".$nim."_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
+
+    return $namafile;
+}
+
+
+
+
+function generateNamaBiodata_Pembimbing($nim,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = "Biodata_Pembimbing".$nim."_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
+
+    return $namafile;
+}
+
+function generateNamaBiodata($nim,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = "Biodata_Mahasiswa_".$nim."_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
 
     return $namafile;
 }

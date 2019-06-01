@@ -1,6 +1,6 @@
 @extends('Layout.master')
 
-@section('title','Propsal TA R0')
+@section('title','Propsal TA Revisi 0')
 
 @section('navbar')
 <!-- Navbar -->
@@ -11,14 +11,12 @@
       <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a href="/Mahasiswa/Beranda" class="nav-link">Beranda</a>
+        <a href="{{url('/Mahasiswa/Beranda')}}" class="nav-link">Beranda</a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a href="/Mahasiswa/Profile" class="nav-link">Profile</a>
+        <a href="{{url('/Mahasiswa/Profile')}}" class="nav-link">Profile</a>
     </li>
   </ul>
-
- 
 
   <!-- Right navbar links -->
   <ul class="navbar-nav ml-auto">
@@ -1209,39 +1207,54 @@ $justifikasi_anggaran ="
 
                     <!-- /.card-header -->
                     <div class="card-body" style="display: block;">
-
-                      <!---Lembar Pengesahan--->
-                      <div class="form-group row">
-                        <div class="col-md-6">
-                          <form role="form" method='post' action='upload_lembarPengesahan' enctype='multipart/form-data'>
-                            <input type="hidden" name="nim" value="{{auth()->user()->username}}">
-                            <input type="hidden" name="revisike" value="0">
-                            <label for="exampleInputFile">
-                              Lembar Pengesahan
-                            </label>
-                            <input type="file" name="pengesahan" id="pengesahan" accept=".pdf" onchange="return validate_pengesahan();"  required>
-                            <br>
-                            <span id="pengesahan_error" style="color:#dc3545 "></span>
-                            <br>
-                            
-                            <div class="input-group-append">
-                              <input type="submit" class="btn btn-info" id="btn_pengesahan" Value="Upload">
-                            </div>
-                          </form>
+                      <form role="form" method='post' action='{{url('/Proposal/Store/UploadFile')}}' enctype='multipart/form-data'>
+                        <input type="hidden" name="nim" value="{{auth()->user()->username}}">
+                        <input type="hidden" name="revisike" value="0">
+                        {{ csrf_field() }}
+                        <!---Lembar Pengesahan--->
+                        <div class="form-group row">
+                          <div class="col-md-6">
+                              <label for="exampleInputFile">Lembar Pengesahan</label>
+                              <br>
+                              <input type="file" name="pengesahan" id="pengesahan" accept=".pdf" onchange="return validate_pengesahan();" >
+                              <br>
+                              <span id="pengesahan_error" style="color:#dc3545 "></span>
+                          </div>
+                          <div class='col-md-6'>
+                            <a href="{{url('/public/Lembar_Pengesahan/')}}/{{ $proposal_ta->pengesahan }}" class="btn btn-primary">Lihat Lembar Pengesahan</a>
+                          </div>                    
                         </div>
-                        <div class='col-md-6'>
-                          download berkas here
-                        </div>                    
-                      </div>
       
-                      <!---BIODATA KETUA--->
-                      <div class="form-group row">
-                        <div class="col-md-6">
-                          <form role="form" method='post' action='upload_biodata' enctype='multipart/form-data'>
-                            <input type="hidden" name="nim" value="{{auth()->user()->username}}">
-                            <input type="hidden" name="revisike" value="0">
+                        <!---BIODATA KETUA--->
+                        <div class="form-group row">
+                          <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="exampleInputFile">Biodata Ketua
+                                    <br>
+                                    <span for="exampleInputFile" style="color:#dc3545;font-size:15px;">
+                                    Dokumen harus sudah ditandatangani lalu discan seluruh halaman / dokumen
+                                    <br>
+                                    Maximal Ukuran File 2 MB <br>
+                                    File harus PDF</span>
+                                  </label>
+                                  
+                                  <input  type="file" name="biodata" id="biodata" accept=".pdf" onchange="return validate_biodataKetua();" >
+                                  
+                                  <span id="biodataKetua_error" style="color:#dc3545 "></span>
+                                  
+                                </div> <!-- /.form group -->
+                          </div>
+                          <div class='col-md-6' >
+                              <a href="{{url('/public/Biodata_Mahasiswa/')}}/{{ $proposal_ta->biodata }}" class="btn btn-primary">Lihat Biodata</a>
+                          </div>
+                          
+                        </div>
+      
+                        <!---BIODATA Pembimbing--->
+                        <div class="row">
+                          <div class="col-md-6">
                               <div class="form-group">
-                                <label for="exampleInputFile">Biodata Ketua
+                                <label for="exampleInputFile">Biodata Pembimbing
                                   <br>
                                   <span for="exampleInputFile" style="color:#dc3545;font-size:15px;">
                                   Dokumen harus sudah ditandatangani lalu discan seluruh halaman / dokumen
@@ -1249,71 +1262,33 @@ $justifikasi_anggaran ="
                                   Maximal Ukuran File 2 MB <br>
                                   File harus PDF</span>
                                 </label>
-                                
-                                <input  type="file" name="biodata" id="biodata" accept=".pdf" onchange="return validate_biodataKetua();"  required>
-                                
-                                <span id="biodataKetua_error" style="color:#dc3545 "></span>
-                                <div class="input-group-append">
-                                  <input type="submit" class="btn btn-info" id="btn_biodataKetua" Value="Upload">
-                                </div>
+                                      
+                                <input type="file" name="biodata_pembimbing" id="biodata_pembimbing" accept=".pdf" onchange="return validate_biodata_pembimbing();" >
+                                <br>
+                                <span id="biodata_pembimbing_error" style="color:#dc3545 "></span>
                               </div> <!-- /.form group -->
-                          </form>
+                          </div>
+                          <div class='col-md-6' >
+                              <a href="{{url('/public/Biodata_Pembimbing/')}}/{{ $proposal_ta->biodata_pembimbing }}" class="btn btn-primary">Lihat Biodata Pembimbing</a>
+                          </div>
                         </div>
-                        <div class='col-md-6' >
-                            Download Berkas Here
+
+                        <div class='form-group'>
+                            <input type="submit" value="Simpan" class='btn btn-info' @if($proposal_ta->status_uploadFile == 1) disabled @endif>
                         </div>
-                        
-                      </div>
-      
-                      <!---BIODATA Pembimbing--->
-                      <div class="row">
-                        <div class="col-md-6">
-                          <form role="form" method='post' action='upload_biodataPembimbing' enctype='multipart/form-data'>
-                            <input type="hidden" name="nim" value="{{auth()->user()->username}}">
-                            <input type="hidden" name="revisike" value="0">
-                            <div class="form-group">
-                              <label for="exampleInputFile">Biodata Pembimbing
-                                <br>
-                                <span for="exampleInputFile" style="color:#dc3545;font-size:15px;">
-                                Dokumen harus sudah ditandatangani lalu discan seluruh halaman / dokumen
-                                <br>
-                                Maximal Ukuran File 2 MB <br>
-                                File harus PDF</span>
-                              </label>
-                                    
-                              <input type="file" name="biodata_pembimbing" id="biodata_pembimbing" accept=".pdf" onchange="return validate_biodata_pembimbing();"  required>
-                              <br>
-                              <span id="biodata_pembimbing_error" style="color:#dc3545 "></span>
-                                    
-                              <div class="input-group-append">
-                                <input type="submit" class="btn btn-info" id="btn_biodata_pembimbing" Value="Upload">
-                              </div>
-                            </div> <!-- /.form group -->
-                          </form>
-                        </div>
-                        <div class='col-md-6' >
-                            Download Berkas Here
-                        </div>
-                      </div>
+                      </form>
 
                       <!---Finalisasi--->
                       <div class='row'>
                         <div class='col-md-12'>
-                          <form action="simpan_finalisasi" method="post" id='finalisasiform_uploadFile'>
-                              <input type="hidden" name="nim" value="{{auth()->user()->username}}">
-                              <input type="hidden" name="revisike" value="0">
-                              <input type="hidden" name="nama_field" value="status_uploadFile">
-                              <p>
-                              Dengan menekan tombol dibawah ini, saya sudah yakin dengan data-data diatas dan siap untuk dinilai dan dikomentari
-                              oleh reviewer.
-                              <span style='color:red'> Setelah menekan tombol dibawah ini, data-data diatas sudah tidak bisa diubah kembali, jadi pastikan data tersebut
-                              SUDAH DIISI DAN DISIMPAN (dengan menekan tombol simpan sebagai draft) TERLEBIH DAHULU !!!</span>
-                              </p>
-                              <span class='btn btn-lg btn-danger' >Sudah difinalisasi</span>
-                              <button class='btn btn-lg btn-success col-md-12'> Finalisasi</button>
+                          <form action={{ url('/Proposal/Store/Finalisasi')}} method="post">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="revisike" value="0">
+                            <input type="hidden" name="nama_field" value="status_uploadFile">
+                            {!! cekStatusFinalisasi_uploadFile(0) !!}
                           </form>
                         </div>
-                      </div>
+                      </div> 
 
                     </div>
                   </div>
@@ -1347,7 +1322,8 @@ $justifikasi_anggaran ="
                     <!-- /.card-header -->
 
                     <div class="card-body" style="display: block;">
-                      <form role="form" method='post' action='upload_gambaran_teknologi' enctype='multipart/form-data'>
+                      <form role="form" method='post' action='{{url('/Proposal/Store/GambaranTeknologi')}}' enctype='multipart/form-data'>
+                        {{ csrf_field() }}
                         <input type="hidden" name="nim" value="{{auth()->user()->username}}">
                         <input type="hidden" name="revisike" value="0">
 
@@ -1361,7 +1337,9 @@ $justifikasi_anggaran ="
                               <span id="pengesahan_error" style="color:#dc3545 "></span>                              
                           </div>
                           <div class='col-md-6' >
-                            Download Berkas Here
+                            @if ($proposal_ta->gambar_ilustrasi != "")
+                              <a href="{{url('public/Gambar_Ilustrasi')}}/{{$proposal_ta->gambar_ilustrasi}}" target="_blank" class="btn btn-primary">Lihat Gambar Ilustrasi</a>
+                            @endif
                           </div> 
                           
                         </div>
@@ -1371,7 +1349,7 @@ $justifikasi_anggaran ="
                           <div class="col-md-12">
                               <div class='form-group row'>
                                     <label>B.	Penjelasan gambar ilustrasi tersebut diatas (narasi).</label>
-                                    <textarea name="penjelasan_ilustrasi" class='form-control' id="penjelasan_ilustrasi" cols="30" rows="5"></textarea>
+                                    <textarea name="penjelasan_ilustrasi" class='form-control' id="penjelasan_ilustrasi" cols="30" rows="5">{{ $proposal_ta->penjelasan_ilustrasi or '' }}</textarea>
                               </div>
                           </div>
                         </div>
@@ -1381,7 +1359,7 @@ $justifikasi_anggaran ="
                           <div class="col-md-12">
                               <div class='form-group row'>
                                 <label>C.	Spesifikasi Teknis yang Diharapkan.</label>
-                                <textarea name="spek_teknis" class='form-control' id="spek_teknis" cols="30" rows="5"></textarea>
+                                <textarea name="spek_teknis" class='form-control' id="spek_teknis" cols="30" rows="5">{{ $proposal_ta->spek_teknis or '' }}</textarea>
                               </div>
                           </div>
                         </div>
@@ -1399,7 +1377,9 @@ $justifikasi_anggaran ="
                               <br>
                           </div>
                           <div class='col-md-2'>
-                              Download Berkas Here
+                              @if ($proposal_ta->gambar_blok_diagram)
+                                <a href="{{url('public/Blok_Diagram')}}/{{$proposal_ta->gambar_blok_diagram}}" target="_blank" class="btn btn-primary">Lihat Gambar Blok Diagram 1</a>
+                              @endif
                           </div>
                           
                         </div>
@@ -1409,7 +1389,7 @@ $justifikasi_anggaran ="
                           <div class="col-md-12">
                               <div class='form-group row'>
                                 <label>E.	Penjelasan blok diagram tersebut diatas (narasi) (bila 1 topik dibagi menjadi 2 atau lebih subtopic).</label>
-                                <textarea name="penjelasan_blok_diagram" class='form-control' id="penjelasan_ilustrasi" cols="30" rows="5"></textarea>
+                                <textarea name="penjelasan_blok_diagram" class='form-control' id="penjelasan_ilustrasi" cols="30" rows="5">{{ $proposal_ta->penjelasan_blok_diagram or '' }}</textarea>
                               </div>
                           </div>
                         </div>
@@ -1427,7 +1407,9 @@ $justifikasi_anggaran ="
                               <br>
                           </div>
                           <div class='col-md-2'>
-                            Download Berkas Here
+                              @if ($proposal_ta->gambar_blok_diagram2 != "")
+                                <a href="{{url('public/Blok_diagram')}}/{{$proposal_ta->gambar_blok_diagram2}}" target="_blank" class="btn btn-primary">Lihat Gambar Blok Diagram 2</a>
+                              @endif
                           </div>
                         </div>
 
@@ -1436,8 +1418,7 @@ $justifikasi_anggaran ="
                           <div class="col-md-12">
                               <div class='form-group row'>
                                 <label>G.	Penjelasan blok diagram tersebut diatas (narasi).</label>
-                                <textarea name="penjelasan_blok_diagram2" class='form-control' id="penjelasan_ilustrasi" cols="30" rows="5">
-                                </textarea>
+                                <textarea name="penjelasan_blok_diagram2" class='form-control' id="penjelasan_ilustrasi" cols="30" rows="5">{{ $proposal_ta->penjelasan_blok_diagram2 or '' }}</textarea>
                               </div>
                           </div>
                         </div>
@@ -1449,12 +1430,14 @@ $justifikasi_anggaran ="
                                 <br>
                                 <span for="exampleInputFile" style="color:#dc3545;font-size:15px;">Maximal Ukuran File 2 MB</span>
                               </label>
-                              <input type="file" name="flowchart" id="flowchart" accept=".JPG,.JPEG,.PNG" >
+                              <input type="file" name="gambar_flowchart" id="flowchart" accept=".JPG,.JPEG,.PNG" >
                               <br>
                               <span id="pengesahan_error" style="color:#dc3545 "></span>
                           </div>
                           <div class='col-md-2'>
-                            Download Berkas Here
+                              @if ($proposal_ta->gambar_flowchart != "")
+                                <a href="{{url('public/Flowchart')}}/{{$proposal_ta->gambar_flowchart}}" target="_blank" class="btn btn-primary">Lihat Gambar Flowchart</a>
+                              @endif
                           </div>
                         </div>
 
@@ -1463,9 +1446,7 @@ $justifikasi_anggaran ="
                           <div class="col-md-12">
                               <div class='form-group row'>
                                 <label>I.	Penjelasan flowchart tersebut diatas (narasi).</label>
-                                <textarea name="penjelasan_flowchart" class='form-control' id="penjelasan_ilustrasi" cols="30" rows="5">
-                                  
-                                </textarea>
+                                <textarea name="penjelasan_flowchart" class='form-control' id="penjelasan_ilustrasi" cols="30" rows="5">{{ $proposal_ta->penjelasan_flowchart or '' }}</textarea>
                               </div>
                           </div>
                         </div>
@@ -1475,9 +1456,7 @@ $justifikasi_anggaran ="
                           <div class="col-md-12">
                               <div class='form-group row'>
                                 <label>J.	Komponen Utama yang Digunakan.</label>
-                                <textarea name="komponen_utama" class='form-control' id="penjelasan_ilustrasi" cols="30" rows="5">
-                                  
-                                </textarea>
+                                <textarea name="komponen_utama" class='form-control' id="penjelasan_ilustrasi" cols="30" rows="5">{{ $proposal_ta->komponen or '' }}</textarea>
                               </div>
                           </div>
                         </div>
@@ -1485,30 +1464,22 @@ $justifikasi_anggaran ="
                         <div class="form-group row">
                           <div class="col-md-6">
                               <div class='form-group row'>
-                              <input type="submit" value="SIMPAN" class='btn btn-info'>
+                              <input type="submit" value="SIMPAN" class='btn btn-info' @if($proposal_ta->status_gambaranTeknologi == 1) disabled @endif>
                               </div>
                           </div>
                         </div>
                       </form>
 
-                      <!-- ./ Finalisasi-->
                       <div class='row'>
                         <div class='col-md-12'>
-                          <form action="simpan_finalisasi" method="post" id='finalisasiform_gambaranTeknologi'>
-                            <input type="hidden" name="nim" value="auth()->user()->usernmae">
+                          <form action={{ url('/Proposal/Store/Finalisasi')}} method="post">
+                            {{ csrf_field() }}
                             <input type="hidden" name="revisike" value="0">
                             <input type="hidden" name="nama_field" value="status_gambaranTeknologi">
-                            <p>
-                            Dengan menekan tombol dibawah ini, saya sudah yakin dengan data-data diatas dan siap untuk dinilai dan dikomentari
-                            oleh reviewer.
-                            <span style='color:red'> Setelah menekan tombol dibawah ini, data-data diatas sudah tidak bisa diubah kembali, jadi pastikan data tersebut
-                            SUDAH DIISI DAN DISIMPAN (dengan menekan tombol simpan sebagai draft) TERLEBIH DAHULU !!!</span>
-                            </p>
-                            <span class='btn btn-lg btn-danger' >Sudah difinalisasi</span>
-                            <button class='btn btn-lg btn-success col-md-12'> Finalisasi</button>
+                            {!! cekStatusFinalisasi_gambaranTeknologi(0) !!}
                           </form>
                         </div>
-                      </div>
+                      </div> 
                         
                     </div>
                   </div>
@@ -1529,7 +1500,7 @@ $justifikasi_anggaran ="
 @stop
 
 @push('scripts')
-  <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
-  <script src="/vendor/unisharp/laravel-ckeditor/adapters/jquery.js"></script>
-  <script src="{{asset('js/ckeditor.js')}}"></script>
+  <script src="{{asset('public/vendor/unisharp/laravel-ckeditor/ckeditor.js')}}"></script>
+  <script src="{{asset('public/vendor/unisharp/laravel-ckeditor/adapters/jquery.js')}}"></script>
+  <script src="{{asset('public/js/ckeditor.js')}}"></script>
 @endpush

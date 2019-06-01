@@ -212,6 +212,20 @@
             @endif            
           @php } @endphp
 
+          @php if(in_array("dsn",$tipe_user)){ @endphp
+            <!--Penilaian Laporan TA-->
+            <li class="nav-item">
+              <a href="{{url('/Laporan/Penilaian/List-Mahasiswa')}}" class="nav-link" {{ Request::getPathInfo() == "/Laporan/Penilaian/List-Mahasiswa" ? "active" : "" }}>
+                <i class="nav-icon fa fa-star"></i>
+                <p>
+                  Penilaian Laporan TA
+                </p>
+              </a>
+            </li>
+          @php } @endphp
+
+          
+
           @php if(in_array("panitia",$tipe_user)){ @endphp
             <!--Bimbingan Dosen -->
             <li class="nav-item has-treeview">

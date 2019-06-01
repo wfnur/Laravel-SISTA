@@ -11,10 +11,10 @@
       <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a href="/Mahasiswa/Beranda" class="nav-link">Beranda</a>
+        <a href="{{url('/Mahasiswa/Beranda')}}" class="nav-link">Beranda</a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a href="/Mahasiswa/Profile" class="nav-link">Ubah Profile</a>
+        <a href="{{url('/Mahasiswa/Profile')}}" class="nav-link">Ubah Profile</a>
     </li>
   </ul>
 
@@ -175,7 +175,7 @@
                             <form method='post' action='{{url('/LaporanTA/Store')}}' enctype='multipart/form-data'>
                               {{ csrf_field() }}
                                   <!--judul-->
-                                  <div class='form-group row'>
+                                  <div class='form-group'>
                                       <div class='col-md-12'>
                                         <label>Judul Tugas Akhir (terbaru)</label>
                                         <textarea cols="80" name="judul_ta" rows="3" class="form-control">{{$laporanTA->judul_ta}}</textarea>
@@ -183,7 +183,7 @@
                                   </div>
 
                                   <!--bidang-->
-                                  <div class="form-group row">
+                                  <div class="form-group">
                                     <div class='col-md-12'>
                                         <label>Bidang</label>
                                         <select class="form-control" name="bidang">
@@ -196,7 +196,7 @@
                                   </div>
 
                                   <!--Pembimbing 1-->
-                                  <div class="form-group row">
+                                  <div class="form-group">
                                     <div class='col-md-12'>
                                         <label>Pembimbing 1 </label>
                                         <select class="form-control" name="pembimbing1">
@@ -209,7 +209,7 @@
                                   </div>
 
                                   <!--Pembimbing 2-->
-                                  <div class="form-group row">
+                                  <div class="form-group">
                                     <div class='col-md-12'>
                                         <label>Pembimbing 2 </label>
                                         <select class="form-control" name="pembimbing2">
@@ -221,13 +221,28 @@
                                     </div>
                                   </div>
 
-                                  <!--Upload Laporan-->
-                                  <!---Lembar Pengesahan--->
-                                    <div class="form-group row">
-                                        <label for="exampleInputFile"> Berkas Laporan Tugas AKhir Final (PDF) </label>
-                                        <input type="file" name="laporanTA" accept=".pdf"  class="form-control"> <br> <br>
-                                        <a href={{asset('Berkas_LaporanTA/'.$laporanTA->laporan)}} class="btn btn-primary" target="_blank"> view</a>        
-                                    </div>
+                                  
+                                  <!---Laporan--->
+                                  <div class="form-group">
+                                      <label for="exampleInputFile"> Berkas Laporan Tugas AKhir Final (PDF) </label>
+                                      <input type="file" name="laporanTA" accept=".pdf"  class="form-control"> 
+                                      @if ($laporanTA->laporan != "")
+                                        <div class="row" style="margin-top:20px;margin-left:10px;">
+                                          <a href={{asset('Berkas_LaporanTA/'.$laporanTA->laporan)}} class="btn btn-primary" target="_blank">Lihat Berkas Laporan</a>
+                                        </div>
+                                      @endif        
+                                  </div>
+
+                                  <!---form_permohonan--->
+                                  <div class="form-group">
+                                      <label for="exampleInputFile"> Form Permohonan Sidang Tugas Akhir (PDF) </label>
+                                      <input type="file" name="form_permohonan" accept=".pdf"  class="form-control">
+                                      @if ($laporanTA->form_permohonan != "")
+                                        <div class="row" style="margin-top:20px;margin-left:10px;">
+                                          <a href={{asset('Form_Permohonan/'.$laporanTA->form_permohonan)}} class="btn btn-primary" target="_blank"> Lihat Form Permohonan</a>
+                                        </div>
+                                      @endif        
+                                  </div>
 
                                   <div class='form-group'>
                                       <input type="submit" value="Simpan" class='btn btn-info'>

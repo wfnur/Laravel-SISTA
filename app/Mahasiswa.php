@@ -17,6 +17,11 @@ class Mahasiswa extends Model
 
     public function JadwalSidang()
     {
-        return $this->hasMany('App\JadwalSidang');
+        return $this->hasManyThrough('App\JadwalSidang','App\LaporanTA');
     }
+
+    public function laporanTA(){
+        return $this->hasMany('App\LaporanTA');
+    }
+
 }
