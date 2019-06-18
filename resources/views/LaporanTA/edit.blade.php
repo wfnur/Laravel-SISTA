@@ -228,7 +228,7 @@
                                       <input type="file" name="laporanTA" accept=".pdf"  class="form-control"> 
                                       @if ($laporanTA->laporan != "")
                                         <div class="row" style="margin-top:20px;margin-left:10px;">
-                                          <a href={{asset('Berkas_LaporanTA/'.$laporanTA->laporan)}} class="btn btn-primary" target="_blank">Lihat Berkas Laporan</a>
+                                          <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->laporan)}} class="btn btn-primary" target="_blank">Lihat Berkas Laporan</a>
                                         </div>
                                       @endif        
                                   </div>
@@ -239,7 +239,7 @@
                                       <input type="file" name="form_permohonan" accept=".pdf"  class="form-control">
                                       @if ($laporanTA->form_permohonan != "")
                                         <div class="row" style="margin-top:20px;margin-left:10px;">
-                                          <a href={{asset('Form_Permohonan/'.$laporanTA->form_permohonan)}} class="btn btn-primary" target="_blank"> Lihat Form Permohonan</a>
+                                          <a href={{asset('storage/Form_Permohonan/'.$laporanTA->form_permohonan)}} class="btn btn-primary" target="_blank"> Lihat Form Permohonan</a>
                                         </div>
                                       @endif        
                                   </div>

@@ -1,0 +1,31 @@
+
+<!-- saved from url=(0039)http://p01.notifa.info/campaign/log.php -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>body{margin:0;padding:0}</style><script>var inDapIF=true;</script><img src="./b"></head><body><script>var params = {    loc: parent.location.href,    ref: parent.document.referrer || ""};var domain = "//x-tags.net";var dmpCookieID = "7649f990e55943357907e10eff919668";var csParams = "dGNpZD1hYWE";var partnerId = 1;var d = document.head || document.body;function createDmpUrlParam(dmpCookieID) {
+            var key, dmpUrlParam = dmpCookieID ? "&dmp_id=" + dmpCookieID : "";
+            for (key in params) {
+                dmpUrlParam = dmpUrlParam + "&" + key + "=" + encodeURIComponent(params[key]);
+            }
+            return dmpUrlParam;
+        }function createDmpBeacon(dmpCookieID) {
+            var dmpDataBeacon = domain + "/data/dmp/b?partner_id=" + partnerId + "&csparams=" + csParams + createDmpUrlParam(dmpCookieID);
+            var imgTag = document.createElement('img');
+            imgTag.setAttribute("src", dmpDataBeacon);
+            d.appendChild(imgTag);
+        }function iframeInit() {
+            if (dmpCookieID && Math.random() > 0.100000) {
+                createDmpBeacon("");
+            } else {
+                var nTag = document.createElement('script');
+                nTag.setAttribute("src", "//cs.gssprt.jp/n");
+                nTag.onload = function() {
+                    if (_genieeCookie) {
+                        createDmpBeacon(_genieeCookie);
+                    } else {
+                        var csTag = document.createElement('script');
+                        csTag.setAttribute("src", "//cs.gssprt.jp/yie/ld/cs?dspid=telkom_dmp");
+                        d.appendChild(csTag);
+                    }
+                }
+                d.appendChild(nTag);
+            }
+        }iframeInit();</script></body></html>

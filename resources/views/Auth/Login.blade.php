@@ -16,6 +16,7 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <style>
+      @import url('https://fonts.googleapis.com/css?family=Archivo+Narrow&display=swap');
     .hari{
       background:#dc3545 !important;border-radius: 10px;padding:0px;
       display:flex;
@@ -25,9 +26,137 @@
     .box-bg{
       margin:-20px -20px -20px 20px !important;
     }
+    :root {
+      --input-padding-x: 1.5rem;
+      --input-padding-y: .75rem;
+    }
+    
+    body {
+      background: #343a40;
+      background: linear-gradient(to right, #0062E6, #33AEFF);
+    }
+    
+    .card-signin {
+      border: 0;
+      border-radius: 1rem;
+      box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .card-signin .card-title {
+      margin-bottom: 1rem;
+      font-weight: 300;
+      font-size: 1.5rem;
+      
+    }
+
+    #demo{
+      font-weight: bold;
+      font-size:40px;
+      color:#ed5656;
+    }
+    
+    .card-signin .card-img-left {
+      width: 45%;
+      /* Link to your background image using in the property below! */
+      background: scroll center url('Images/login.jpg');
+      background-size: cover;
+    }
+    
+    .card-signin .card-body {
+      padding: 2rem;
+    }
+    
+    .form-signin {
+      width: 100%;
+    }
+    
+    .form-signin .btn {
+      font-size: 80%;
+      border-radius: 5rem;
+      letter-spacing: .1rem;
+      font-weight: bold;
+      padding: 1rem;
+      transition: all 0.2s;
+    }
+    
+    .form-label-group {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+    
+    .form-label-group input {
+      height: auto;
+      border-radius: 2rem;
+    }
+    
+    .form-label-group>input,
+    .form-label-group>label {
+      padding: var(--input-padding-y) var(--input-padding-x);
+    }
+    
+    .form-label-group>label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 100%;
+      margin-bottom: 0;
+      /* Override default `<label>` margin */
+      line-height: 1.5;
+      color: #495057;
+      border: 1px solid transparent;
+      border-radius: .25rem;
+      transition: all .1s ease-in-out;
+    }
+    
+    .form-label-group input::-webkit-input-placeholder {
+      color: transparent;
+    }
+    
+    .form-label-group input:-ms-input-placeholder {
+      color: transparent;
+    }
+    
+    .form-label-group input::-ms-input-placeholder {
+      color: transparent;
+    }
+    
+    .form-label-group input::-moz-placeholder {
+      color: transparent;
+    }
+    
+    .form-label-group input::placeholder {
+      color: transparent;
+    }
+    
+    .form-label-group input:not(:placeholder-shown) {
+      padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+      padding-bottom: calc(var(--input-padding-y) / 3);
+    }
+    
+    .form-label-group input:not(:placeholder-shown)~label {
+      padding-top: calc(var(--input-padding-y) / 3);
+      padding-bottom: calc(var(--input-padding-y) / 3);
+      font-size: 12px;
+      color: #777;
+    }
+    
+    .btn-google {
+      color: white;
+      background-color: #ea4335;
+    }
+    
+    .btn-facebook {
+      color: white;
+      background-color: #3b5998;
+    }
+
+    
+    
   </style>
 </head>
-<body class="hold-transition login-page">
+<body>
 @if (session('gagal'))
 <div class="col-8" style="margin:10px auto;">
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -38,65 +167,38 @@
     </div>
 </div>       
 @endif
-<div class="col-md-7" style="margin:60px auto;">
-  <div class="login-logo">
-    <a href="#"><b>Admin</b>LTE</a>
-  </div>
-  <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6 col xs-12">
-          <div class="login-card-body">
-              <p class="login-box-msg">Sign in to start your session</p>
-              <form action="{{url('/postlogin')}}" method="post">
-                {{ csrf_field() }}
-                <div class="form-group has-feedback">
-                  <input type="text" class="form-control" placeholder="NIM/Kode Dosen" name="username" required autofocus>
-                </div>
-                <div class="form-group has-feedback">
-                  <input type="password" class="form-control" placeholder="Password" name="password" required>
-                </div>
-                <div class="form-group has-feedback">
-                    <input type="submit" class="btn btn-primary btn-info" placeholder="Password">
-                </div>
-              </form>
-        
-              <!-- /.social-auth-links -->
-            </div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 col-xl-9 mx-auto">
+      <div class="card card-signin flex-row my-5">
+        <div class="card-img-left d-none d-md-flex">
+           <!-- Background image for card set in CSS! -->
+           
         </div>
-        <div class="col-md-6 col xs-12" style="">
-          <div class="bd-example">
-            <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img src="{{asset('public/Images/bgwhite.jpg')}}" class="d-block w-100" alt="..." style="height:300px;">
-                  <div class="carousel-caption d-none d-md-block">
-                      <div id="demo" class="row" >
-                      </div>
-                      <div class="row" style="color:#dc3545">
-                        <h3>{{$deadline->nama}}</h3>
-                      </div>
-                  </div>
-                </div>
-              </div>
-              <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-              </a>
+        <div class="card-body">
+          <h5 class="card-title text-center">{{$deadline->nama}}</h5>
+          <div class="card-title text-center" id="demo"></div>
+          <form class="form-signin" method="POST" action="{{url('/postlogin')}}">
+            {{ csrf_field() }}
+            <div class="form-label-group">
+              <input type="text" name="username" id="inputUserame" class="form-control" placeholder="Username" required autofocus>
+              <label for="inputUserame">Username</label>
             </div>
-          </div>
+            <br>
+            <div class="form-label-group">
+              <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+              <label for="inputPassword">Password</label>
+            </div>
+            <br>
+            
+            <input type="submit" class="btn btn-lg btn-secondary btn-block text-uppercase" value="Login">
+            
+          </form>
+        </div>
       </div>
-    </div> 
-    
-    <!-- /.login-card-body -->
+    </div>
   </div>
 </div>
-<!-- /.login-box -->
 
 <!-- jQuery -->
 <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
@@ -128,13 +230,7 @@
       
         
       // Output the result in an element with id="demo"
-      document.getElementById("demo").innerHTML = "<div class='col-md-2'><div class='row'><center><h4 style='color:#aaa;'> Hari </h4></center></div><div class='row hari'><h1>"+days+"</h1></div></div>"+
-      "<div class='col-md-1'><div class='row' style='color:red'><h1 style='margin:35px auto;'>:</h1></div></div>"+
-      "<div class='col-md-2'><div class='row' style='color:red'><h4 style='color:#aaa' style='color:#aaa;'>Jam</h4></div><div class='row hari'><h1>"+hours+"</h1></div></div>"+
-      "<div class='col-md-2'><div class='row' style='color:red'><h1 style='margin:35px auto;'>:</h1></div></div>"+
-      "<div class='col-md-2'><div class='row' style='color:red'><h4 style='color:#aaa' style='color:#aaa;'>Menit</h4></div><div class='row hari'><h1>"+minutes+"</h1></div></div>"+
-      "<div class='col-md-1'><div class='row' style='color:red'><h1 style='margin:35px auto;'>:</h1></div></div>"+
-      "<div class='col-md-2'><div class='row' style='color:red'><h4 style='color:#aaa' style='color:#aaa;'>Detik</h4></div><div class='row hari'><h1>"+seconds+"</h1></div></div>";
+      document.getElementById("demo").innerHTML = days+" : "+hours+" : "+minutes+" : "+seconds;
         
       // If the count down is over, write some text 
       if (distance < 0) {

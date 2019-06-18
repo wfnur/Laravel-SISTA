@@ -50,7 +50,9 @@ class laporanTAController extends Controller
 
         if ($request->hasFile('laporanTA')) {
             $imgName = generateNamaLaporanTA(Auth::user()->username,$request->file('laporanTA')->getClientOriginalExtension());
-            $request->file('laporanTA')->move('public/Berkas_LaporanTA/',$imgName);
+            $fileLaporan = $request->file('laporanTA');
+            $fileLaporan->storeAs('public/Berkas_LaporanTA', $imgName);
+            //$request->file('laporanTA')->move('public/Berkas_LaporanTA/',$imgName);
 
             $laporanTAUpload = laporanTA::updateOrCreate([
                 'nim'   => Auth::user()->username,
@@ -58,6 +60,7 @@ class laporanTAController extends Controller
                 'laporan' => $imgName,
                 
             ]);
+
             if(!$laporanTAUpload){
                 return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
             }
@@ -65,7 +68,8 @@ class laporanTAController extends Controller
 
         if ($request->hasFile('form_permohonan')) {
             $imgName = generateNamaFormPermohonan(Auth::user()->username,$request->file('form_permohonan')->getClientOriginalExtension());
-            $request->file('form_permohonan')->move('public/Form_Permohonan/',$imgName);
+            $fileSurat = $request->file('form_permohonan');
+            $fileSurat->storeAs('public/Form_Permohonan', $imgName);
 
             $laporanPermohonan = laporanTA::updateOrCreate([
                 'nim'   => Auth::user()->username,
