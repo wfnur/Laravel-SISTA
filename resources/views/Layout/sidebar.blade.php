@@ -107,7 +107,17 @@
               <a href="{{url('/Poin-Penilaian')}}" class="nav-link {{ Request::getPathInfo() == "/Poin-Penilaian" ? "active" : "" }} ">
                 <i class="nav-icon fa fa-group"></i>
                 <p>
-                  Poin Penilaian
+                  Poin Penilaian Sidang
+                </p>
+              </a>
+            </li>
+
+            <!--Poin Penilaian Laporan-->
+            <li class="nav-item">
+              <a href="{{url('/Poin-Penilaian-Laporan')}}" class="nav-link {{ Request::getPathInfo() == "/Poin-Penilaian-Laporan" ? "active" : "" }} ">
+                <i class="nav-icon fa fa-group"></i>
+                <p>
+                  Poin Penilaian Laporan
                 </p>
               </a>
             </li>

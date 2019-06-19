@@ -1,6 +1,6 @@
 @extends('Layout.master')
 
-@section('title','Poin Penilaian')
+@section('title','Poin Penilaian Laporan')
 
 @section('content')
 @if (session('sukses'))
@@ -23,7 +23,7 @@
         <div class="col-sm-6" style="margin-top:7px;">
         <ol class="breadcrumb float-sm-left">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Sub BAB</li>
+            <li class="breadcrumb-item">Poin Penilaian Laporan</li>
         </ol>
         </div><!-- /.col -->
     </div><!-- /.row -->
@@ -44,13 +44,13 @@
             <div class="card-header">
             <h3 class="card-title p-3">
                 <i class="fa fa-pie-chart mr-1"></i>
-                Data Bab
+                Data Poin Penilaian Laporan
             </h3>
             </div><!-- /.card-header -->
             <div class="card-body" style="padding:30px">
                 <div class="row">
                     <div class="col-10">
-                        <h1>Data Sub BAB</h1>
+                        <h1>Data Poin Penilaian</h1>
                     </div>
                     
                     <div class="col-2">
@@ -66,23 +66,23 @@
                             <thead >
                                 <tr>
                                     <td>Poin Penilaian</td>
+                                    <td>Deskripsi</td>
                                     <td>Bobot</td>
-                                    <td>Kategori</td>
                                     <td>Keterangan</td>
                                     <td>Action</td>
                                     <td></td>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($PoinPenilaian as $item)
+                                @foreach ($PoinPenilaianLaporan as $item)
                                 <tr>
                                     <td>{{ $item->poin_penilaian }}</td>
+                                    <td>{{ $item->deskripsi }}</td>
                                     <td>{{ $item->bobot }}</td>
-                                    <td>{{ $item->kategori }}</td>
                                     <td>{{ $item->ket }}</td>
-                                    <td><a href="{{ route('Poin-Penilaian.edit',$item->id) }}" class="btn btn-warning">Edit</a></td>
+                                    <td><a href="{{ route('Poin-Penilaian-Laporan.edit',$item->id) }}" class="btn btn-warning">Edit</a></td>
                                     <td>
-                                        <form action="{{ route('Poin-Penilaian.destroy', $item->id)}}" method="post">
+                                        <form action="{{ route('Poin-Penilaian-Laporan.destroy', $item->id)}}" method="post">
                                                 <input type="hidden" name="_method" value="DELETE">                 
                                                 {{csrf_field()}}
                                             <button class="btn btn-danger" type="submit" onclick="return confirm('Yakin anda akan menghapus data ini ?')">Delete</button>
@@ -120,32 +120,33 @@
             </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('Poin-Penilaian.store') }}" method="POST">
+                <form action="{{ route('Poin-Penilaian-Laporan.store') }}" method="POST">
                     {{ csrf_field() }}
                     <div class="form-group">
                         <label>Poin Penilaian</label>
                         <input type="text" name="poin_penilaian" class="form-control">
                     </div>
                     <div class="form-group">
+                            <label>Deskripsi</label>
+                            <textarea name="deskripsi" class="form-control"></textarea>
+                        </div>
+                    <div class="form-group">
                             <label>Bobot</label>
                             <input type="text" name="bobot" class="form-control">
                         </div>
                     <div class="form-group">
-                        <label>Kategori Nilai</label>
-                        <Select class="form-control" name='kategori'>
-                            <option value="Nilai Pembimbing">Nilai Pembimbing</option>
-                            <option value="Nilai Presentasi">Nilai Presentasi</option>
-                            <option value="Nilai Demo Alat">Nilai Demo Alat</option>
-                            <option value="Nilai Tanya Jawab">Tanya Jawab</option>
+                        <label>Keterangan Nilai</label>
+                        <Select class="form-control" name='ket'>
+                            <option value="Depan">Halaman Depan</option>
+                            <option value="BAB 1">BAB 1</option>
+                            <option value="BAB 2">BAB 2</option>
+                            <option value="BAB 3">BAB 3</option>
+                            <option value="BAB 4">BAB 4</option>
+                            <option value="BAB 5">BAB 5</option>
+                            <option value="Lampiran">Lampiran</option>
                         </Select>
                     </div>
-                    <div class="form-group">
-                        <label>Keterangan</label>
-                        <Select class="form-control" name='ket'>
-                            <option value="Pembimbing">Pembimbing</option>
-                            <option value="Penguji">Penguji</option>
-                        </Select>
-                    </div>          
+                          
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

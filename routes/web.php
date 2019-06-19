@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth','checkRole:admin']], function () {
     Route::resource('Minggu-Bimbingan', 'MinggubimbinganController');
     Route::resource('Deadline', 'DeadlineController');
     Route::resource('Poin-Penilaian', 'PoinPenilaianController');
+    Route::resource('Poin-Penilaian-Laporan', 'PoinPenilaianLaporanController');
     Route::resource('Jadwal-Sidang', 'JadwalSidangController');
 });
 

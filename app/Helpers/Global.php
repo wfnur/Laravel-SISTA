@@ -309,11 +309,26 @@ function cekStatusFinalisasi_gambaranTeknologi($reviske){
 }
 
 
-
 function generateNamaLaporanTA($nim,$ext){
     $mahasiswa = Mahasiswa::find($nim);
     $str_name= str_replace(" ","",$mahasiswa->nama);
-    $namafile = "LaporanTA_".$nim."_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
+    $namafile = $nim."_LaporanTA_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
+
+    return $namafile;
+}
+
+function generateNamaAbstrak($nim,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = $nim."_Abstrak_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
+
+    return $namafile;
+}
+
+function generateNamaLampiran($nim,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = $nim."_Lampiran_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
 
     return $namafile;
 }
@@ -325,6 +340,7 @@ function generateNamaFormPermohonan($nim,$ext){
 
     return $namafile;
 }
+
 
 function generateNamaPengesahan($nim,$ext){
     $mahasiswa = Mahasiswa::find($nim);
@@ -341,6 +357,7 @@ function generateNamaGambarIlustrasi($nim,$ext){
 
     return $namafile;
 }
+
 function generateNamaBlokDiagram($nim,$ext){
     $mahasiswa = Mahasiswa::find($nim);
     $str_name= str_replace(" ","",$mahasiswa->nama);
@@ -364,8 +381,6 @@ function generateNamaFlowchart($nim,$ext){
 
     return $namafile;
 }
-
-
 
 
 function generateNamaBiodata_Pembimbing($nim,$ext){
