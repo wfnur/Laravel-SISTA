@@ -29,9 +29,9 @@ Route::group(['middleware' => ['auth','checkRole:admin']], function () {
     Route::get('/Mahasiswa/CreateUser', 'MahasiswaController@createUserMahasiswa');
 
     Route::get('/Dosen/Create', 'DosenController@create');
-    Route::get('/Dosen/{kode_dosen}/edit', 'DosenController@edit');
+    Route::get('/Dosen/edit/{kode_dosen}', 'DosenController@edit');
     Route::post('/Dosen/{kode_dosen}/updateAdmin', 'DosenController@updateAdmin');
-    Route::get('/Dosen/{kode_dosen}/delete', 'DosenController@delete');
+    Route::get('/Dosen/delete/{kode_dosen}', 'DosenController@delete');
     Route::post('/Dosen/Store', 'DosenController@store');
     Route::get('/Dosen/CreateUser', 'DosenController@createUserDosen');
 
@@ -84,4 +84,6 @@ Route::group(['middleware' => ['auth','checkRole:dsn']], function () {
     Route::get('/Bimbingan/ListVerifikasi', 'BimbinganController@ListVerifikasi');
     Route::post('/Bimbingan/saveBimbingan', 'BimbinganController@saveBimbingan');
     Route::get('/Laporan/Penilaian/List-Mahasiswa', 'laporanTAController@listMahasiswa');
+    Route::get('/Laporan/Penilaian/{nim}', 'laporanTAController@penilaianLaporan');
+    Route::post('/Laporan/Penilaian/simpan', 'laporanTAController@saveNilaiLaporan');
 });

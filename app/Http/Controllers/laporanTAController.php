@@ -9,6 +9,8 @@ use \App\Dosen;
 use \App\bidang;
 use \App\laporanTA;
 use \App\JadwalSidang;
+use \App\poinPenilaianLaporan;
+use \App\nilaiLaporan;
 use Auth;
 
 class laporanTAController extends Controller
@@ -182,5 +184,61 @@ class laporanTAController extends Controller
         ->get();
         //return dd($listmhs);
         return view('LaporanTA.ListPenilaianTA',compact('listmhs'));
+    }
+
+    public function penilaianLaporan(Request $request, $nim){
+        $laporanTA = laporanTA::where('nim','=', $nim)->first();
+
+        $poinPenilaianLaporan = poinPenilaianLaporan::all();
+
+        $jadwalSidang = JadwalSidang::where('nim','=',$nim)
+        ->Where(function ($query) {
+            $query->where('ketua_penguji','=',Auth::user()->username)
+                ->orWhere('penguji1','=',Auth::user()->username)
+                ->orWhere('penguji2','=',Auth::user()->username);
+        })
+        ->first();
+
+        if(auth()->user()->username == $jadwalSidang->ketua_penguji){
+            $statusDosen = "Ketua Penguji";
+        }elseif(auth()->user()->username == $jadwalSidang->penguji1){
+            $statusDosen = "Penguji 1 ";
+        }elseif(auth()->user()->username == $jadwalSidang->penguji2){
+            $statusDosen = "Penguji 2 ";
+        }else{
+            $statusDosen = "error";
+        }
+
+        $nilaiLaporan = nilaiLaporan::where('nim','=',$nim)
+        ->where('kode_dosen','=',Auth::user()->username)
+        ->first();
+
+        if ($nilaiLaporan) {
+            return view('LaporanTA.editpenilaianLaporan',compact('laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan','nim'));
+        }else{
+            return view('LaporanTA.penilaianLaporan',compact('laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan','nim'));
+        }
+        
+        
+    }
+
+    public function saveNilaiLaporan(Request $request){
+        $nilaiLaporan = nilaiLaporan::updateOrCreate([
+            //Add unique field combo to match here
+            //For example, perhaps you only want one entry per user:
+            'nim'   => $request->nim,
+            'kode_dosen' => $request->kode_dosen,
+            'poin_penilaian_id' => $request->poin_penilaian_id,
+        ],[
+            'poin_penilaian_id'   => $request->get('poin_penilaian_id'),
+            'nilai'        => $request->get('nilaiLaporan')
+        ]);
+
+        if ($nilaiLaporan){
+            echo "Saved";   
+         }else{
+             echo "Failed";
+         }
+
     }
 }

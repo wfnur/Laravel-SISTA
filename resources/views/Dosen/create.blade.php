@@ -89,8 +89,8 @@
                                     <td>{{ $item->telpon }}</td>
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->status }}</td>
-                                    <td><a href="/Dosen/{{ $item->kode_dosen }}/edit" class="btn btn-warning">Edit</a></td>
-                                    <td><a href="/Dosen/{{ $item->kode_dosen }}/delete" class="btn btn-danger" onclick="return confirm('Yakin anda akan menghapus data ini ?')">Hapus</a></td>
+                                    <td><a href="{{url('/Dosen/edit',[$item->kode_dosen])}}" class="btn btn-warning">Edit</a></td>
+                                    <td><a href="{{url('/Dosen/delete',[$item->kode_dosen])}}" class="btn btn-danger" onclick="return confirm('Yakin anda akan menghapus data ini ?')">Hapus</a></td>
                                 </tr>
                                 @endforeach
                             </tbody>

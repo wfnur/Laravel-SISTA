@@ -23,5 +23,6 @@ class Mahasiswa extends Model
     public function laporanTA(){
         return $this->hasMany('App\LaporanTA');
     }
+   
 
 }

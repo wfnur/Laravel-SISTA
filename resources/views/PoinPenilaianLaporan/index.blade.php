@@ -62,26 +62,35 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-hover table-responsive" id="poin">
+                        <table class="table table-striped table-responsive" id="poin">
                             <thead >
                                 <tr>
                                     <td>Poin Penilaian</td>
                                     <td>Deskripsi</td>
                                     <td>Bobot</td>
                                     <td>Keterangan</td>
+                                    <td style="max-width:15%">Jenis</td>
                                     <td>Action</td>
-                                    <td></td>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($PoinPenilaianLaporan as $item)
                                 <tr>
                                     <td>{{ $item->poin_penilaian }}</td>
-                                    <td>{{ $item->deskripsi }}</td>
+                                    <td>{!! $item->deskripsi !!}</td>
                                     <td>{{ $item->bobot }}</td>
                                     <td>{{ $item->ket }}</td>
-                                    <td><a href="{{ route('Poin-Penilaian-Laporan.edit',$item->id) }}" class="btn btn-warning">Edit</a></td>
                                     <td>
+                                        @php
+                                            $jenis = explode(",",$item->jenis);
+                                            if(in_array("1",$jenis)){ echo "- Hardware<br>";}
+                                            if(in_array("2",$jenis)){ echo "- Software<br>";}
+                                            if(in_array("3",$jenis)){ echo "- Hardware + Software<br>";}
+                                            if(in_array("4",$jenis)){ echo "- Antenna / Filter <br>";}
+                                        @endphp
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('Poin-Penilaian-Laporan.edit',$item->id) }}" class="btn btn-warning">Edit</a>
                                         <form action="{{ route('Poin-Penilaian-Laporan.destroy', $item->id)}}" method="post">
                                                 <input type="hidden" name="_method" value="DELETE">                 
                                                 {{csrf_field()}}
@@ -128,7 +137,7 @@
                     </div>
                     <div class="form-group">
                             <label>Deskripsi</label>
-                            <textarea name="deskripsi" class="form-control"></textarea>
+                            <textarea name="deskripsi" class="form-control" id="deskripsiPoinLaporan"></textarea>
                         </div>
                     <div class="form-group">
                             <label>Bobot</label>
@@ -146,6 +155,25 @@
                             <option value="Lampiran">Lampiran</option>
                         </Select>
                     </div>
+                    <div class="form-group">
+                        <label> Jenis Judul TA</label>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="jenis[]" value="1" class="custom-control-input" id="Hardware">
+                            <label class="custom-control-label" for="Hardware">Hardware</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="jenis[]" value="2" class="custom-control-input" id="Software">
+                            <label class="custom-control-label" for="Software">Software</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="jenis[]" value="3" class="custom-control-input" id="SoftwareHardware">
+                            <label class="custom-control-label" for="Software">Software+Hardware</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="jenis[]" value="4" class="custom-control-input" id="Antenna/Filter">
+                            <label class="custom-control-label" for="Antenna/Filter">Antenna/Filter</label>
+                        </div>
+                    </div>
                           
             </div>
             <div class="modal-footer">
@@ -162,7 +190,11 @@
 @push('scripts')
     <script>
         $(function () {
-            $("#poin").DataTable();
+            $("#poin").DataTable( {
+                "order": [[ 3, "desc" ]]
+            } );
         });
     </script>
+    <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+    <script src="{{asset('js/ckeditor.js')}}"></script>
 @endpush

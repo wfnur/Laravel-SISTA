@@ -48,7 +48,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Deskripsi</label>
-                                <textarea name="deskripsi" class="form-control">{{$PoinPenilaianLaporan->deskripsi}}</textarea>
+                                <textarea name="deskripsi" class="form-control" id="deskripsiPoinLaporan">{{$PoinPenilaianLaporan->deskripsi}}</textarea>
                             </div>
 
                             <div class="form-group">
@@ -67,6 +67,27 @@
                                     <option value="Lampiran" @if($PoinPenilaianLaporan->ket == "Lampiran") Selected @endif >Lampiran</option>
                                 </Select>
                             </div>
+
+                            <div class="form-group">
+                                <label> Jenis Judul TA</label>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="jenis[]" value="1" class="custom-control-input" id="Hardware" @if(in_array("1",$jenis)) checked @endif>
+                                    <label class="custom-control-label" for="Hardware">Hardware</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="jenis[]" value="2" class="custom-control-input" id="Software" @if(in_array("2",$jenis)) checked @endif>
+                                    <label class="custom-control-label" for="Software">Software</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="jenis[]" value="3" class="custom-control-input" id="SoftwareHardware" @if(in_array("3",$jenis)) checked @endif>
+                                    <label class="custom-control-label" for="SoftwareHardware">Software+Hardware</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="jenis[]" value="4" class="custom-control-input" id="Antenna/Filter" @if(in_array("4",$jenis)) checked @endif>
+                                    <label class="custom-control-label" for="Antenna/Filter">Antenna/Filter</label>
+                                </div>
+                            </div>
+
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary btn-warning" value="Simpan"> Update</button>
                                 </div>
@@ -84,3 +105,8 @@
     </section>
     <!-- /.content -->
 @endsection
+
+@push('scripts')
+    <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+    <script src="{{asset('js/ckeditor.js')}}"></script>
+@endpush

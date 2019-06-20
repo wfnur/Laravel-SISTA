@@ -36,7 +36,16 @@ class poinPenilaianLaporanController extends Controller
      */
     public function store(Request $request)
     {
-        $PoinPenilaianLaporan = poinPenilaianLaporan::create($request->all()); 
+        //$PoinPenilaianLaporan = poinPenilaianLaporan::create($request->all());
+        $jenis = implode(",", $request->jenis);
+        $PoinPenilaianLaporan = new poinPenilaianLaporan;
+        $PoinPenilaianLaporan->poin_penilaian = $request->poin_penilaian;
+        $PoinPenilaianLaporan->deskripsi = $request->deskripsi;
+        $PoinPenilaianLaporan->bobot = $request->bobot;
+        $PoinPenilaianLaporan->ket = $request->ket;
+        $PoinPenilaianLaporan->jenis = $jenis;
+        $PoinPenilaianLaporan->save();
+        //dd($request->all()); 
         return redirect('/Poin-Penilaian-Laporan')->with('sukses','Data Berhasil Disimpan');
     }
 
@@ -60,7 +69,8 @@ class poinPenilaianLaporanController extends Controller
     public function edit($id)
     {
         $PoinPenilaianLaporan = poinPenilaianLaporan::find($id);
-        return view('PoinPenilaianLaporan.edit',compact('PoinPenilaianLaporan'));
+        $jenis = explode(",",$PoinPenilaianLaporan->jenis);
+        return view('PoinPenilaianLaporan.edit',compact('PoinPenilaianLaporan','jenis'));
     }
 
     /**
@@ -72,8 +82,15 @@ class poinPenilaianLaporanController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $jenis = implode(",", $request->jenis);
         $PoinPenilaianLaporan = poinPenilaianLaporan::find($id);
-        $PoinPenilaianLaporan->update($request->all());
+        $PoinPenilaianLaporan->poin_penilaian = $request->poin_penilaian;
+        $PoinPenilaianLaporan->deskripsi = $request->deskripsi;
+        $PoinPenilaianLaporan->bobot = $request->bobot;
+        $PoinPenilaianLaporan->ket = $request->ket;
+        $PoinPenilaianLaporan->jenis = $jenis;
+        $PoinPenilaianLaporan->save();
+        
         return redirect('/Poin-Penilaian-Laporan')->with('sukses','Data Berhasil Diupdate');
     }
 

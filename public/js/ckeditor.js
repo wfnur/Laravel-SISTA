@@ -1,6 +1,4 @@
 $(document).ready(function() {
-    
-
     if($("#biaya").length > 0){
       CKEDITOR.replace( 'biaya',{
         height: 300,
@@ -181,6 +179,25 @@ $(document).ready(function() {
           { "name": 'tools', 
             "groups": [ 'tools' ] 
           },       
+        ],
+      });      
+    }
+
+    if($("#deskripsiPoinLaporan").length > 0){
+      CKEDITOR.replace( 'deskripsiPoinLaporan',{
+        height: 100,
+        toolbarGroups: [
+          { "name": 'tools', 
+            "groups": [ 'tools' ] 
+          },
+          {
+            "name": "basicstyles",
+            "groups": ["basicstyles"]
+          },
+          {
+            "name": "paragraph",
+            "groups": [ 'indent', 'align', 'paragraph' ] 
+          }       
         ],
       });      
     }
