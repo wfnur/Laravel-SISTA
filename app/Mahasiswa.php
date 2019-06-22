@@ -20,8 +20,8 @@ class Mahasiswa extends Model
         return $this->hasManyThrough('App\JadwalSidang','App\LaporanTA');
     }
 
-    public function laporanTA(){
-        return $this->hasMany('App\LaporanTA');
+    public function laporanta(){
+        return $this->hasOne('App\laporanTA','nim','id');
     }
    
 

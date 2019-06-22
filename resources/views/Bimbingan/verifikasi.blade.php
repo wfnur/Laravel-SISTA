@@ -156,7 +156,7 @@
             <!-- Custom tabs (Charts with tabs)-->
             <div class="card">
                 <div class="card-body">
-                    <form method="GET" action="/Bimbingan/Verifikasi">
+                    <form method="GET" action="{{url('/Bimbingan/Verifikasi')}}">
                         <div class="form-group">
                             <label>Pilih Minggu </label>
                             <select name="cari" onchange="showUser(this.value)" class='form-control'>

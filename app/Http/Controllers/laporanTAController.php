@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use \App\Dosen;
@@ -11,6 +11,8 @@ use \App\laporanTA;
 use \App\JadwalSidang;
 use \App\poinPenilaianLaporan;
 use \App\nilaiLaporan;
+use \App\Mahasiswa;
+use \App\revisiLaporan;
 use Auth;
 
 class laporanTAController extends Controller
@@ -187,10 +189,15 @@ class laporanTAController extends Controller
     }
 
     public function penilaianLaporan(Request $request, $nim){
+        // LAPORAN TUGAS AKHIR
         $laporanTA = laporanTA::where('nim','=', $nim)->first();
 
-        $poinPenilaianLaporan = poinPenilaianLaporan::all();
+        // POIN PENILAIAN
+        $poinPenilaianLaporan_Depan = poinPenilaianLaporan::where('ket','=','Depan')->get();
+        $poinPenilaianLaporan_Bab = poinPenilaianLaporan::where('ket','like','BAB%')->get();
+        $poinPenilaianLaporan_Lampiran = poinPenilaianLaporan::where('ket','=','lampiran')->get();
 
+        // AMBIL DATA DARI JADWAL SIDANG
         $jadwalSidang = JadwalSidang::where('nim','=',$nim)
         ->Where(function ($query) {
             $query->where('ketua_penguji','=',Auth::user()->username)
@@ -209,15 +216,23 @@ class laporanTAController extends Controller
             $statusDosen = "error";
         }
 
+        // NILAI LAPORAN
+
         $nilaiLaporan = nilaiLaporan::where('nim','=',$nim)
         ->where('kode_dosen','=',Auth::user()->username)
         ->first();
 
-        if ($nilaiLaporan) {
-            return view('LaporanTA.editpenilaianLaporan',compact('laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan','nim'));
+        // REVISI LAPORAN
+        $revisiLaporan = revisiLaporan::where('nim','=',$nim)
+        ->where('kode_dosen','=',Auth::user()->username)
+        ->first();
+
+        if ($revisiLaporan->status == 1) {
+            return view('LaporanTA.penilaianLaporan',compact('laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan_Depan','poinPenilaianLaporan_Bab','poinPenilaianLaporan_Lampiran','nim','revisiLaporan'));
         }else{
-            return view('LaporanTA.penilaianLaporan',compact('laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan','nim'));
+            return view('LaporanTA.editpenilaianLaporan',compact('laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan_Depan','poinPenilaianLaporan_Bab','poinPenilaianLaporan_Lampiran','nim','revisiLaporan'));
         }
+        
         
         
     }
@@ -240,5 +255,48 @@ class laporanTAController extends Controller
              echo "Failed";
          }
 
+    }
+
+    public function saveRevisiLaporan(Request $request){
+        $revisiLaporan = revisiLaporan::updateOrCreate([
+            //Add unique field combo to match here
+            //For example, perhaps you only want one entry per user:
+            'nim'   => $request->nim,
+            'kode_dosen' => $request->kode_dosen,
+        ],[
+            'revisi'   => $request->get('revisi')
+        ]);
+
+        if (!$revisiLaporan) {
+            return redirect()->back()->with('gagal','Data Gagal Diubah/Disimpan');
+        }else{
+            return redirect()->back()->with('sukses','Data Berhasil Diubah/Disimpan');
+        }
+    }
+
+    public function finalisasiRevisiLaporan(Request $request){
+        $revisiLaporan = revisiLaporan::updateOrCreate([
+            //Add unique field combo to match here
+            //For example, perhaps you only want one entry per user:
+            'nim'   => $request->nim,
+            'kode_dosen' => $request->kode_dosen,
+        ],[
+            'status'   => 1
+        ]);
+
+        if (!$revisiLaporan) {
+            return redirect()->back()->with('gagal','Nilai Gagal Difinalisasi');
+        }else{
+            return redirect()->back()->with('sukses','Nilai Berhasil Difinalisasi');
+        }
+    }
+
+    public function listMahasiswapanitia(){
+        $mahasiswa = DB::table('mahasiswa')
+            ->leftJoin('laporanTA', 'laporanTA.nim', '=', 'mahasiswa.nim')
+            ->orderBy('mahasiswa.NIM', 'ASC')
+            ->get();
+
+        return view('LaporanTA.ListMahasiswa_panitia',compact('mahasiswa'));
     }
 }

@@ -202,6 +202,25 @@ $(document).ready(function() {
       });      
     }
 
+    if($("#revisiLaporan").length > 0){
+      CKEDITOR.replace( 'revisiLaporan',{
+        height: 100,
+        toolbarGroups: [
+          { "name": 'tools', 
+            "groups": [ 'tools' ] 
+          },
+          {
+            "name": "basicstyles",
+            "groups": ["basicstyles"]
+          },
+          {
+            "name": "paragraph",
+            "groups": [ 'indent', 'align', 'paragraph' ] 
+          }       
+        ],
+      });      
+    }
+
    
 
   });

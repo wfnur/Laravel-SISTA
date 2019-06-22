@@ -71,13 +71,14 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">Lihat Berkas</label>
-                                    <div class="col-sm-10">
-                                        <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->abstrak)}} class="btn btn-primary" target="_blank"> Lihat Abstrak Laporan</a>
-                                        <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->laporan)}} class="btn btn-primary" target="_blank"> Lihat Isi Laporan</a>
-                                        <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->lampiran)}} class="btn btn-primary" target="_blank"> Lihat Lampiran Laporan</a>
-                                    </div>
+                                <label class="col-sm-2 col-form-label">Lihat Berkas</label>
+                                <div class="col-sm-10">
+                                    <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->abstrak)}} class="btn btn-primary" target="_blank"> Lihat Abstrak Laporan</a>
+                                    <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->laporan)}} class="btn btn-primary" target="_blank"> Lihat Isi Laporan</a>
+                                    <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->lampiran)}} class="btn btn-primary" target="_blank"> Lihat Lampiran Laporan</a>
                                 </div>
+                            </div>
+                            
                             <!---
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Status Dosen</label>
@@ -86,41 +87,75 @@
                                 </div>
                             </div>
                             --->
-                        <table class="table table-responsive table-bordered table-striped" style="width:100%;">
-                            <thead class="thead-dark" style="text-align:center">
-                                <th style="width:5%">No. </th> <th style="min-width:45%">Poin Penilaian</th> <th style="width:50%">Nilai</th>
-                            </thead>
-                            <tbody>
-                                @php $i=1; @endphp
-                                @foreach ($poinPenilaianLaporan as $item)
-                                    @php
-                                        $jenis = explode(",",$item->jenis);
+                        
+                      </div>
+                    </div>
+                    <!-- /.card -->          
+                </div>
+              <!-- /.col-->
+              </div>
+              <!-- ./row -->
 
-                                        $nilaiLaporan = \App\nilaiLaporan::where('poin_penilaian_id','=',$item->id)
-                                        ->where(function ($query) use($nim) {
-                                            $query->where('kode_dosen','=',Auth::user()->username)
-                                            ->where('nim','=',$nim);
-                                        })
-                                        ->first();
-                                        if (isset($nilaiLaporan->nilai)) {
-                                            $nilai = strval($nilaiLaporan->nilai); 
-                                        }else{
-                                            $nilai = "";
-                                        }                                  
-                                    @endphp
-                                    @if (in_array($laporanTA->jenis_judulta,$jenis))
-                                        <tr>
-                                            <td>{{$i}}</td>
-                                            <td>{{$item->poin_penilaian}}</td>
-                                            <td>
-                                                
-                                                <form onsubmit='saveNilai({{$item->id}}); return false;' id={{$item->id}} class="Myform">
-                                                    {{ csrf_field() }}
-                                                    <input type="hidden" name="nim" id="nim" value="{{$laporanTA->nim}}">
-                                                    <input type="hidden" name="kode_dosen" id="kode_dosen" value="{{auth()->user()->username}}">
-                                                    <input type="hidden" name="poin_penilaian_id" id="poin_penilaian_id" value="{{$item->id}}">
-                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radioBtnDiv">
-                                                        
+              <div class="row">
+                <div class="col-12">
+                  <!-- Custom Tabs -->
+                  <div class="card">
+                    <div class="card-header d-flex p-0">
+                      <ul class="nav nav-pills p-2">
+                        <li class="nav-item"><a class="nav-link active" href="#depan" data-toggle="tab">Halaman Depan</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#bab" data-toggle="tab">BAB 1 s.d 5</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#lampiran" data-toggle="tab">Lampiran</a></li>
+                      </ul>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                      <div class="tab-content">
+
+                        <div class="tab-pane active" id="depan">
+                            <table class="table table-responsive table-bordered table-striped" style="width:100%;">
+                                <thead class="thead-dark" style="text-align:center">
+                                    <th style="width:5%">No. </th> <th style="min-width:45%">Poin Penilaian</th> <th style="width:50%">Nilai</th>
+                                </thead>
+                                <tbody>
+                                    @php $i=1; @endphp
+                                    @foreach ($poinPenilaianLaporan_Depan as $item)
+                                        @php
+                                            $jenis = explode(",",$item->jenis);
+
+                                            $nilaiLaporan = \App\nilaiLaporan::where('poin_penilaian_id','=',$item->id)
+                                            ->where(function ($query) use($nim) {
+                                                $query->where('kode_dosen','=',Auth::user()->username)
+                                                ->where('nim','=',$nim);
+                                            })
+                                            ->first();
+                                            if (isset($nilaiLaporan->nilai)) {
+                                                $nilai = strval($nilaiLaporan->nilai); 
+                                            }else{
+                                                $nilai = "";
+                                            }                                  
+                                        @endphp
+                                        @if (in_array($laporanTA->jenis_judulta,$jenis))
+                                            <tr>
+                                                <td>{{$i}}</td>
+                                                <td>{{$item->poin_penilaian}}
+                                                        [
+                                                        <a data-toggle="collapse" href="#collapseExample_{{$item->id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                             Klik disini Lihat Penjelasan
+                                                        </a>
+                                                        ]
+                                                        <div class="collapse" id="collapseExample_{{$item->id}}">
+                                                            <div class="card card-body">
+                                                                {!! $item->deskripsi !!}
+                                                            </div>
+                                                        </div>
+                                                </td>
+                                                <td>  
+                                                    <form onsubmit='saveNilai({{$item->id}}); return false;' id={{$item->id}} class="Myform">
+                                                        {{ csrf_field() }}
+                                                        <input type="hidden" name="nim" id="nim" value="{{$laporanTA->nim}}">
+                                                        <input type="hidden" name="kode_dosen" id="kode_dosen" value="{{auth()->user()->username}}">
+                                                        <input type="hidden" name="poin_penilaian_id" id="poin_penilaian_id" value="{{$item->id}}">
+                                                        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radioBtnDiv">
+                                                            
                                                             <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radioBtnDiv">
                                                                 <label class="btn btn-outline-primary btn-lg @if($nilai=='1' and $nilai!='' ) focus active @endif">
                                                                     <input type="radio" name="nilaiLaporan" autocomplete="off" value="1">1
@@ -153,17 +188,240 @@
                                                                     <input type="radio" name="nilaiLaporan" autocomplete="off" value="10" >10
                                                                 </label>                                                
                                                             </div>
-                                                                                                      
-                                                    </div>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                    
-                                @php $i++; @endphp
-                                @endforeach                                
-                            </tbody>
-                        </table>
+                                                            
+                                                                                                        
+                                                        </div>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        
+                                    @php $i++; @endphp
+                                    @endforeach                                
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.tab-pane -->
+
+                        <div class="tab-pane" id="bab">
+                            <table class="table table-responsive table-bordered table-striped" style="width:100%;">
+                                <thead class="thead-dark" style="text-align:center">
+                                    <th style="width:5%">No. </th> <th style="min-width:45%">Poin Penilaian</th> <th style="width:50%">Nilai</th>
+                                </thead>
+                                <tbody>
+                                    @php $i=1; @endphp
+                                    @foreach ($poinPenilaianLaporan_Bab as $item)
+                                        @php
+                                            $jenis = explode(",",$item->jenis);
+
+                                            $nilaiLaporan = \App\nilaiLaporan::where('poin_penilaian_id','=',$item->id)
+                                            ->where(function ($query) use($nim) {
+                                                $query->where('kode_dosen','=',Auth::user()->username)
+                                                ->where('nim','=',$nim);
+                                            })
+                                            ->first();
+                                            if (isset($nilaiLaporan->nilai)) {
+                                                $nilai = strval($nilaiLaporan->nilai); 
+                                            }else{
+                                                $nilai = "";
+                                            }                                  
+                                        @endphp
+                                        @if (in_array($laporanTA->jenis_judulta,$jenis))
+                                            <tr>
+                                                <td>{{$i}}</td>
+                                                <td>{{$item->poin_penilaian}}
+                                                        [
+                                                        <a data-toggle="collapse" href="#collapseExample2_{{$item->id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                                Klik disini Lihat Penjelasan
+                                                        </a>
+                                                        ]
+                                                        <div class="collapse" id="collapseExample2_{{$item->id}}">
+                                                            <div class="card card-body">
+                                                                {!! $item->deskripsi !!}
+                                                            </div>
+                                                        </div>
+                                                </td>
+                                                <td>  
+                                                    <form onsubmit='saveNilai({{$item->id}}); return false;' id={{$item->id}} class="Myform">
+                                                        {{ csrf_field() }}
+                                                        <input type="hidden" name="nim" id="nim" value="{{$laporanTA->nim}}">
+                                                        <input type="hidden" name="kode_dosen" id="kode_dosen" value="{{auth()->user()->username}}">
+                                                        <input type="hidden" name="poin_penilaian_id" id="poin_penilaian_id" value="{{$item->id}}">
+                                                        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radioBtnDiv">
+                                                            
+                                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radioBtnDiv">
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='1' and $nilai!='' ) focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="1">1
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='2' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="2">2
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='3' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="3">3
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='4' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="4">4
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='5' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="5">5
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='6' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="6" >6
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='7' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="7" >7
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='8' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="8">8
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='9' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="9">9
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='10' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="10" >10
+                                                                </label>                                                
+                                                            </div>                                    
+                                                        </div>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        
+                                    @php $i++; @endphp
+                                    @endforeach                                
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.tab-pane -->
+
+                        <div class="tab-pane" id="lampiran">
+                            <table class="table table-responsive table-bordered table-striped" style="width:100%;">
+                                <thead class="thead-dark" style="text-align:center">
+                                    <th style="width:5%">No. </th> <th style="min-width:45%">Poin Penilaian</th> <th style="width:50%">Nilai</th>
+                                </thead>
+                                <tbody>
+                                    @php $i=1; @endphp
+                                    @foreach ($poinPenilaianLaporan_Lampiran as $item)
+                                        @php
+                                            $jenis = explode(",",$item->jenis);
+
+                                            $nilaiLaporan = \App\nilaiLaporan::where('poin_penilaian_id','=',$item->id)
+                                            ->where(function ($query) use($nim) {
+                                                $query->where('kode_dosen','=',Auth::user()->username)
+                                                ->where('nim','=',$nim);
+                                            })
+                                            ->first();
+                                            if (isset($nilaiLaporan->nilai)) {
+                                                $nilai = strval($nilaiLaporan->nilai); 
+                                            }else{
+                                                $nilai = "";
+                                            }                                  
+                                        @endphp
+                                        @if (in_array($laporanTA->jenis_judulta,$jenis))
+                                            <tr>
+                                                <td>{{$i}}</td>
+                                                <td>{{$item->poin_penilaian}}
+                                                        [
+                                                        <a data-toggle="collapse" href="#collapseExample3_{{$item->id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                                Klik disini Lihat Penjelasan
+                                                        </a>
+                                                        ]
+                                                        <div class="collapse" id="collapseExample3_{{$item->id}}">
+                                                            <div class="card card-body">
+                                                                {!! $item->deskripsi !!}
+                                                            </div>
+                                                        </div>
+                                                </td>
+                                                <td>  
+                                                    <form onsubmit='saveNilai({{$item->id}}); return false;' id={{$item->id}} class="Myform">
+                                                        {{ csrf_field() }}
+                                                        <input type="hidden" name="nim" id="nim" value="{{$laporanTA->nim}}">
+                                                        <input type="hidden" name="kode_dosen" id="kode_dosen" value="{{auth()->user()->username}}">
+                                                        <input type="hidden" name="poin_penilaian_id" id="poin_penilaian_id" value="{{$item->id}}">
+                                                        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radioBtnDiv">
+                                                            
+                                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radioBtnDiv">
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='1' and $nilai!='' ) focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="1">1
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='2' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="2">2
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='3' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="3">3
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='4' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="4">4
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='5' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="5">5
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='6' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="6" >6
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='7' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="7" >7
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='8' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="8">8
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='9' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="9">9
+                                                                </label>
+                                                                <label class="btn btn-outline-primary btn-lg @if($nilai=='10' and $nilai!='') focus active @endif">
+                                                                    <input type="radio" name="nilaiLaporan" autocomplete="off" value="10" >10
+                                                                </label>                                                
+                                                            </div>                                     
+                                                        </div>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        
+                                    @php $i++; @endphp
+                                    @endforeach                                
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.tab-pane -->
+                      </div>
+                      <!-- /.tab-content -->
+                    </div><!-- /.card-body -->
+                  </div>
+                  <!-- ./card -->
+                </div>
+                <!-- /.col -->
+              </div>
+
+              <!-- ./Data Proposal -->    
+              <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-info card-outline">
+                        <div class="card-header">
+                            <h3>Revisi Laporan</h3>
+                        </div>
+                      <!-- /.card-header -->
+                      <div class="card-body" style="display: block;">
+                            <form action="{{url('/Laporan/Revisi/simpan')}}" method="POST">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="nim" value="{{$nim}}">
+                                <input type="hidden" name="kode_dosen" value="{{Auth::user()->username}}">
+                                <div class="form-group">
+                                    <textarea name="revisi" id="revisiLaporan" cols="30" rows="10">{{$revisiLaporan->revisi or ''}}</textarea>
+                                </div>
+                                <input type="submit" value="Simpan Revisi" class="btn btn-primary btn-lg">
+                            </form>
+                            <br>
+                            
+                            <form action="{{url('/Laporan/Revisi/finalisasi')}}" method="POST">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="nim" value="{{$nim}}">
+                                <input type="hidden" name="kode_dosen" value="{{Auth::user()->username}}">
+                                <div>
+                                    REVISI HARUS DISIMPAN TERLEBIH DAHULU SEBELUM MEMFINALISASI NILAI DAN REVISI
+                                </div>
+                                <input type="submit" value="Finalisasi Penilaian" class="btn btn-warning btn-lg col-md-12" onclick="alert('Apakah Anda Yakin ingin Memfinalisasi Penilaian ?')">
+                            </form>
                       </div>
                     </div>
                     <!-- /.card -->          
@@ -171,19 +429,28 @@
               <!-- /.col-->
               </div>
               <!-- ./row -->
+
+
             </div>
           </div>
     <!-- /.row -->
-    <div id="alert_popover">
-            <div class="wrapper2">
-                <div class="content2">
-                    
-                </div>
-            </div>
-        </div>
+    
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+
+<div class="wait">
+    <div class="spinner-border text-danger" role="status" style="width: 3rem; height: 3rem;" id="bola">
+        <span class="sr-only">Loading...</span>
+    </div>
+    LOADING....
+</div> 
+
+<div id="notifok">
+    <div class="alert alert-success col-md-2 notif-fixed" >
+        <b>Nilai Berhasil Disimpan</b> 
+    </div>
+</div>
 
 @stop
 
@@ -195,18 +462,6 @@
         });          
     
     });
-   /*$(function(){
-        $('input:radio').change(function(id){
-            var nilai = $(this).val();
-            var nim = document.getElementById('nim').value;
-            var kode_dosen = document.getElementById('kode_dosen').value;
-            var poin = document.getElementById('poin_penilaian_id').value;
-            var nilai_form = document.getElementById('poin_penilaian_id').serialize();
-            console.log(id);   
-        });          
-    
-    });
-    */
     function saveNilai(id){
         var kode_bimbingan = $("form[id="+id+"]").serialize();
         console.log(kode_bimbingan);
@@ -216,16 +471,31 @@
             data: kode_bimbingan,
             cache:false,
             success: function (a){
-                if(a=='Saved'){
-                    alert('Nilai Berhasil Disimpan')
-                    //$('.content2').html(a);
-                    
+                if(a == 'Saved'){
+                    alert('Nilai Berhasil Disimpan');
+                    //$('.notif-fixed').html();
+                }else{
+                    alert('Nilai Gagal Disimpan')
                 }
             }
         });
         
         return false; 
     }
+    $(document).ready(function(){
+        $(".wait").hide();
+        $("#notifok").hide();
+        $(document).ajaxStart(function(){
+            $(".wait").show();
+        });
+        $(document).ajaxComplete(function(){
+            $(".wait").hide();
+            $("#notifok").show();
+            
+        });
+    });
     
 </script>
+    <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+    <script src="{{asset('js/ckeditor.js')}}"></script>
 @endpush

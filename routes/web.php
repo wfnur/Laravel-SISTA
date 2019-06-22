@@ -86,4 +86,7 @@ Route::group(['middleware' => ['auth','checkRole:dsn']], function () {
     Route::get('/Laporan/Penilaian/List-Mahasiswa', 'laporanTAController@listMahasiswa');
     Route::get('/Laporan/Penilaian/{nim}', 'laporanTAController@penilaianLaporan');
     Route::post('/Laporan/Penilaian/simpan', 'laporanTAController@saveNilaiLaporan');
+    Route::post('/Laporan/Revisi/simpan', 'laporanTAController@saveRevisiLaporan');
+    Route::post('/Laporan/Revisi/finalisasi', 'laporanTAController@finalisasiRevisiLaporan');
+    Route::get('/Laporan/Nilai/List-Mahasiswa', 'laporanTAController@listMahasiswapanitia');
 });

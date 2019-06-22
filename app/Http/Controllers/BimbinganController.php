@@ -149,10 +149,12 @@ class BimbinganController extends Controller
 
     public function verifikasi(Request $request){
         $mingguBimbingan = mingguBimbingan::all();
+
+        
         if ($request->has('cari')) {
             $bimbingan = bimbingan::where('mingguBimbingan_id', '=', $request->cari)->get();
             return view('Bimbingan.verifikasi',compact('mingguBimbingan','bimbingan'));
-
+            
         }else{
             return view('Bimbingan.verifikasi',compact('mingguBimbingan'));
         }

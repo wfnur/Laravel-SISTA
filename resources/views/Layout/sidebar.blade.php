@@ -234,8 +234,6 @@
             </li>
           @php } @endphp
 
-          
-
           @php if(in_array("panitia",$tipe_user)){ @endphp
             <!--Bimbingan Dosen -->
             <li class="nav-item has-treeview">
@@ -260,6 +258,17 @@
                 </li>
               </ul>
             </li>
+
+            <!--Nilai Laporan TA-->
+            <li class="nav-item">
+              <a href="{{url('/Laporan/Nilai/List-Mahasiswa')}}" class="nav-link" {{ Request::getPathInfo() == "/Laporan/Nilai/List-Mahasiswa" ? "active" : "" }}>
+                <i class="nav-icon fa fa-star"></i>
+                <p>
+                  Nilai Laporan TA
+                </p>
+              </a>
+            </li>
+            
           @php } @endphp
 
           @php if(in_array("reviewer_proposalPKMPolban",$tipe_user)){ @endphp

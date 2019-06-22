@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('adminlte/dist/css/adminlte.min.css')}}">
+  <link href="https://getbootstrap.com/docs/4.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   <!-- iCheck -->
   <link rel="stylesheet" href="{{asset('adminlte/plugins/iCheck/flat/blue.css')}}">
   <!-- Date Picker -->
@@ -31,24 +32,31 @@
     left:30%;
     top:10%;
   }
-  #alert_popover
-  {
-   display:block;
-   position:absolute;
-   bottom:50px;
-   left:50px;
+
+  .notif-fixed {
+    position:fixed; 
+    width: 100%;
+    z-index:9999; 
+    border-radius:20px;
+    right:2%;
+    bottom:10%;
   }
-  .wrapper2 {
-    display: table-cell;
-    vertical-align: bottom;
-    height: auto;
-    width:200px;
+  #bola{
+    position:fixed; 
+    z-index:9999; 
+    left:50%;
+    top:50%;
+     
   }
-  .alert_default
-  {
-   color: #333333;
-   background-color: #f2f2f2;
-   border-color: #cccccc;
+  .wait{
+    top:0%;
+    position:absolute; 
+    width:100%;
+    height:100%;
+    background-color: black;
+    opacity:0.3;
+    z-index:99999;
+    color:white
   }
   
   </style>
