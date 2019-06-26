@@ -167,7 +167,7 @@
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" name="jenis[]" value="3" class="custom-control-input" id="SoftwareHardware">
-                            <label class="custom-control-label" for="Software">Software+Hardware</label>
+                            <label class="custom-control-label" for="SoftwareHardware">Software+Hardware</label>
                         </div>
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" name="jenis[]" value="4" class="custom-control-input" id="Antenna/Filter">

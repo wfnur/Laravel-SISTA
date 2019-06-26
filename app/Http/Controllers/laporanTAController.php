@@ -179,8 +179,7 @@ class laporanTAController extends Controller
     }
 
     public function listMahasiswa(){
-        $listmhs = JadwalSidang::where('pembimbing', '=',Auth::user()->username)
-        ->orWhere('ketua_penguji','=',Auth::user()->username)
+        $listmhs = JadwalSidang::Where('ketua_penguji','=',Auth::user()->username)
         ->orWhere('penguji1','=',Auth::user()->username)
         ->orWhere('penguji2','=',Auth::user()->username)
         ->get();
@@ -226,11 +225,16 @@ class laporanTAController extends Controller
         $revisiLaporan = revisiLaporan::where('nim','=',$nim)
         ->where('kode_dosen','=',Auth::user()->username)
         ->first();
+        
 
-        if ($revisiLaporan->status == 1) {
-            return view('LaporanTA.penilaianLaporan',compact('laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan_Depan','poinPenilaianLaporan_Bab','poinPenilaianLaporan_Lampiran','nim','revisiLaporan'));
+        if (isset($revisiLaporan->status)) {
+            if ($revisiLaporan->status == 1) {
+                return view('LaporanTA.penilaianLaporan',compact('laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan_Depan','poinPenilaianLaporan_Bab','poinPenilaianLaporan_Lampiran','nim','revisiLaporan'));
+            } else {
+                return view('LaporanTA.editPenilaianLaporan',compact('laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan_Depan','poinPenilaianLaporan_Bab','poinPenilaianLaporan_Lampiran','nim','revisiLaporan'));
+            }  
         }else{
-            return view('LaporanTA.editpenilaianLaporan',compact('laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan_Depan','poinPenilaianLaporan_Bab','poinPenilaianLaporan_Lampiran','nim','revisiLaporan'));
+            return view('LaporanTA.editPenilaianLaporan',compact('laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan_Depan','poinPenilaianLaporan_Bab','poinPenilaianLaporan_Lampiran','nim','revisiLaporan'));
         }
         
         
@@ -274,6 +278,34 @@ class laporanTAController extends Controller
         }
     }
 
+    public function detailNilaiLaporan(Request $request){
+        $nim = $request->nim;
+
+        $mahasiswa = DB::table('mahasiswa')
+            ->Join('laporanta', 'laporanta.nim', '=', 'mahasiswa.NIM')
+            ->where('mahasiswa.NIM','=',$nim)
+            ->first();
+
+        $poinPenilaianLaporan = poinPenilaianLaporan::all();
+        $jadwalSidang = JadwalSidang::where('nim','=',$nim)->first();
+
+        /*
+        $nilai = DB::table('nilai_laporan')
+            ->Join('mahasiswa', 'mahasiswa.NIM', '=', 'nilai_laporan.nim')
+            ->Join('dosen', 'dosen.kode_dosen', '=', 'nilai_laporan.kode_dosen')
+            ->Join('poin_penilaianlaporan', 'poin_penilaianlaporan.id', '=', 'nilai_laporan.poin_penilaianlaporan_id')
+            ->where('nilai_laporan.nim','=', $request->nim)
+            ->get();
+        */
+        
+        
+        //return dd($nilai);
+
+        return view('LaporanTA.detailNilaiLaporan',compact('mahasiswa','poinPenilaianLaporan','nim','jadwalSidang'));
+
+        
+    }
+
     public function finalisasiRevisiLaporan(Request $request){
         $revisiLaporan = revisiLaporan::updateOrCreate([
             //Add unique field combo to match here
@@ -293,10 +325,34 @@ class laporanTAController extends Controller
 
     public function listMahasiswapanitia(){
         $mahasiswa = DB::table('mahasiswa')
-            ->leftJoin('laporanTA', 'laporanTA.nim', '=', 'mahasiswa.nim')
+            ->leftJoin('laporanta', 'laporanta.nim', '=', 'mahasiswa.nim')
+            ->leftJoin('jadwal_sidang', 'jadwal_sidang.nim', '=', 'mahasiswa.nim')
             ->orderBy('mahasiswa.NIM', 'ASC')
             ->get();
 
         return view('LaporanTA.ListMahasiswa_panitia',compact('mahasiswa'));
     }
+
+    public function unlocknilailaporan(Request $request){
+        $revisiLaporan = revisiLaporan::where('nim','=',$request->nim)
+        ->where('kode_dosen','=',$request->kode_dosen)
+        ->first();
+        //dd($revisiLaporan);
+        $revisiLaporan->status = 0;
+        $revisiLaporan->update();
+
+        if ($revisiLaporan->update()) {
+            echo "saved";
+        }else{
+            echo "failed";
+        }
+    }
+
+    public function downloadfile(Request $request, $nama){
+        $name = str_random(5).".pdf";
+        $path = public_path().'/storage/Berkas_LaporanTA/'.$nama;
+        //dd($name);
+        return response()->download($path, $name);
+    }
+    
 }

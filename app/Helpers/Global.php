@@ -4,6 +4,8 @@ use App\proposal_ta;
 use \App\Mahasiswa;
 use \App\mingguBimbingan;
 use \App\bimbingan;
+use \App\nilaiLaporan;
+use \App\revisiLaporan;
 //use Auth;
 
 function cekStatusFinalisasi_dataProposal($reviske){
@@ -341,7 +343,6 @@ function generateNamaFormPermohonan($nim,$ext){
     return $namafile;
 }
 
-
 function generateNamaPengesahan($nim,$ext){
     $mahasiswa = Mahasiswa::find($nim);
     $str_name= str_replace(" ","",$mahasiswa->nama);
@@ -420,6 +421,62 @@ function hitungMinggu($NIM, $kode_minggu,$pembimbing){
         ['mingguBimbingan_id', '=' ,$kode_minggu]
         ])->count();
     return $minggu;
+}
+
+function cekNilaiLaporanDosen($nim, $kode_dosen){
+    $nilaiLaporan = nilaiLaporan::where('nim','=',$nim)
+    ->where('kode_dosen','=',$kode_dosen)
+    ->first();
+
+    if(isset($nilaiLaporan)){
+        $status = "<i class='fa fa-check-circle-o fa-2x text-success'><i>";
+    }else{
+        $status = "<i class='fa fa-remove fa-2x text-danger'><i>";
+    }
+    return $status;
+}
+
+function cekFinalisasiNilaiLaporanDosen($nim, $kode_dosen){
+    $revisiLaporan = revisiLaporan::where('nim','=',$nim)
+    ->where('kode_dosen','=',$kode_dosen)
+    ->first();
+
+    if(isset($revisiLaporan)){
+        if($revisiLaporan->status == 1){
+            $status = "<button class='btn' id='{{$nim}}'><i class='fa fa-lock fa-2x text-danger'></i></button>";
+        }else{
+            $status = "<i class='fa fa-unlock fa-2x text-success'></i>";
+        }
+    }else{
+        $status = "<i class='fa fa-unlock fa-2x text-success'></i>";
+    }
+    return $status;
+}
+
+function getNamaDosen($kode_dosen){
+    $namaDosen = \App\Dosen::where('kode_dosen','=',$kode_dosen)->first();
+    if (isset($namaDosen->nama)) {
+        $nama = $namaDosen->nama ;
+    }else{
+        $nama = "Belum ada Dijadwal";
+    }
+    return  $nama;
+}
+
+function getNilaiLaporan($nim,$kode_dosen,$poinPenilaian){
+    $nilai = \App\nilaiLaporan::where('nim','=',$nim)
+        ->where('kode_dosen','=',$kode_dosen)
+        ->where('poin_penilaian_id','=',$poinPenilaian)
+        ->first();
+
+    if (isset($nilai->nilai)) {
+        $nilaiLaporan = $nilai->nilai;
+    }else{
+        $nilaiLaporan = 0;
+    }
+    
+
+    return $nilaiLaporan;
 }
 
 ?>

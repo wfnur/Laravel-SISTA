@@ -39,7 +39,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Penilaian Laporan Tugas Akhir</h1>
+                <h1>LOCKED Penilaian Laporan Tugas Akhir</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -73,9 +73,9 @@
                                 <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Lihat Berkas</label>
                                         <div class="col-sm-10">
-                                            <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->abstrak)}} class="btn btn-primary" target="_blank"> Lihat Abstrak Laporan</a>
-                                            <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->laporan)}} class="btn btn-primary" target="_blank"> Lihat Isi Laporan</a>
-                                            <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->lampiran)}} class="btn btn-primary" target="_blank"> Lihat Lampiran Laporan</a>
+                                            <a href={{url('/Laporan/Download',[$laporanTA->abstrak] )}} class="btn btn-primary" target="_blank"> Lihat Abstrak Laporan</a>
+                                            <a href={{url('/Laporan/Download',[$laporanTA->laporan] )}} class="btn btn-primary" target="_blank"> Lihat Isi Laporan</a>
+                                            <a href={{url('/Laporan/Download',[$laporanTA->lampiran] )}} class="btn btn-primary" target="_blank"> Lihat Lampiran Laporan</a>
                                         </div>
                                     </div>
                                 <!---
@@ -103,6 +103,7 @@
                                 <li class="nav-item"><a class="nav-link active" href="#depan2" data-toggle="tab">Halaman Depan</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#bab2" data-toggle="tab">BAB 1 s.d 5</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#lampiran2" data-toggle="tab">Lampiran</a></li>
+                                
                                 </ul>
                             </div><!-- /.card-header -->
                             <div class="card-body">
@@ -231,8 +232,9 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                                 <!-- /.tab-pane -->
+
+                                
                                 </div>
                                 <!-- /.tab-content -->
                             </div><!-- /.card-body -->
@@ -253,7 +255,15 @@
                         <div class="card-body" style="display: block;">
                             <div class="card">
                                 <div class="card-body">
-                                    {!! $revisiLaporan->revisi or 'Tidak ada revisi' !!}
+                                    <form action="{{url('/Laporan/Revisi/simpan')}}" method="POST">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="nim" value="{{$nim}}">
+                                        <input type="hidden" name="kode_dosen" value="{{Auth::user()->username}}">
+                                        <div class="form-group">
+                                            <textarea name="revisi" id="revisiLaporan" cols="30" rows="10">{{$revisiLaporan->revisi or ''}}</textarea>
+                                        </div>
+                                        <input type="submit" value="Simpan Revisi" class="btn btn-primary btn-lg">
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -298,5 +308,8 @@
         return false; 
     }
     
+    
 </script>
+    <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+    <script src="{{asset('js/ckeditor.js')}}"></script>
 @endpush

@@ -1,0 +1,13 @@
+admin:
+download file nama di hidden ok
+add dosen gagal
+add dosen + add tipe user
+add mahasiswa : prodi, angkatan, kelas (pilihan)
+pindah tombol finalisasi nilai di sebalah kanan tab ok
+unlock finalisasi disatuin di halaman laporan
+buat detail nilai
+revisi gausah di lock ok
+
+detail nilai di tambah di nilai laporan
+
+ubah nilai oleh panitia

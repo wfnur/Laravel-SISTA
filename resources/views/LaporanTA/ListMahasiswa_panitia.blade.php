@@ -64,7 +64,7 @@
                 <div class="card-body">
                     <table class="table table-responsive table-striped" id="listMhs">
                         <thead class="thead-dark">
-                           <th>NIM</th> <th>Nama</th> <th>Kelas </th> <th>Judul Laporan</th> <th>Uploaded File</th>
+                           <th>NIM</th> <th>Nama</th> <th>Kelas </th> <th>Judul Laporan</th> <th>Uploaded File</th> <th>Status Penilaian</th> 
                         </thead>
                         <tbody>
                             
@@ -77,13 +77,120 @@
                                 @if ($fixkelas == '3A' OR $fixkelas == '3B' OR $fixkelas == '4NK')
                                     
                                     <tr>
-                                        <td>{{$item->NIM}}</td>
+                                        <td><a href={{url('/Laporan/Nilai',[$item->NIM])}} target='_blank'>{{$item->NIM}}</a></td>
                                         <td>{{$item->nama}}</td>
                                         <td>{{$fixkelas}}</td>
                                         <td>{{$item->judul_ta}}</td>
-                                        <!---<td>{{$bidang->nama or ''}}</td>--->
                                         <td>
+                                            @if ($item->abstrak)
+                                                <a href={{asset('storage/Berkas_LaporanTA/'.$item->abstrak)}} target="_blank" class="btn btn-success" style="margin-bottom:5px;">
+                                                    <i class="fa fa-check-circle"></i>
+                                                    Abstrak
+                                                </a>
+                                            @else
+                                                <div class="btn btn-danger" style="margin-bottom:5px;">
+                                                    <i class="fa fa-remove"></i>
+                                                    Abstrak
+                                                </div>
+                                            @endif
+
+                                            @if ($item->laporan)
+                                                <a href={{asset('storage/Berkas_LaporanTA/'.$item->laporan)}} target="_blank" class="btn btn-success" style="margin-bottom:5px;">
+                                                    <i class="fa fa-check-circle"></i>
+                                                    Daftar Isi s.d Bab 5
+                                                </a>
+                                            @else
+                                                <div class="btn btn-danger" style="margin-bottom:5px;">
+                                                    <i class="fa fa-remove"></i>
+                                                    Daftar Isi s.d Bab 5
+                                                </div>
+                                            @endif
+
+                                            @if ($item->lampiran)
+                                                <a href={{asset('storage/Berkas_LaporanTA/'.$item->lampiran)}} target="_blank" class="btn btn-success" style="margin-bottom:5px;">
+                                                    <i class="fa fa-check-circle"></i>
+                                                    Lampiran
+                                                </a>
+                                            @else
+                                                <div class="btn btn-danger" style="margin-bottom:5px;">
+                                                    <i class="fa fa-remove"></i>
+                                                    Lampiran
+                                                </div>
+                                            @endif
+
+                                            @if ($item->form_bimbingan)
+                                                <a href={{asset('storage/Form_Bimbingan/'.$item->form_bimbingan)}} target="_blank" class="btn btn-success" style="margin-bottom:5px;">
+                                                    <i class="fa fa-check-circle"></i>
+                                                    Form Bimbingan
+                                                </a>
+                                            @else
+                                                <div class="btn btn-danger" style="margin-bottom:5px;">
+                                                    <i class="fa fa-remove"></i>
+                                                    Form Bimbingan
+                                                </div>
+                                            @endif
+
+                                            @if ($item->form_permohonan)
+                                                <a href={{asset('storage/Form_Permohonan/'.$item->form_permohonan)}} class="btn btn-success" style="margin-bottom:5px;">
+                                                    <i class="fa fa-check-circle"></i>
+                                                    Form Permohonan Sidang
+                                                </a>
+                                            @else
+                                                <div class="btn btn-danger" style="margin-bottom:5px;">
+                                                    <i class="fa fa-remove"></i>
+                                                    Form Permohonan Sidang
+                                                </div>
+                                            @endif
                                             
+                                        </td>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td>Ketua Penguji</td>
+                                                    <td>{!! cekNilaiLaporanDosen($item->NIM, $item->ketua_penguji) !!}</td>
+                                                    <td>
+                                                        <form onsubmit='unlock({{$item->NIM}}); return false;' id={{$item->NIM}}_1 action='' method='post'>
+                                                            {{ csrf_field() }}
+                                                            <input type="hidden" name="nim" value={{$item->NIM}}>
+                                                            <input type="hidden" name="kode_dosen" value={{$item->ketua_penguji}}>
+                                                            <div id="ok1">
+                                                                {!! cekFinalisasiNilaiLaporanDosen($item->NIM, $item->ketua_penguji) !!}
+                                                            </div>
+                                                            <div id="ok2"></div>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Penguji 1</td>
+                                                    <td>{!! cekNilaiLaporanDosen($item->NIM, $item->penguji1) !!}</td>
+                                                    <td>
+                                                        <form onsubmit='unlock2({{$item->NIM}}); return false;' id={{$item->NIM}}_2 action=''>
+                                                            {{ csrf_field() }}
+                                                            <input type="hidden" name="nim" value={{$item->NIM}}>
+                                                            <input type="hidden" name="kode_dosen" value={{$item->penguji1}}>
+                                                            <div id="ok12">
+                                                                {!! cekFinalisasiNilaiLaporanDosen($item->NIM, $item->penguji1) !!}
+                                                            </div>
+                                                            <div id="ok22"></div>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Penguji 2</td>
+                                                    <td>{!! cekNilaiLaporanDosen($item->NIM, $item->penguji2) !!}</td>
+                                                    <td>
+                                                        <form onsubmit='unlock3({{$item->NIM}}); return false;' id={{$item->NIM}}_3 action=''>
+                                                            {{ csrf_field() }}
+                                                            <input type="hidden" name="nim" value={{$item->NIM}}>
+                                                            <input type="hidden" name="kode_dosen" value={{$item->penguji2}}>
+                                                            <div id="ok13">
+                                                                {!! cekFinalisasiNilaiLaporanDosen($item->NIM, $item->penguji2) !!}
+                                                            </div>
+                                                            <div id="ok23"></div>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                     </tr>
                                 @endif
@@ -106,10 +213,71 @@
 
 @push('scripts')    
     <script>
+        $('#ok2').html('');
         $(function () {
             $("#listMhs").DataTable( {
                 "order": [[ 0, "asc" ]]
             } );
-        });
-    </script>   
+        });           
+
+    </script>  
+    
+    <script>
+        function unlock(nim){
+            var kode_bimbingan = $("form[id="+nim+"_1]").serialize();
+            console.log(kode_bimbingan);
+            $.ajax({
+                type:"post",
+                url:"{{url('/Unlock/Laporan')}}",
+                data: kode_bimbingan,
+                cache:false,
+                success: function (a){
+                    if(a=='saved'){
+                        alert('Unlock Nilai Laporan Success');
+                        $('#ok2').html("<i class='fa fa-unlock fa-2x text-success'></i>");
+                        $('#ok1').html("");   
+                    }
+                }
+            });
+            return false; 
+        }
+
+        function unlock2(nim){
+            var kode_bimbingan = $("form[id="+nim+"_2]").serialize();
+            console.log(kode_bimbingan);
+            $.ajax({
+                type:"post",
+                url:"{{url('/Unlock/Laporan')}}",
+                data: kode_bimbingan,
+                cache:false,
+                success: function (a){
+                    if(a=='saved'){
+                        alert('Unlock Nilai Laporan Success');
+                        $('#ok22').html("<i class='fa fa-unlock fa-2x text-success'></i>");
+                        $('#ok12').html("");   
+                    }
+                }
+            });
+            return false; 
+        }
+
+        function unlock3(nim){
+            var kode_bimbingan = $("form[id="+nim+"_3]").serialize();
+            console.log(kode_bimbingan);
+            $.ajax({
+                type:"post",
+                url:"{{url('/Unlock/Laporan')}}",
+                data: kode_bimbingan,
+                cache:false,
+                success: function (a){
+                    if(a=='saved'){
+                        alert('Unlock Nilai Laporan Success');
+                        $('#ok23').html("<i class='fa fa-unlock fa-2x text-success'></i>");
+                        $('#ok13').html("");   
+                    }
+                }
+            });
+            return false; 
+        }
+    </script>
 @endpush

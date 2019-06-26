@@ -39,7 +39,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Penilaian Laporan Tugas Akhir</h1>
+                <h1>EDIT Penilaian Laporan Tugas Akhir</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -73,9 +73,9 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Lihat Berkas</label>
                                 <div class="col-sm-10">
-                                    <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->abstrak)}} class="btn btn-primary" target="_blank"> Lihat Abstrak Laporan</a>
-                                    <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->laporan)}} class="btn btn-primary" target="_blank"> Lihat Isi Laporan</a>
-                                    <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->lampiran)}} class="btn btn-primary" target="_blank"> Lihat Lampiran Laporan</a>
+                                    <a href={{url('/Laporan/Download',[$laporanTA->abstrak] )}} class="btn btn-primary" target="_blank"> Lihat Abstrak Laporan</a>
+                                    <a href={{url('/Laporan/Download',[$laporanTA->laporan] )}} class="btn btn-primary" target="_blank"> Lihat Isi Laporan</a>
+                                    <a href={{url('/Laporan/Download',[$laporanTA->lampiran] )}} class="btn btn-primary" target="_blank"> Lihat Lampiran Laporan</a>
                                 </div>
                             </div>
                             
@@ -105,8 +105,10 @@
                         <li class="nav-item"><a class="nav-link active" href="#depan" data-toggle="tab">Halaman Depan</a></li>
                         <li class="nav-item"><a class="nav-link" href="#bab" data-toggle="tab">BAB 1 s.d 5</a></li>
                         <li class="nav-item"><a class="nav-link" href="#lampiran" data-toggle="tab">Lampiran</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#finalisasi" data-toggle="tab">Finalisasi Nilai Laporan</a></li>
                       </ul>
                     </div><!-- /.card-header -->
+                    
                     <div class="card-body">
                       <div class="tab-content">
 
@@ -384,6 +386,22 @@
                             </table>
                         </div>
                         <!-- /.tab-pane -->
+
+                        <div class="tab-pane" id="finalisasi">
+                            <form action="{{url('/Laporan/Revisi/finalisasi')}}" method="POST">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="nim" value="{{$nim}}">
+                                <input type="hidden" name="kode_dosen" value="{{Auth::user()->username}}">
+                                <div style="color:red">
+                                    <center>
+                                        <h3> !!! REVISI HARUS DISIMPAN TERLEBIH DAHULU SEBELUM MEMFINALISASI NILAI DAN REVISI !!!</h3>
+                                        <h3> !!! SETELAH MENGKLIK TOMBOL FINALISASI, NILAI TIDAK BISA DIUBAH !!!</h3>
+                                    </center>
+                                </div>
+                                <input type="submit" value="Finalisasi Penilaian" class="btn btn-warning btn-lg col-md-12" onclick="alert('Apakah Anda Yakin ingin Memfinalisasi Penilaian ?')">
+                            </form>
+                        </div>
+                        <!-- /.tab-pane -->
                       </div>
                       <!-- /.tab-content -->
                     </div><!-- /.card-body -->
@@ -412,16 +430,6 @@
                                 <input type="submit" value="Simpan Revisi" class="btn btn-primary btn-lg">
                             </form>
                             <br>
-                            
-                            <form action="{{url('/Laporan/Revisi/finalisasi')}}" method="POST">
-                                {{ csrf_field() }}
-                                <input type="hidden" name="nim" value="{{$nim}}">
-                                <input type="hidden" name="kode_dosen" value="{{Auth::user()->username}}">
-                                <div>
-                                    REVISI HARUS DISIMPAN TERLEBIH DAHULU SEBELUM MEMFINALISASI NILAI DAN REVISI
-                                </div>
-                                <input type="submit" value="Finalisasi Penilaian" class="btn btn-warning btn-lg col-md-12" onclick="alert('Apakah Anda Yakin ingin Memfinalisasi Penilaian ?')">
-                            </form>
                       </div>
                     </div>
                     <!-- /.card -->          
@@ -445,12 +453,13 @@
     </div>
     LOADING....
 </div> 
-
+<!--- notif
 <div id="notifok">
     <div class="alert alert-success col-md-2 notif-fixed" >
         <b>Nilai Berhasil Disimpan</b> 
     </div>
 </div>
+--->
 
 @stop
 
@@ -470,6 +479,12 @@
             url:"{{url('/Laporan/Penilaian/simpan')}}",
             data: kode_bimbingan,
             cache:false,
+            beforeSend: function(){
+                $('.wait').show();
+            },
+            complete: function(){
+                $('.wait').hide();
+            },
             success: function (a){
                 if(a == 'Saved'){
                     alert('Nilai Berhasil Disimpan');
@@ -484,15 +499,7 @@
     }
     $(document).ready(function(){
         $(".wait").hide();
-        $("#notifok").hide();
-        $(document).ajaxStart(function(){
-            $(".wait").show();
-        });
-        $(document).ajaxComplete(function(){
-            $(".wait").hide();
-            $("#notifok").show();
-            
-        });
+        
     });
     
 </script>
