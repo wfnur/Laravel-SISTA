@@ -354,5 +354,66 @@ class laporanTAController extends Controller
         //dd($name);
         return response()->download($path, $name);
     }
+
+    public function penilaianLaporanPanitia(Request $request,$nim,$kode_dosen){
+        //$kode_dosen = $request->kode_dosen;
+        //$nim = $request->nim;
+
+
+        // LAPORAN TUGAS AKHIR
+        $laporanTA = laporanTA::where('nim','=', $request->nim)->first();
+        
+
+        // POIN PENILAIAN
+        $poinPenilaianLaporan_Depan = poinPenilaianLaporan::where('ket','=','Depan')->get();
+        $poinPenilaianLaporan_Bab = poinPenilaianLaporan::where('ket','like','BAB%')->get();
+        $poinPenilaianLaporan_Lampiran = poinPenilaianLaporan::where('ket','=','lampiran')->get();
+
+        
+        // AMBIL DATA DARI JADWAL SIDANG
+        $jadwalSidang = JadwalSidang::where('nim','=',$nim)
+        ->Where(function ($query) use($kode_dosen) {
+            $query->where('ketua_penguji','=',$kode_dosen)
+                ->orWhere('penguji1','=',$kode_dosen)
+                ->orWhere('penguji2','=',$kode_dosen);
+        })
+        ->first();
+
+
+        if($kode_dosen == $jadwalSidang->ketua_penguji){
+            $statusDosen = "Ketua Penguji";
+        }elseif($kode_dosen == $jadwalSidang->penguji1){
+            $statusDosen = "Penguji 1 ";
+        }elseif($kode_dosen == $jadwalSidang->penguji2){
+            $statusDosen = "Penguji 2 ";
+        }else{
+            $statusDosen = "error";
+        }
+
+        // NILAI LAPORAN
+
+        $nilaiLaporan = nilaiLaporan::where('nim','=',$nim)
+        ->where('kode_dosen','=',$kode_dosen)
+        ->first();
+
+        // REVISI LAPORAN
+        $revisiLaporan = revisiLaporan::where('nim','=',$nim)
+        ->where('kode_dosen','=',$kode_dosen)
+        ->first();
+        
+
+        if (isset($revisiLaporan->status)) {
+            if ($revisiLaporan->status == 1) {
+                return view('LaporanTA.penilaianLaporanPanitia',compact('kode_dosen','laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan_Depan','poinPenilaianLaporan_Bab','poinPenilaianLaporan_Lampiran','nim','revisiLaporan'));
+            } else {
+                return view('LaporanTA.editPenilaianLaporanPanitia',compact('kode_dosen','laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan_Depan','poinPenilaianLaporan_Bab','poinPenilaianLaporan_Lampiran','nim','revisiLaporan'));
+            }  
+        }else{
+            return view('LaporanTA.editPenilaianLaporanPanitia',compact('kode_dosen','laporanTA','jadwalSidang','statusDosen','poinPenilaianLaporan_Depan','poinPenilaianLaporan_Bab','poinPenilaianLaporan_Lampiran','nim','revisiLaporan'));
+        }
+        
+        
+        
+    }
     
 }

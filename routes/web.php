@@ -92,4 +92,5 @@ Route::group(['middleware' => ['auth','checkRole:dsn']], function () {
     Route::get('/Laporan/Download/{nama}', 'laporanTAController@downloadfile');
     Route::post('/Unlock/Laporan', 'laporanTAController@unlocknilailaporan');
     Route::get('/Laporan/Nilai/{nim}', 'laporanTAController@detailNilaiLaporan');
+    Route::get('/Laporan/Penilaian/Panitia/{nim}/{kode_dosen}', 'laporanTAController@penilaianLaporanPanitia');
 });
