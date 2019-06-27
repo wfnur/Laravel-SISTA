@@ -178,7 +178,7 @@
                                   <div class='form-group'>
                                       <div class='col-md-12'>
                                         <label>Judul Tugas Akhir (terbaru)</label>
-                                        <textarea cols="80" name="judul_ta" rows="3" class="form-control">{{$laporanTA->judul_ta}}</textarea>
+                                        <textarea cols="80" name="judul_ta" rows="3" class="form-control" {{$disable}}>{{$laporanTA->judul_ta}}</textarea>
                                       </div>
                                   </div>
 
@@ -186,7 +186,7 @@
                                   <div class="form-group">
                                     <div class='col-md-12'>
                                         <label>Bidang</label>
-                                        <select class="form-control" name="bidang">
+                                        <select class="form-control" name="bidang" {{$disable}}>
                                             <option value='0'>-------------------------</option>
                                             @foreach ($bidang as $valBidang)
                                               <option value="{{ $valBidang->id }}" @if($laporanTA->bidang==$valBidang->id) selected @endif > {{ $valBidang->nama }}</option>
@@ -204,7 +204,7 @@
                                         (lihat kolom jenis judul TA. sesuaikan butir yang tersedia pada laporan saudara dengan jenis judul TA)</span><br>
                                         <a href={{asset('storage/panduan_laporan.xlsx')}} class="btn btn-primary" target="_blank"> Lihat Form Permohonan</a>
                                         <hr>
-                                        <select class="form-control" name="jenis_judulta">
+                                        <select class="form-control" name="jenis_judulta" {{$disable}}>
                                             <option value='0'  @if($laporanTA->jenis_judulta == 0 ) selected @endif>-------------------------</option>
                                             <option value='1'  @if($laporanTA->jenis_judulta == 1 ) selected @endif>Pada Laporan Terdapat Komponen Hardware</option>
                                             <option value='2'  @if($laporanTA->jenis_judulta == 2 ) selected @endif>Pada Laporan Terdapat Komponen Software</option>
@@ -218,7 +218,7 @@
                                   <div class="form-group">
                                     <div class='col-md-12'>
                                         <label>Pembimbing 1 </label>
-                                        <select class="form-control" name="pembimbing1">
+                                        <select class="form-control" name="pembimbing1" {{$disable}}>
                                           <option value='0'>-------------------------</option>
                                           @foreach ($pembimbing1 as $p1)
                                             <option value={{$p1->kode_dosen }} @if($laporanTA->pembimbing1==$p1->kode_dosen) selected @endif > {{ $p1->nama }}</option>
@@ -231,7 +231,7 @@
                                   <div class="form-group">
                                     <div class='col-md-12'>
                                         <label>Pembimbing 2 </label>
-                                        <select class="form-control" name="pembimbing2">
+                                        <select class="form-control" name="pembimbing2" {{$disable}}>
                                           <option value='0'>-------------------------</option>
                                           @foreach ($pembimbing2 as $p2)
                                             <option value={{ $p2->kode_dosen }} @if($laporanTA->pembimbing2==$p2->kode_dosen) selected @endif > {{ $p2->nama }}</option>
@@ -245,7 +245,7 @@
                                   <div class="form-group">
                                       <label> Abstrak Laporan Tugas Akhir Final (PDF) </label> 
                                       <span class="btn-warning" style="padding:5px; border-radius:10px;"> Abstak indonesia dan inggris </span>
-                                      <input type="file" name="abstrak" accept=".pdf"  class="form-control">
+                                      <input type="file" name="abstrak" accept=".pdf"  class="form-control" {{$disable}}>
                                       @if ($laporanTA->abstrak != "")
                                         <div class="row" style="margin-top:20px;margin-left:10px;">
                                           <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->abstrak)}} class="btn btn-primary" target="_blank"> Lihat Abstrak Laporan</a>
@@ -257,7 +257,7 @@
                                   <div class="form-group">
                                       <label for="exampleInputFile"> Isi Laporan Tugas Akhir Final (PDF) </label>
                                       <span class="btn-warning" style="padding:5px; border-radius:10px;"> mulai dari daftar isi sampai dengan BAB 5</span>
-                                      <input type="file" name="laporanTA" accept=".pdf"  class="form-control">
+                                      <input type="file" name="laporanTA" accept=".pdf"  class="form-control" {{$disable}}>
                                       @if ($laporanTA->laporan != "")
                                         <div class="row" style="margin-top:20px;margin-left:10px;">
                                           <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->laporan)}} class="btn btn-primary" target="_blank"> Lihat Isi Laporan</a>
@@ -269,7 +269,7 @@
                                   <div class="form-group">
                                       <label for="exampleInputFile"> Lampiran Laporan Tugas Akhir Final (PDF) </label>
                                       <span class="btn-warning" style="padding:5px; border-radius:10px;">Lampiran-lampiran pada laporan</span>
-                                      <input type="file" name="lampiran" accept=".pdf"  class="form-control">
+                                      <input type="file" name="lampiran" accept=".pdf"  class="form-control" {{$disable}}>
                                       @if ($laporanTA->lampiran != "")
                                         <div class="row" style="margin-top:20px;margin-left:10px;">
                                           <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->lampiran)}} class="btn btn-primary" target="_blank"> Lihat Lampiran Laporan</a>
@@ -282,7 +282,7 @@
                                       <label for="exampleInputFile"> Laporan Tugas Akhir Final Ful(DOC) </label>
                                       <br>
                                       <span>Laporan Tugas Akhir Utuh dari cover s.d Lampiran</span>
-                                      <input type="file" name="laporandoc" accept=".doc, .docx"  class="form-control"> 
+                                      <input type="file" name="laporandoc" accept=".doc, .docx"  class="form-control" {{$disable}}> 
                                       @if ($laporanTA->laporandoc != "")
                                         <div class="row" style="margin-top:20px;margin-left:10px;">
                                           <a href={{asset('storage/Berkas_LaporanTA/'.$laporanTA->laporandoc)}} class="btn btn-primary" target="_blank"> Lihat Laporan</a>
@@ -293,7 +293,7 @@
                                   <!---form_permohonan--->
                                   <div class="form-group">
                                       <label for="exampleInputFile"> Form Permohonan Sidang Tugas Akhir (PDF) </label>
-                                      <input type="file" name="form_permohonan" accept=".pdf"  class="form-control">
+                                      <input type="file" name="form_permohonan" accept=".pdf"  class="form-control" {{$disable}}>
                                       @if ($laporanTA->form_permohonan != "")
                                         <div class="row" style="margin-top:20px;margin-left:10px;">
                                           <a href={{asset('storage/Form_Permohonan/'.$laporanTA->form_permohonan)}} class="btn btn-primary" target="_blank"> Lihat Form Permohonan</a>
@@ -304,7 +304,7 @@
                                   <!--Form Bimbignan-->
                                   <div class="form-group row">
                                       <label for="exampleInputFile"> Form Bimbingan yang sudah ditandatangani oleh Pembimbing (PDF) </label>
-                                      <input type="file" name="form_bimbingan" accept=".pdf"  class="form-control">
+                                      <input type="file" name="form_bimbingan" accept=".pdf"  class="form-control" {{$disable}}>
                                       @if ($laporanTA->form_bimbingan != "")
                                         <div class="row" style="margin-top:20px;margin-left:10px;">
                                           <a href={{asset('storage/Form_Bimbingan/'.$laporanTA->form_bimbingan)}} class="btn btn-primary" target="_blank"> Lihat Form Bimbingan</a>
@@ -313,7 +313,7 @@
                                   </div>
 
                                   <div class='form-group'>
-                                      <input type="submit" value="Simpan" class='btn btn-info'>
+                                      <input type="submit" value="Simpan" class='btn btn-info' {{$disable}}>
                                   </div>
 
                                   

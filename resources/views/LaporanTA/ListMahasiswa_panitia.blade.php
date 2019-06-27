@@ -146,7 +146,13 @@
                                         <td>
                                             <table>
                                                 <tr>
-                                                    <td><a href={{url('/Laporan/Penilaian/Panitia/'.$item->NIM.'/'.$item->ketua_penguji )}}> Ketua Penguji</td>
+                                                    <td>
+                                                        @if (isset($item->ketua_penguji))
+                                                            <a href={{url('/Laporan/Penilaian/Panitia/'.$item->NIM.'/'.$item->ketua_penguji )}}> Ketua Penguji </a>
+                                                        @else
+                                                            Ketua Penguji
+                                                        @endif
+                                                    </td>
                                                     <td>{!! cekNilaiLaporanDosen($item->NIM, $item->ketua_penguji) !!}</td>
                                                     <td>
                                                         <form onsubmit='unlock({{$item->NIM}}); return false;' id={{$item->NIM}}_1 action='' method='post'>
@@ -161,7 +167,13 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><a href={{url('/Laporan/Penilaian/Panitia/'.$item->NIM.'/'.$item->penguji1 )}}> Ketua Penguji</td>
+                                                    <td>
+                                                        @if (isset($item->penguji1))
+                                                        <a href={{url('/Laporan/Penilaian/Panitia/'.$item->NIM.'/'.$item->penguji1 )}}> Penguji 1 </a>
+                                                        @else
+                                                            Penguji 1
+                                                        @endif
+                                                    </td>
                                                     <td>{!! cekNilaiLaporanDosen($item->NIM, $item->penguji1) !!}</td>
                                                     <td>
                                                         <form onsubmit='unlock2({{$item->NIM}}); return false;' id={{$item->NIM}}_2 action=''>
@@ -176,7 +188,13 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><a href={{url('/Laporan/Penilaian/Panitia/'.$item->NIM.'/'.$item->penguji2 )}}> Penguji2</td>
+                                                    <td>
+                                                        @if (isset($item->penguji2))
+                                                        <a href={{url('/Laporan/Penilaian/Panitia/'.$item->NIM.'/'.$item->penguji2 )}}> Penguji 2 </a>
+                                                        @else
+                                                            Penguji 2
+                                                        @endif
+                                                    </td>
                                                     <td>{!! cekNilaiLaporanDosen($item->NIM, $item->penguji2) !!}</td>
                                                     <td>
                                                         <form onsubmit='unlock3({{$item->NIM}}); return false;' id={{$item->NIM}}_3 action=''>

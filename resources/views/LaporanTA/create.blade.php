@@ -178,7 +178,7 @@
                                   <div class='form-group row'>
                                       <div class='col-md-12'>
                                         <label>Judul Tugas Akhir (terbaru)</label>
-                                        <textarea cols="80" name="judul_ta" rows="3" class="form-control" ></textarea>
+                                        <textarea cols="80" name="judul_ta" rows="3" class="form-control" {{$disable}}></textarea>
                                       </div>
                                   </div>
 
@@ -186,7 +186,7 @@
                                   <div class="form-group row">
                                     <div class='col-md-12'>
                                         <label>Bidang</label>
-                                        <select class="form-control" name="bidang">
+                                        <select class="form-control" name="bidang" {{$disable}}>
                                             <option value='0'>-------------------------</option>
                                             @foreach ($bidang as $valBidang)
                                               <option value="{{ $valBidang->id }}"> {{ $valBidang->nama }}</option>
@@ -204,7 +204,7 @@
                                         (lihat kolom jenis judul TA. sesuaikan butir yang tersedia pada laporan saudara dengan jenis judul TA)</span><br>
                                         <a href={{asset('storage/panduan_laporan.xlsx')}} class="btn btn-primary" target="_blank"> Lihat Form Permohonan</a>
                                         <hr>
-                                        <select class="form-control" name="jenis_judulta">
+                                        <select class="form-control" name="jenis_judulta" {{$disable}}>
                                             <option value='0'>-------------------------</option>
                                             <option value='1'>Pada Laporan Terdapat Komponen Hardware</option>
                                             <option value='2'>Pada Laporan Terdapat Komponen Software</option>
@@ -218,7 +218,7 @@
                                   <div class="form-group row">
                                     <div class='col-md-12'>
                                         <label>Pembimbing 1 </label>
-                                        <select class="form-control" name="pembimbing1">
+                                        <select class="form-control" name="pembimbing1" {{$disable}}>
                                           <option value='0'>-------------------------</option>
                                           @foreach ($pembimbing1 as $p1)
                                             <option value={{$p1->kode_dosen }}> {{ $p1->nama }}</option>
@@ -231,7 +231,7 @@
                                   <div class="form-group row">
                                     <div class='col-md-12'>
                                         <label>Pembimbing 2 </label>
-                                        <select class="form-control" name="pembimbing2">
+                                        <select class="form-control" name="pembimbing2" {{$disable}}>
                                           <option value='0'>-------------------------</option>
                                           @foreach ($pembimbing2 as $p2)
                                             <option value={{ $p2->kode_dosen }}> {{ $p2->nama }}</option>
@@ -253,7 +253,7 @@
                                       <label for="exampleInputFile"> Isi Laporan Tugas Akhir Final (PDF) </label>
                                       <br>
                                       <span> mulai dari daftar isi sampai dengan BAB 5</span>
-                                      <input type="file" name="laporanTA" accept=".pdf"  class="form-control">         
+                                      <input type="file" name="laporanTA" accept=".pdf"  class="form-control" {{$disable}}>         
                                   </div>
 
                                   <!--Upload Lampiran-->
@@ -261,7 +261,7 @@
                                       <label for="exampleInputFile"> Lampiran Laporan Tugas Akhir Final (PDF) </label>
                                       <br>
                                       <span>Lampiran-lampiran pada laporan</span>
-                                      <input type="file" name="lampiran" accept=".pdf"  class="form-control">         
+                                      <input type="file" name="lampiran" accept=".pdf"  class="form-control" {{$disable}}>         
                                   </div>
 
                                   <!--Upload Laporan Full-->
@@ -269,23 +269,23 @@
                                       <label for="exampleInputFile"> Laporan Tugas Akhir Final Ful(DOC) </label>
                                       <br>
                                       <span>Laporan Tugas Akhir Utuh dari cover s.d Lampiran</span>
-                                      <input type="file" name="laporandoc" accept=".doc, .docx"  class="form-control">         
+                                      <input type="file" name="laporandoc" accept=".doc, .docx"  class="form-control" {{$disable}}>         
                                   </div>
 
                                   <!--Form Permohonan-->
                                   <div class="form-group row">
                                       <label for="exampleInputFile"> Form Permohonan (PDF) </label>
-                                      <input type="file" name="form_permohonan" accept=".pdf"  class="form-control">         
+                                      <input type="file" name="form_permohonan" accept=".pdf"  class="form-control" {{$disable}}>         
                                   </div>
 
                                   <!--Form Bimbingan-->
                                   <div class="form-group row">
                                       <label for="exampleInputFile"> Form Bimbingan yang sudah ditandatangani oleh Pembimbing (PDF) </label>
-                                      <input type="file" name="form_bimbingan" accept=".pdf"  class="form-control">         
+                                      <input type="file" name="form_bimbingan" accept=".pdf"  class="form-control" {{$disable}}>         
                                   </div>
 
                                   <div class='form-group'>
-                                      <input type="submit" value="Simpan" class='btn btn-info'>
+                                      <input type="submit" value="Simpan" class='btn btn-info' {{$disable}}>
                                   </div>
                             </form>
                           </div>

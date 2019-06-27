@@ -225,13 +225,24 @@
           @php if(in_array("dsn",$tipe_user)){ @endphp
             <!--Penilaian Laporan TA-->
             <li class="nav-item">
-              <a href="{{url('/Laporan/Penilaian/List-Mahasiswa')}}" class="nav-link" {{ Request::getPathInfo() == "/Laporan/Penilaian/List-Mahasiswa" ? "active" : "" }}>
+              <a href="{{url('/Laporan/Penilaian/List-Mahasiswa')}}" class="nav-link @if(Request::getPathInfo() == '/Laporan/Penilaian/List-Mahasiswa') active  @endif ">
                 <i class="nav-icon fa fa-star"></i>
                 <p>
                   Penilaian Laporan TA
                 </p>
               </a>
             </li>
+
+            <!--Penilaian Sidang TA-->
+            <li class="nav-item">
+              <a href="{{url('/SidangTA/Penilaian/List-Mahasiswa')}}" class="nav-link @if(Request::getPathInfo() == '/SidangTA/Penilaian/List-Mahasiswa') active  @endif ">
+                <i class="nav-icon fa fa-star"></i>
+                <p>
+                  Penilaian Sidang TA
+                </p>
+              </a>
+            </li>
+        
           @php } @endphp
 
           @php if(in_array("panitia",$tipe_user)){ @endphp

@@ -13,11 +13,24 @@ use \App\poinPenilaianLaporan;
 use \App\nilaiLaporan;
 use \App\Mahasiswa;
 use \App\revisiLaporan;
+use \App\deadline;
 use Auth;
 
 class laporanTAController extends Controller
 {
     public function create(){
+        
+        //cari deadline idnya 3 (upload laporan final)
+        $deadline = deadline::find(3);
+        $sekarang = date('Y-m-d H:i:s');
+
+        // jika sudah melebih deadline maka
+        if ($sekarang >= $deadline->tanggal) {
+            $disable = "readonly";
+        }else{
+            $disable = "";
+        }
+
         $pembimbing1 = Dosen::where('status','=','0')->get();
         $pembimbing2 = Dosen::where('status','=','1')->get();
         $bidang      = Bidang::all();
@@ -28,7 +41,8 @@ class laporanTAController extends Controller
             return view('LaporanTA.create',compact(
             'pembimbing1',
             'pembimbing2',
-            'bidang'
+            'bidang',
+            'disable'
             ));
         }else{
             $laporanTA = laporanTA::where('nim', '=', Auth::user()->username)->first();
@@ -37,144 +51,156 @@ class laporanTAController extends Controller
             'pembimbing1',
             'pembimbing2',
             'bidang',
-            'laporanTA'
+            'laporanTA',
+            'disable'
             ));
         }
     }
 
     public function store(Request $request){
-        
-        $laporanTA = laporanTA::updateOrCreate([
-            'nim'   => Auth::user()->username,
-        ],[
-            'judul_ta'       => $request->judul_ta,
-            'bidang'         => $request->bidang,
-            'jenis_judulta'  => $request->jenis_judulta,
-            'pembimbing1'    => $request->pembimbing1,
-            'pembimbing2'    => $request->pembimbing2,
-            
-        ]);
 
-        if ($request->hasFile('laporanTA')) {
-            $imgName = generateNamaLaporanTA(Auth::user()->username,$request->file('laporanTA')->getClientOriginalExtension());
-            $fileLaporan = $request->file('laporanTA');
-            $fileLaporan->storeAs('public/Berkas_LaporanTA', $imgName);
-            //$request->file('laporanTA')->move('public/Berkas_LaporanTA/',$imgName);
+        //cari deadline idnya 3 (upload laporan final)
+        $deadline = deadline::find(3);
+        $sekarang = date('Y-m-d H:i:s');
 
-            $laporanTAUpload = laporanTA::updateOrCreate([
-                'nim'   => Auth::user()->username,
-            ],[
-                'laporan' => $imgName,
-                
-            ]);
-
-            if(!$laporanTAUpload){
-                return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
-            }
-        }
-
-        if ($request->hasFile('abstrak')) {
-            $imgName = generateNamaAbstrak(Auth::user()->username,$request->file('abstrak')->getClientOriginalExtension());
-            $fileLaporan = $request->file('abstrak');
-            $fileLaporan->storeAs('public/Berkas_LaporanTA', $imgName);
-            //$request->file('laporanTA')->move('public/Berkas_LaporanTA/',$imgName);
-
-            $laporanTAUpload = laporanTA::updateOrCreate([
-                'nim'   => Auth::user()->username,
-            ],[
-                'abstrak' => $imgName,
-                
-            ]);
-
-            if(!$laporanTAUpload){
-                return redirect()->back()->with('gagal','Gagal Upload Abstrak Diubah/Disimpan');
-            }
-        }
-
-        if ($request->hasFile('lampiran')) {
-            $imgName = generateNamaLampiran(Auth::user()->username,$request->file('lampiran')->getClientOriginalExtension());
-            $fileLaporan = $request->file('lampiran');
-            $fileLaporan->storeAs('public/Berkas_LaporanTA', $imgName);
-            //$request->file('laporanTA')->move('public/Berkas_LaporanTA/',$imgName);
-
-            $laporanTAUpload = laporanTA::updateOrCreate([
-                'nim'   => Auth::user()->username,
-            ],[
-                'lampiran' => $imgName,
-                
-            ]);
-
-            if(!$laporanTAUpload){
-                return redirect()->back()->with('gagal','Gagal Upload Lampiran Diubah/Disimpan');
-            }
-        }
-
-        if ($request->hasFile('laporandoc')) {
-            $imgName = generateNamaLaporanTA(Auth::user()->username,$request->file('laporandoc')->getClientOriginalExtension());
-            $fileLaporan = $request->file('laporandoc');
-            $fileLaporan->storeAs('public/Berkas_LaporanTA', $imgName);
-            //$request->file('laporanTA')->move('public/Berkas_LaporanTA/',$imgName);
-
-            $laporanTAUpload = laporanTA::updateOrCreate([
-                'nim'   => Auth::user()->username,
-            ],[
-                'laporandoc' => $imgName,
-                
-            ]);
-
-            if(!$laporanTAUpload){
-                return redirect()->back()->with('gagal','Gagal Upload Lampiran Diubah/Disimpan');
-            }
-        }
-
-        if ($request->hasFile('form_bimbingan')) {
-
-            $cekformBimbingan = laporanTA::where('nim','=' ,Auth::user()->username)->first();
-            if ($cekformBimbingan->form_bimbingan != "") {
-                Storage::delete($cekformBimbingan->form_bimbingan);
-            }
-            
-            $tanggal = str_replace("-","",date("Y-m-d"));
-            $imgName = generateNamaFormBimbingan(Auth::user()->username,"P1",$tanggal,$request->file('form_bimbingan')->getClientOriginalExtension());
-            $fileLaporan = $request->file('form_bimbingan');
-            $fileLaporan->storeAs('public/Form_Bimbingan', $imgName);
-            //$request->file('laporanTA')->move('public/Berkas_LaporanTA/',$imgName);
-
-            $laporanTAUpload = laporanTA::updateOrCreate([
-                'nim'   => Auth::user()->username,
-            ],[
-                'form_bimbingan' => $imgName,
-                
-            ]);
-
-            if(!$laporanTAUpload){
-                return redirect()->back()->with('gagal','Gagal Upload Form Bimbingan Diubah/Disimpan');
-            }
-        }
-
-        if ($request->hasFile('form_permohonan')) {
-            $imgName = generateNamaFormPermohonan(Auth::user()->username,$request->file('form_permohonan')->getClientOriginalExtension());
-            $fileSurat = $request->file('form_permohonan');
-            $fileSurat->storeAs('public/Form_Permohonan', $imgName);
-
-            $laporanPermohonan = laporanTA::updateOrCreate([
-                'nim'   => Auth::user()->username,
-            ],[
-                'form_permohonan' => $imgName,
-                
-            ]);
-
-
-            if(!$laporanPermohonan){
-                return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
-            }
-        }
-        
-        if (!$laporanTA) {
-            return redirect()->back()->with('gagal','Data Gagal Diubah/Disimpan');
+        // jika sudah melebih deadline maka
+        if ($sekarang >= $deadline->tanggal) {
+            return redirect()->back()->with('gagal','Batas Waktu Sudah Habis');
         }else{
-            return redirect()->back()->with('sukses','Data Berhasil Diubah/Disimpan');
+            $laporanTA = laporanTA::updateOrCreate([
+                'nim'   => Auth::user()->username,
+            ],[
+                'judul_ta'       => $request->judul_ta,
+                'bidang'         => $request->bidang,
+                'jenis_judulta'  => $request->jenis_judulta,
+                'pembimbing1'    => $request->pembimbing1,
+                'pembimbing2'    => $request->pembimbing2,
+                
+            ]);
+    
+            if ($request->hasFile('laporanTA')) {
+                $imgName = generateNamaLaporanTA(Auth::user()->username,$request->file('laporanTA')->getClientOriginalExtension());
+                $fileLaporan = $request->file('laporanTA');
+                $fileLaporan->storeAs('public/Berkas_LaporanTA', $imgName);
+                //$request->file('laporanTA')->move('public/Berkas_LaporanTA/',$imgName);
+    
+                $laporanTAUpload = laporanTA::updateOrCreate([
+                    'nim'   => Auth::user()->username,
+                ],[
+                    'laporan' => $imgName,
+                    
+                ]);
+    
+                if(!$laporanTAUpload){
+                    return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
+                }
+            }
+    
+            if ($request->hasFile('abstrak')) {
+                $imgName = generateNamaAbstrak(Auth::user()->username,$request->file('abstrak')->getClientOriginalExtension());
+                $fileLaporan = $request->file('abstrak');
+                $fileLaporan->storeAs('public/Berkas_LaporanTA', $imgName);
+                //$request->file('laporanTA')->move('public/Berkas_LaporanTA/',$imgName);
+    
+                $laporanTAUpload = laporanTA::updateOrCreate([
+                    'nim'   => Auth::user()->username,
+                ],[
+                    'abstrak' => $imgName,
+                    
+                ]);
+    
+                if(!$laporanTAUpload){
+                    return redirect()->back()->with('gagal','Gagal Upload Abstrak Diubah/Disimpan');
+                }
+            }
+    
+            if ($request->hasFile('lampiran')) {
+                $imgName = generateNamaLampiran(Auth::user()->username,$request->file('lampiran')->getClientOriginalExtension());
+                $fileLaporan = $request->file('lampiran');
+                $fileLaporan->storeAs('public/Berkas_LaporanTA', $imgName);
+                //$request->file('laporanTA')->move('public/Berkas_LaporanTA/',$imgName);
+    
+                $laporanTAUpload = laporanTA::updateOrCreate([
+                    'nim'   => Auth::user()->username,
+                ],[
+                    'lampiran' => $imgName,
+                    
+                ]);
+    
+                if(!$laporanTAUpload){
+                    return redirect()->back()->with('gagal','Gagal Upload Lampiran Diubah/Disimpan');
+                }
+            }
+    
+            if ($request->hasFile('laporandoc')) {
+                $imgName = generateNamaLaporanTA(Auth::user()->username,$request->file('laporandoc')->getClientOriginalExtension());
+                $fileLaporan = $request->file('laporandoc');
+                $fileLaporan->storeAs('public/Berkas_LaporanTA', $imgName);
+                //$request->file('laporanTA')->move('public/Berkas_LaporanTA/',$imgName);
+    
+                $laporanTAUpload = laporanTA::updateOrCreate([
+                    'nim'   => Auth::user()->username,
+                ],[
+                    'laporandoc' => $imgName,
+                    
+                ]);
+    
+                if(!$laporanTAUpload){
+                    return redirect()->back()->with('gagal','Gagal Upload Lampiran Diubah/Disimpan');
+                }
+            }
+    
+            if ($request->hasFile('form_bimbingan')) {
+    
+                $cekformBimbingan = laporanTA::where('nim','=' ,Auth::user()->username)->first();
+                if ($cekformBimbingan->form_bimbingan != "") {
+                    Storage::delete($cekformBimbingan->form_bimbingan);
+                }
+                
+                $tanggal = str_replace("-","",date("Y-m-d"));
+                $imgName = generateNamaFormBimbingan(Auth::user()->username,"P1",$tanggal,$request->file('form_bimbingan')->getClientOriginalExtension());
+                $fileLaporan = $request->file('form_bimbingan');
+                $fileLaporan->storeAs('public/Form_Bimbingan', $imgName);
+                //$request->file('laporanTA')->move('public/Berkas_LaporanTA/',$imgName);
+    
+                $laporanTAUpload = laporanTA::updateOrCreate([
+                    'nim'   => Auth::user()->username,
+                ],[
+                    'form_bimbingan' => $imgName,
+                    
+                ]);
+    
+                if(!$laporanTAUpload){
+                    return redirect()->back()->with('gagal','Gagal Upload Form Bimbingan Diubah/Disimpan');
+                }
+            }
+    
+            if ($request->hasFile('form_permohonan')) {
+                $imgName = generateNamaFormPermohonan(Auth::user()->username,$request->file('form_permohonan')->getClientOriginalExtension());
+                $fileSurat = $request->file('form_permohonan');
+                $fileSurat->storeAs('public/Form_Permohonan', $imgName);
+    
+                $laporanPermohonan = laporanTA::updateOrCreate([
+                    'nim'   => Auth::user()->username,
+                ],[
+                    'form_permohonan' => $imgName,
+                    
+                ]);
+    
+    
+                if(!$laporanPermohonan){
+                    return redirect()->back()->with('gagal','Gagal Upload Diubah/Disimpan');
+                }
+            }
+            
+            if (!$laporanTA) {
+                return redirect()->back()->with('gagal','Data Gagal Diubah/Disimpan');
+            }else{
+                return redirect()->back()->with('sukses','Data Berhasil Diubah/Disimpan');
+            }
         }
+        
+        
 
     }
 

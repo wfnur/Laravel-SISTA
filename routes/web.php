@@ -83,6 +83,7 @@ Route::group(['middleware' => ['auth','checkRole:dsn']], function () {
     Route::get('/Bimbingan/Rekap', 'BimbinganController@rekap');
     Route::get('/Bimbingan/ListVerifikasi', 'BimbinganController@ListVerifikasi');
     Route::post('/Bimbingan/saveBimbingan', 'BimbinganController@saveBimbingan');
+    //// laporan ta
     Route::get('/Laporan/Penilaian/List-Mahasiswa', 'laporanTAController@listMahasiswa');
     Route::get('/Laporan/Penilaian/{nim}', 'laporanTAController@penilaianLaporan');
     Route::post('/Laporan/Penilaian/simpan', 'laporanTAController@saveNilaiLaporan');
@@ -93,4 +94,9 @@ Route::group(['middleware' => ['auth','checkRole:dsn']], function () {
     Route::post('/Unlock/Laporan', 'laporanTAController@unlocknilailaporan');
     Route::get('/Laporan/Nilai/{nim}', 'laporanTAController@detailNilaiLaporan');
     Route::get('/Laporan/Penilaian/Panitia/{nim}/{kode_dosen}', 'laporanTAController@penilaianLaporanPanitia');
+    ////sidang ta
+    Route::get('/SidangTA/Penilaian/List-Mahasiswa', 'sidangTAController@listMahasiswa');
+    Route::get('/SidangTA/Penilaian/{nim}', 'sidangTAController@penilaianSidangTA');
+    Route::post('/Laporan/Penilaian/SidangTA/simpan', 'sidangTAController@saveNilaiSidang');
+    Route::post('/SidangTA/finalisasi', 'sidangTAController@finalisasiNilaiSidang');
 });

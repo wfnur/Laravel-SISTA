@@ -11,7 +11,8 @@ class laporanTA extends Model
 
     public function mahasiswa()
     {
-        return $this->belongsTo('App\Mahasiswa', 'nim');
+        return $this->belongsTo('App\Mahasiswa','nim');
     }
+
     
 }

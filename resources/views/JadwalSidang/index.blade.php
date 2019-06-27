@@ -80,7 +80,7 @@
                             <tbody>
                                 @foreach ($jadwalSidang as $item)
                                 <tr>
-                                    <td>{{ Carbon\Carbon::parse($item->tanggal)->formatLocalized('%A, %d %B %Y %H:%M:%S')}}</td>
+                                    <td>{{ Carbon\Carbon::parse($item->tanggal)->formatLocalized('%A, %d %B %Y')}}</td>
                                     <td>{{ $item->nim }}</td>
                                     <td>{{ $item->mahasiswa->nama }}</td>
                                     <td>{{ $item->pembimbingRelasi->nama }}</td>
@@ -188,7 +188,7 @@
             $("#jadwal_sidang").DataTable();
         });
         $('.tanggalsidang').datepicker({  
-            format: 'yyyy-mm-dd 00:00:00'
+            format: 'yyyy-mm-dd'
           }); 
     </script>
 @endpush

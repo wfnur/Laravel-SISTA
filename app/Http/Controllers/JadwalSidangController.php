@@ -16,7 +16,9 @@ class JadwalSidangController extends Controller
     public function index()
     {
         $jadwalSidang = JadwalSidang::all();
-        $dosen = Dosen::all();
+        $dosen = Dosen::where('status','!=',2)
+        ->orderBy('nama')
+        ->get();
         return view('JadwalSidang.index',compact('jadwalSidang','dosen'));
     }
 
