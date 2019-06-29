@@ -333,19 +333,27 @@ class laporanTAController extends Controller
     }
 
     public function finalisasiRevisiLaporan(Request $request){
-        $revisiLaporan = revisiLaporan::updateOrCreate([
-            //Add unique field combo to match here
-            //For example, perhaps you only want one entry per user:
-            'nim'   => $request->nim,
-            'kode_dosen' => $request->kode_dosen,
-        ],[
-            'status'   => 1
-        ]);
+        $poinPenilaianLaporan = poinPenilaianLaporan::all()->count();
 
-        if (!$revisiLaporan) {
-            return redirect()->back()->with('gagal','Nilai Gagal Difinalisasi');
+        $hitungrowNilaiLaporan = nilaiLaporan::where('nim','=',$request->nim)
+            ->where('kode_dosen','=',$request->kode_dosen)
+            ->count();
+
+        if($poinPenilaianLaporan != $hitungrowNilaiLaporan){
+            return redirect()->back()->with('gagal','Terdapat Kompnen yang Belum Dinilai');
         }else{
-            return redirect()->back()->with('sukses','Nilai Berhasil Difinalisasi');
+            $revisiLaporan = revisiLaporan::updateOrCreate([
+                'nim'   => $request->nim,
+                'kode_dosen' => $request->kode_dosen,
+            ],[
+                'status'   => 1
+            ]);
+    
+            if (!$revisiLaporan) {
+                return redirect()->back()->with('gagal','Nilai Gagal Difinalisasi');
+            }else{
+                return redirect()->back()->with('sukses','Nilai Berhasil Difinalisasi');
+            }
         }
     }
 

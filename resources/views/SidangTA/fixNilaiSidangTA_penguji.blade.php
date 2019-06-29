@@ -109,6 +109,12 @@
                         <li class="nav-item"><a class="nav-link active" href="#presentasi" data-toggle="tab">Nilai Presentasi</a></li>
                         <li class="nav-item"><a class="nav-link" href="#demoAlat" data-toggle="tab">Nilai Demo Alat</a></li>
                         <li class="nav-item"><a class="nav-link" href="#tanyajawab" data-toggle="tab">Nilai Tanya Jawab</a></li>
+                        @if (isset($ketuaPenguji))
+                            @if ($ketuaPenguji == "ok")
+                            <li class="nav-item"><a class="nav-link btn btn-warning" style="float:right;color:white" href="{{url('/SidangTA/Nilai-Akhir',[$laporanTA->mahasiswa->NIM])}}" >Nilai Akhir</a></li>
+                            @endif
+                        @endif
+                        
                       </ul>
                     </div><!-- /.card-header -->
                     
@@ -135,7 +141,7 @@
                                             if (isset($nilaiSidang->nilai)) {
                                                 $nilai = strval($nilaiSidang->nilai); 
                                             }else{
-                                                $nilai = 0;
+                                                $nilai = 1;
                                             }                                  
                                         @endphp
                                         

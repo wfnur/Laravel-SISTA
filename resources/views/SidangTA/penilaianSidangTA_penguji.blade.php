@@ -363,6 +363,7 @@
                                 {{ csrf_field() }}
                                 <input type="hidden" name="nim" value="{{$nim}}">
                                 <input type="hidden" name="kode_dosen" value="{{Auth::user()->username}}">
+                                <input type="hidden" name="status_dosen" value="Penguji">
                                 <div style="color:red">
                                     <center>
                                         <h3> !!! REVISI HARUS DISIMPAN TERLEBIH DAHULU SEBELUM MEMFINALISASI NILAI DAN REVISI !!!</h3>

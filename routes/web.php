@@ -99,4 +99,5 @@ Route::group(['middleware' => ['auth','checkRole:dsn']], function () {
     Route::get('/SidangTA/Penilaian/{nim}', 'sidangTAController@penilaianSidangTA');
     Route::post('/Laporan/Penilaian/SidangTA/simpan', 'sidangTAController@saveNilaiSidang');
     Route::post('/SidangTA/finalisasi', 'sidangTAController@finalisasiNilaiSidang');
+    Route::get('/SidangTA/Nilai-Akhir/{nim}', 'sidangTAController@nilaiSidangAkhir');
 });

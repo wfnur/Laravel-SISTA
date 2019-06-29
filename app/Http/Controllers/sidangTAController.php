@@ -39,6 +39,7 @@ class sidangTAController extends Controller
     }
 
     public function penilaianSidangTA(Request $request, $nim){
+        $sekarang = date('Y-m-d');
         // LAPORAN TUGAS AKHIR
         $laporanTA = laporanTA::where('nim','=', $nim)->first();
 
@@ -58,6 +59,18 @@ class sidangTAController extends Controller
         })
         ->first();
 
+        // untuk tombol print nilai akhir
+        $getKetuaPenguji = JadwalSidang::where('nim','=',$nim)
+        ->where('ketua_penguji','=',Auth::user()->username)
+        ->where('tanggal','=',$sekarang)
+        ->first();
+
+        if(isset($getKetuaPenguji)){
+            $ketuaPenguji = "ok";
+        }
+
+        
+
         // REVISI LAPORAN
         $revisiLaporan = revisiLaporan::where('nim','=',$nim)
         ->where('kode_dosen','=',Auth::user()->username)
@@ -67,7 +80,7 @@ class sidangTAController extends Controller
             $statusDosen = "Ketua Penguji";
             if (isset($revisiLaporan->status_nilaiSidang)) {
                 if($revisiLaporan->status_nilaiSidang == 1){
-                    return view('SidangTA.fixNilaiSidangTA_penguji',compact('revisiLaporan','statusDosen','laporanTA','poinPenilaianSTA_Presentasi','poinPenilaianSTA_DemoAlat','poinPenilaianSTA_TanyaJawab','nim'));
+                    return view('SidangTA.fixNilaiSidangTA_penguji',compact('ketuaPenguji','revisiLaporan','statusDosen','laporanTA','poinPenilaianSTA_Presentasi','poinPenilaianSTA_DemoAlat','poinPenilaianSTA_TanyaJawab','nim'));
                 }else{
                     return view('SidangTA.penilaianSidangTA_penguji',compact('revisiLaporan','statusDosen','laporanTA','poinPenilaianSTA_Presentasi','poinPenilaianSTA_DemoAlat','poinPenilaianSTA_TanyaJawab','nim'));
                 }
@@ -132,18 +145,69 @@ class sidangTAController extends Controller
     }
 
     public function finalisasiNilaiSidang(Request $request){
-        $revisiLaporan = revisiLaporan::updateOrCreate([
-            'nim'   => $request->nim,
-            'kode_dosen' => $request->kode_dosen,
-        ],[
-            'status_nilaiSidang'   => 1
-        ]);
 
+        $PoinPenilaian_pembimbing = PoinPenilaian::where('ket','=','Pembimbing')->count();
+        $PoinPenilaian_penguji = PoinPenilaian::where('ket','=','Penguji')->count();
 
-        if (!$revisiLaporan) {
-            return redirect()->back()->with('gagal','Nilai Gagal Difinalisasi');
+        $hitungrowNilaiSidang = nilaiSidangTA::where('nim','=',$request->nim)
+            ->where('kode_dosen','=',$request->kode_dosen)
+            ->count();
+        
+        $PoinPenilaian = PoinPenilaian::where('ket','=',$request->status_dosen)->count();
+
+        if ($request->status_dosen == 'Pembimbing') {
+            echo "Pembimbing = ".$PoinPenilaian_pembimbing ."<br>";
+            echo $request->status_dosen." = ".$hitungrowNilaiSidang."<br>";
+
+            if($PoinPenilaian_pembimbing != $hitungrowNilaiSidang){
+                return redirect()->back()->with('gagal','Ada Komponen yang Belum Dinilai');
+            }else{
+                $revisiLaporan = revisiLaporan::updateOrCreate([
+                    'nim'   => $request->nim,
+                    'kode_dosen' => $request->kode_dosen,
+                ],[
+                    'status_nilaiSidang'   => 1
+                ]);
+        
+                if (!$revisiLaporan) {
+                    return redirect()->back()->with('gagal','Nilai Gagal Difinalisasi');
+                }else{
+                    return redirect()->back()->with('sukses','Nilai Berhasil Difinalisasi');
+                }
+            }
+        }elseif($request->status_dosen == 'Penguji'){
+
+            if($PoinPenilaian_penguji != $hitungrowNilaiSidang){
+                return redirect()->back()->with('gagal','Ada Komponen yang Belum Dinilai');
+            }else{
+                $revisiLaporan = revisiLaporan::updateOrCreate([
+                    'nim'   => $request->nim,
+                    'kode_dosen' => $request->kode_dosen,
+                ],[
+                    'status_nilaiSidang'   => 1
+                ]);
+        
+                if (!$revisiLaporan) {
+                    return redirect()->back()->with('gagal','Nilai Gagal Difinalisasi');
+                }else{
+                    return redirect()->back()->with('sukses','Nilai Berhasil Difinalisasi');
+                }
+            }
         }else{
-            return redirect()->back()->with('sukses','Nilai Berhasil Difinalisasi');
+            return redirect()->back()->with('gagal','Error status dosen !!!');
         }
+        
+    }
+
+    public function nilaiSidangAkhir(Request $request){
+        
+        $nilai_penguji = round(hitungNilaiPenguji($request->nim), 2);
+        $nilai_pembimbing = round(hitungNilaiPembimbing($request->nim),2);
+        $nilai_laporan = round(hitungNilaiLaporan($request->nim),2);
+        echo "Nilai Penguji = ".$nilai_penguji."<br>";
+        echo "Nilai Pembimbing = ".$nilai_pembimbing."<br>";
+        echo "Nilai Laporan = ".$nilai_laporan."<br>";
+        
+        
     }
 }

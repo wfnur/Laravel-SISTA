@@ -131,7 +131,7 @@
                                             if (isset($nilaiSidang->nilai)) {
                                                 $nilai = strval($nilaiSidang->nilai); 
                                             }else{
-                                                $nilai = 0;
+                                                $nilai = 1;
                                             }                                  
                                         @endphp
                                         
