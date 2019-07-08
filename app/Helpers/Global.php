@@ -512,43 +512,40 @@ function hitungNilaiPenguji($nim){
                 ->where('poin_penilaian_id','=',$value->id)
                 ->get();
 
-            if(isset($nilaiSidangTA->nilai)){
-
-            }
-            foreach ($nilaiSidangTA as $key ) {
-                $Arr_nilai[] = $key->nilai;
-                //echo $key->nim." | ".$key->poin_penilaian_id." | ". $key->nilai ."<br>";
-            }
-            $mean   = statistik($Arr_nilai,'mean');
-            $median = statistik($Arr_nilai,'median');
-
-            //echo "Rata-rata : ".$mean."<br>";
-            //echo "Median : ".$median."<br>";
-
-            $toleransi_atas = $median + 1;
-            $toleransi_bawah = $median - 1;
-
-            //echo "+1 : ".$toleransi_atas."<br>";
-            //echo "-1 : ".$toleransi_bawah."<br>";
-
-            for ($i=0; $i < 3; $i++) { 
-                if($Arr_nilai[$i] == $median || $Arr_nilai[$i] == $toleransi_atas || $Arr_nilai[$i] == $toleransi_bawah){
-                    $nilai_baru = $Arr_nilai[$i]; 
-                }else{
-                    $nilai_baru = round($mean);
+            if($nilaiSidangTA->count() == 0){
+                return 0;
+            }else{
+                foreach ($nilaiSidangTA as $key ) {
+                    $Arr_nilai[] = $key->nilai;
+                    //echo $key->nim." | ".$key->poin_penilaian_id." | ". $key->nilai ."<br>";
                 }
-                $Arr_nilaiBaru[] = $nilai_baru;
-                //echo "Nilai Baru ".$i." : ".$nilai_baru."<br>";
+                $mean   = statistik($Arr_nilai,'mean');
+                $median = statistik($Arr_nilai,'median');
+                //echo "Rata-rata : ".$mean."<br>";
+                //echo "Median : ".$median."<br>";
+
+                $toleransi_atas = $median + 1;
+                $toleransi_bawah = $median - 1;
+                //echo "+1 : ".$toleransi_atas."<br>";
+                //echo "-1 : ".$toleransi_bawah."<br>";
+                for ($i=0; $i < 3; $i++) { 
+                    if($Arr_nilai[$i] == $median || $Arr_nilai[$i] == $toleransi_atas || $Arr_nilai[$i] == $toleransi_bawah){
+                        $nilai_baru = $Arr_nilai[$i]; 
+                    }else{
+                        $nilai_baru = round($mean);
+                    }
+                    $Arr_nilaiBaru[] = $nilai_baru;
+                    //echo "Nilai Baru ".$i." : ".$nilai_baru."<br>";
+                }
+                //$Arr_nilai_akhir[] = array_sum($Arr_nilaiBaru)/3;
+                $nilai_akhir = array_sum($Arr_nilaiBaru)/3;
+                $nilaiKaliBobot = $nilai_akhir*$value->bobot;
+                $Arr_nilaiKaliBobot[] = $nilai_akhir*$value->bobot;
+                //echo "Nilai Total :".$nilai_akhir." x ".$value->bobot." = ".$nilaiKaliBobot."<br>";
+                unset($Arr_nilaiBaru);
+
+                //echo "<br>";
             }
-            //$Arr_nilai_akhir[] = array_sum($Arr_nilaiBaru)/3;
-            $nilai_akhir = array_sum($Arr_nilaiBaru)/3;
-            $nilaiKaliBobot = $nilai_akhir*$value->bobot;
-            $Arr_nilaiKaliBobot[] = $nilai_akhir*$value->bobot;
-            //echo "Nilai Total :".$nilai_akhir." x ".$value->bobot." = ".$nilaiKaliBobot."<br>";
-            unset($Arr_nilaiBaru);
-
-            //echo "<br>";
-
         }// end first loop (poin Penilaian)
         $jumlah_nilai_akhir = array_sum($Arr_nilaiKaliBobot)/10;
 
@@ -565,13 +562,16 @@ function hitungNilaiPembimbing($nim){
             $nilaiSidangTA = \App\nilaiSidangTA::where('nim','=',$nim)
                 ->where('poin_penilaian_id','=',$value->id)
                 ->get();
-
-            foreach ($nilaiSidangTA as $key ) {
-                $Arr_nilaiKaliBobot_pembimbing[] = $key->nilai * $value->bobot;
-                //$nilaiKaliBobot_pembimbing = $key->nilai * $value->bobot;
-                //echo $key->nilai." x ". $value->bobot." = ".$nilaiKaliBobot_pembimbing."<br>"; 
+            
+            if($nilaiSidangTA->count() == 0){
+                return 0;
+            }else{
+                foreach ($nilaiSidangTA as $key ) {
+                    $Arr_nilaiKaliBobot_pembimbing[] = $key->nilai * $value->bobot;
+                    //$nilaiKaliBobot_pembimbing = $key->nilai * $value->bobot;
+                    //echo $key->nilai." x ". $value->bobot." = ".$nilaiKaliBobot_pembimbing."<br>"; 
+                }
             }
-
         }// end first loop (poin Penilaian)
         $jumlah_nilai = array_sum($Arr_nilaiKaliBobot_pembimbing)/10;
         return $jumlah_nilai;
@@ -587,47 +587,70 @@ function hitungNilaiLaporan($nim){
                 ->where('poin_penilaian_id','=',$value->id)
                 ->get();
 
-            foreach ($nilaiLaporan as $key ) {
-                $Arr_nilai[] = $key->nilai;
-                //echo $key->nim." | ".$key->poin_penilaian_id." | ". $key->nilai ."<br>";
-            }
-            
-            $mean   = statistik($Arr_nilai,'mean');
-            $median = statistik($Arr_nilai,'median');
-            
-            //echo "Rata-rata : ".$mean."<br>";
-            //echo "Median : ".$median."<br>";
-            
-            $toleransi_atas = $median + 1;
-            $toleransi_bawah = $median - 1;
-
-            //echo "+1 : ".$toleransi_atas."<br>";
-            //echo "-1 : ".$toleransi_bawah."<br>";
-            
-            for ($i=0; $i < 3; $i++) { 
-                if($Arr_nilai[$i] == $median || $Arr_nilai[$i] == $toleransi_atas || $Arr_nilai[$i] == $toleransi_bawah){
-                    $nilai_baru = $Arr_nilai[$i]; 
-                }else{
-                    $nilai_baru = round($mean);
+            if($nilaiLaporan->count() == 0){
+                return 0;
+            }else{
+                foreach ($nilaiLaporan as $key ) {
+                    $Arr_nilai[] = $key->nilai;
+                    //echo $key->nim." | ".$key->poin_penilaian_id." | ". $key->nilai ."<br>";
                 }
-                $Arr_nilaiBaru[] = $nilai_baru;
-                //echo "Nilai Baru ".$i." : ".$nilai_baru."<br>";
-            }
-        
-            //$Arr_nilai_akhir[] = array_sum($Arr_nilaiBaru)/3;
-            $nilai_akhir = array_sum($Arr_nilaiBaru)/3;
-            $nilaiKaliBobot = $nilai_akhir*$value->bobot;
-            $Arr_nilaiKaliBobot[] = $nilai_akhir*$value->bobot;
-            //echo "Nilai Total :".$nilai_akhir." x ".$value->bobot." = ".$nilaiKaliBobot."<br>";
-            unset($Arr_nilaiBaru);
+                
+                $mean   = statistik($Arr_nilai,'mean');
+                $median = statistik($Arr_nilai,'median');
+                
+                //echo "Rata-rata : ".$mean."<br>";
+                //echo "Median : ".$median."<br>";
+                
+                $toleransi_atas = $median + 1;
+                $toleransi_bawah = $median - 1;
+    
+                //echo "+1 : ".$toleransi_atas."<br>";
+                //echo "-1 : ".$toleransi_bawah."<br>";
+                
+                for ($i=0; $i < 3; $i++) { 
+                    if($Arr_nilai[$i] == $median || $Arr_nilai[$i] == $toleransi_atas || $Arr_nilai[$i] == $toleransi_bawah){
+                        $nilai_baru = $Arr_nilai[$i]; 
+                    }else{
+                        $nilai_baru = round($mean);
+                    }
+                    $Arr_nilaiBaru[] = $nilai_baru;
+                    //echo "Nilai Baru ".$i." : ".$nilai_baru."<br>";
+                }
             
-            //echo "<br>";
-
+                //$Arr_nilai_akhir[] = array_sum($Arr_nilaiBaru)/3;
+                $nilai_akhir = array_sum($Arr_nilaiBaru)/3;
+                $nilaiKaliBobot = $nilai_akhir*$value->bobot;
+                $Arr_nilaiKaliBobot[] = $nilai_akhir*$value->bobot;
+                //echo "Nilai Total :".$nilai_akhir." x ".$value->bobot." = ".$nilaiKaliBobot."<br>";
+                unset($Arr_nilaiBaru);
+                
+                //echo "<br>";
+            }
         }// end first loop (poin Penilaian)
-        $jumlah_nilai_akhir = array_sum($Arr_nilaiKaliBobot)/10;
+        $jumlah_nilai_akhir = array_sum($Arr_nilaiKaliBobot);
         //echo "Nilai Akhir = ".$jumlah_nilai_akhir;
 
-    return round($jumlah_nilai_akhir,2);
+    return $jumlah_nilai_akhir;
+}
+
+function generateNamaBukti($nim,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $paper = \App\paper::where('nim','=',$nim)->count();
+    $hitung = $paper+1;
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = $nim."_BuktiPembayaran_".$hitung."_".$str_name."_".$mahasiswa->kelas.$mahasiswa->angkatan.".".$ext;
+
+    return $namafile;
+}
+
+function generateNamaPaper($nim,$ext){
+    $mahasiswa = Mahasiswa::find($nim);
+    $paper = \App\paper::where('nim','=',$nim)->count();
+    $hitung = $paper+1;
+    $str_name= str_replace(" ","",$mahasiswa->nama);
+    $namafile = $nim."_Paper_".$hitung."_".$str_name."_".$mahasiswa->kelas."_".$mahasiswa->angkatan.".".$ext;
+
+    return $namafile;
 }
 
 ?>

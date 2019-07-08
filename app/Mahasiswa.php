@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use \App\nilaiPKMPublikasi;
 
 class Mahasiswa extends Model
 {
@@ -19,12 +20,14 @@ class Mahasiswa extends Model
     {
         //return $this->hasOne('App\JadwalSidang','nim','nim');
         return $this->hasOneThrough('App\JadwalSidang', 'App\laporanTA','nim','nim','nim','nim');
-    }
-
-    
+    }  
 
     public function laporanta(){
         return $this->hasOne('App\laporanTA','nim','id');
+    }
+
+    public function paper(){
+        return $this->hasOne('App\paper','nim','id');
     }
    
 

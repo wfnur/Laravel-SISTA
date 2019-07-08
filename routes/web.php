@@ -71,6 +71,8 @@ Route::group(['middleware' => ['auth','checkRole:mhs']], function () {
     Route::get('Bimbingan', 'BimbinganController@index');
     Route::get('Bimbingan/create', 'BimbinganController@create');
     Route::post('Bimbingan/store', 'BimbinganController@store');
+
+    Route::resource('Paper', 'paperController');
     
 });
 
@@ -100,4 +102,12 @@ Route::group(['middleware' => ['auth','checkRole:dsn']], function () {
     Route::post('/Laporan/Penilaian/SidangTA/simpan', 'sidangTAController@saveNilaiSidang');
     Route::post('/SidangTA/finalisasi', 'sidangTAController@finalisasiNilaiSidang');
     Route::get('/SidangTA/Nilai-Akhir/{nim}', 'sidangTAController@nilaiSidangAkhir');
+
+    //NIlai PKM publikasi
+    Route::resource('/Nilai-PKM-Publikasi', 'nilaiPKMPublikasiController');
+
+    //Paper
+    Route::get('/Mahasiswa-Paper', 'paperController@listMahasiswa');
+    Route::post('/Paper/saveStatusPaper', 'paperController@saveStatusPaper');
+    
 });

@@ -137,7 +137,8 @@
           @php if (in_array("mhs",$tipe_user)){ @endphp
             @php
                 $mhs = \App\Mahasiswa::where('NIM','=',auth()->user()->username)->first();
-                $kelas = date('Y') - $mhs->angkatan;
+                $tahun = date('Y') - $mhs->angkatan;
+                $kelas = $tahun.$mhs->kelas;
             @endphp
             <!--Dashboard
             <li class="nav-item ">
@@ -149,8 +150,7 @@
               </a>
             </li> -->
 
-            @if ($kelas == 3)
-              @if ($mhs->kelas != 'NK')
+            @if ($kelas == "3A" OR $kelas == "3B" OR $kelas == "4NK")
                 <!--Proposal TA-->
                 <li class="nav-item has-treeview">
                   <a href="#" class="nav-link">
@@ -217,8 +217,15 @@
                     </p>
                   </a>
                 </li>
-              @endif
-              
+                
+                <!--Laporan TA-->
+                <li class="nav-item ">
+                  <a href="{{url('/Paper')}}" class="nav-link {{ Request::getPathInfo() === "/Paper" ? "active" : "" }} ">
+                    <p>
+                      Paper
+                    </p>
+                  </a>
+                </li>
             @endif            
           @php } @endphp
 
@@ -242,6 +249,8 @@
                 </p>
               </a>
             </li>
+
+            
         
           @php } @endphp
 
@@ -276,6 +285,26 @@
                 <i class="nav-icon fa fa-star"></i>
                 <p>
                   Nilai Laporan TA
+                </p>
+              </a>
+            </li>
+
+            <!--Nilai PKM publikasi-->
+            <li class="nav-item">
+              <a href="{{url('/Nilai-PKM-Publikasi')}}" class="nav-link" {{ Request::getPathInfo() == "/Nilai-PKM-Publikasi" ? "active" : "" }}>
+                <i class="nav-icon fa fa-star"></i>
+                <p>
+                  Nilai PKM dan Publikasi Ilmiah
+                </p>
+              </a>
+            </li>
+
+            <!--Paper-->
+            <li class="nav-item">
+              <a href="{{url('/Mahasiswa-Paper')}}" class="nav-link @if(Request::getPathInfo() == '/Mahasiswa-Paper') active  @endif ">
+                <i class="nav-icon fa fa-star"></i>
+                <p>
+                  Verifikasi Paper
                 </p>
               </a>
             </li>

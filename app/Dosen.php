@@ -13,6 +13,6 @@ class Dosen extends Model
 
     public function JadwalSidang()
     {
-        return $this->hasMany('App\JadwalSidang');
+        return $this->hasMany('App\JadwalSidang','pembimbing','kode_dosen');
     }
 }

@@ -9,6 +9,8 @@ use App\PoinPenilaian;
 use App\laporanTA;
 use App\revisiLaporan;
 use App\nilaiSidangTA;
+use PDF;
+use Carbon\Carbon;
 
 class sidangTAController extends Controller
 {
@@ -200,14 +202,65 @@ class sidangTAController extends Controller
     }
 
     public function nilaiSidangAkhir(Request $request){
+        // data dosen
+        $jadwalSidang = JadwalSidang::where('nim','=',$request->nim)->first();
+        $pembimbing = getNamaDosen($jadwalSidang->pembimbing);
         
+        // data ta
+        $laporanTA = laporanTA::where('nim','=',$request->nim)->first();
+        $tahun = date('Y') - $laporanTA->mahasiswa->angkatan;
+        $kelas = $tahun.$laporanTA->mahasiswa->kelas;
+        if($laporanTA->mahasiswa->kelas == "NK"){
+            $prodi = "D4 - Teknik Telekomunikasi";
+        }else{
+            $prodi = "D3 - Teknik Telekomunikasi";
+        }
+
+        //nilai pkm publikasi
+        $nilaiPKMpublikasi = \App\nilaiPKMPublikasi::where('nim','=',$request->nim)->first();
+        $nilai_pkm = $nilaiPKMpublikasi->poinPKM->bobot;
+        $nilai_publikasi = $nilaiPKMpublikasi->poinPublikasi->bobot;
+
+        //nilai Penguji
         $nilai_penguji = round(hitungNilaiPenguji($request->nim), 2);
+        //nilai Pembimbing
         $nilai_pembimbing = round(hitungNilaiPembimbing($request->nim),2);
+        //nilai Laporan
         $nilai_laporan = round(hitungNilaiLaporan($request->nim),2);
-        echo "Nilai Penguji = ".$nilai_penguji."<br>";
-        echo "Nilai Pembimbing = ".$nilai_pembimbing."<br>";
-        echo "Nilai Laporan = ".$nilai_laporan."<br>";
-        
+        $nilai_laporanFIX = ($nilai_laporan/1190)*15;
+
+        $hari =  Carbon::now()->formatLocalized('%A');
+        $tanggal = Carbon::now()->formatLocalized('%d %B %Y');
+
+        $nilai_pembimbing_all = $nilai_pembimbing + $nilai_pkm + $nilai_publikasi ;
+        $total_nilai = $nilai_pembimbing_all  + $nilai_laporanFIX + $nilai_penguji;
+
+        // echo "Nilai Pembimbing = ".$nilai_pembimbing."<br>";
+        // echo "Nilai PKM = ".$nilai_pkm."<br>";
+        // echo "Nilai Publikasi = ".$nilai_publikasi."<br>";
+        // echo "Nilai Penguji = ".$nilai_penguji."<br>";
+        // echo "Nilai Laporan = ".$nilai_laporanFIX."<br>";
+        // echo "Nilai Total = ".$total_nilai."<br>";
+
+        $pdf = PDF::loadView('SidangTA.beritaAcara',
+        compact('laporanTA',
+        'nilai_pembimbing_all',
+        'nilai_laporanFIX',
+        'nilai_penguji',
+        'total_nilai',
+        'kelas',
+        'prodi',
+        'hari',
+        'tanggal',
+        'jadwalSidang'));
+        return $pdf->stream();  
+        /*
+        if ($nilai_penguji == 0.0) {
+            # code...
+        }
+        //return $pdf->download('laporan_sembako_'.date('Y-m-d_H-i-s').'.pdf');
+        */
+
         
     }
 }
