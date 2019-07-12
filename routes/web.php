@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $deadline = \App\deadline::where('status','=',1)->first();
+    return redirect()->action('AuthController@login');
 });
 
 Route::get('/Login', 'AuthController@login')->name('login');
@@ -102,6 +103,8 @@ Route::group(['middleware' => ['auth','checkRole:dsn']], function () {
     Route::post('/Laporan/Penilaian/SidangTA/simpan', 'sidangTAController@saveNilaiSidang');
     Route::post('/SidangTA/finalisasi', 'sidangTAController@finalisasiNilaiSidang');
     Route::get('/SidangTA/Nilai-Akhir/{nim}', 'sidangTAController@nilaiSidangAkhir');
+    Route::get('/SidangTA/Nilai/List-Mahasiswa', 'sidangTAController@listMahasiswapanitia');
+    Route::get('/SidangTA/Penilaian/Panitia/{nim}/{kode_dosen}', 'sidangTAController@penilaianSidangTAPanitia');
 
     //NIlai PKM publikasi
     Route::resource('/Nilai-PKM-Publikasi', 'nilaiPKMPublikasiController');

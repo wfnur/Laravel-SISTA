@@ -174,8 +174,8 @@
                                                 @if (in_array($laporanTA->jenis_judulta,$jenis))
                                                     <tr>
                                                         <td>{{$i}}</td>
-                                                        <td>{{$item->poin_penilaian}}</td>
-                                                        <td>  {{$nilai}}
+                                                        <td>{{$item->ket}} <br> {{$item->poin_penilaian}}</td>
+                                                        <td> {{$nilai}}
                                                         </td>
                                                     </tr>
                                                 @endif
@@ -214,14 +214,7 @@
                                                     <tr>
                                                         <td>{{$i}}</td>
                                                         <td>{{$item->poin_penilaian}}
-                                                            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                                Link with href
-                                                            </a>
-                                                            <div class="collapse" id="collapseExample">
-                                                                <div class="card card-body">
-                                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                                                                </div>
-                                                            </div>
+                                                            
                                                         </td>
                                                         <td> {{$nilai}} </td>
                                                     </tr>

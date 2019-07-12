@@ -479,7 +479,7 @@ function getNilaiLaporan($nim,$kode_dosen,$poinPenilaian){
     return $nilaiLaporan;
 }
 
-function statistik($array, $output = 'mean'){
+function statistik($array, $output){
     if(!is_array($array)){ 
         return FALSE;    
     }else{
@@ -492,9 +492,16 @@ function statistik($array, $output = 'mean'){
             break; 
             
             case 'median':                 
-                rsort($array);                
-                $middle = round(count($array) / 2);                 
-                $total = $array[$middle-1]; 
+                sort($array);                
+                $count = count($array); //total numbers in array
+                $middleval = floor(($count-1)/2); // find the middle value, or the lowest middle value
+                if($count % 2) { // odd number, middle is the median
+                    $total = $array[$middleval];
+                } else { // even number, calculate avg of 2 medians
+                    $low = $array[$middleval];
+                    $high = $array[$middleval+1];
+                    $total = (($low+$high)/2);
+                }
             break; 
         } 
         return $total; 
@@ -578,7 +585,19 @@ function hitungNilaiPembimbing($nim){
 }
 
 function hitungNilaiLaporan($nim){
-    $poinPenilaianLaporan = \App\poinPenilaianLaporan::all();
+    //ambil jenis judul ta
+    $laporanTA = \App\laporanTA::where('nim','=',$nim)->first();
+    if($laporanTA->jenis_judulta == 4){
+        $poinPenilaianLaporan = \App\poinPenilaianLaporan::where('jenis','like','%4%')->get();
+    }elseif($laporanTA->jenis_judulta == 3){
+        $poinPenilaianLaporan = \App\poinPenilaianLaporan::where('jenis','like','%3%')->get();
+    }elseif($laporanTA->jenis_judulta == 2){
+        $poinPenilaianLaporan = \App\poinPenilaianLaporan::where('jenis','like','%2%')->get();
+    }elseif($laporanTA->jenis_judulta == 1){
+        $poinPenilaianLaporan = \App\poinPenilaianLaporan::where('jenis','like','%1%')->get();
+    }else{
+        return redirect()->back()->with('gagal','Tidak ada jenis judul TA');
+    }
 
         foreach ($poinPenilaianLaporan as $value) {
 
@@ -617,14 +636,15 @@ function hitungNilaiLaporan($nim){
                     //echo "Nilai Baru ".$i." : ".$nilai_baru."<br>";
                 }
             
-                //$Arr_nilai_akhir[] = array_sum($Arr_nilaiBaru)/3;
+                $Arr_nilai_akhir[] = array_sum($Arr_nilaiBaru)/3;
                 $nilai_akhir = array_sum($Arr_nilaiBaru)/3;
                 $nilaiKaliBobot = $nilai_akhir*$value->bobot;
                 $Arr_nilaiKaliBobot[] = $nilai_akhir*$value->bobot;
                 //echo "Nilai Total :".$nilai_akhir." x ".$value->bobot." = ".$nilaiKaliBobot."<br>";
                 unset($Arr_nilaiBaru);
+                unset($Arr_nilai);
                 
-                //echo "<br>";
+                //cho "<br>";
             }
         }// end first loop (poin Penilaian)
         $jumlah_nilai_akhir = array_sum($Arr_nilaiKaliBobot);
@@ -653,4 +673,23 @@ function generateNamaPaper($nim,$ext){
     return $namafile;
 }
 
+function pembagiNilaiLaporan($nim){
+    $laporanTA = \App\laporanTA::where('nim','=',$nim)->first();
+    if($laporanTA->jenis_judulta == 4){
+        $poinPenilaianLaporan = \App\poinPenilaianLaporan::where('jenis','like','%4%')->get();
+    }elseif($laporanTA->jenis_judulta == 3){
+        $poinPenilaianLaporan = \App\poinPenilaianLaporan::where('jenis','like','%3%')->get();
+    }elseif($laporanTA->jenis_judulta == 2){
+        $poinPenilaianLaporan = \App\poinPenilaianLaporan::where('jenis','like','%2%')->get();
+    }elseif($laporanTA->jenis_judulta == 1){
+        $poinPenilaianLaporan = \App\poinPenilaianLaporan::where('jenis','like','%1%')->get();
+    }else{
+        return redirect()->back()->with('gagal','Tidak ada jenis judul TA');
+    }
+
+    foreach($poinPenilaianLaporan as $value){
+        $nilai[] = $value->bobot * 10;
+    }
+    return array_sum($nilai);
+}
 ?>

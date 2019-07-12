@@ -333,28 +333,55 @@ class laporanTAController extends Controller
     }
 
     public function finalisasiRevisiLaporan(Request $request){
-        $poinPenilaianLaporan = poinPenilaianLaporan::all()->count();
 
+        //ambil nilai laporan
         $hitungrowNilaiLaporan = nilaiLaporan::where('nim','=',$request->nim)
             ->where('kode_dosen','=',$request->kode_dosen)
             ->count();
+        
+        //ambil jenis judul ta
+        $laporanTA = laporanTA::where('nim','=',$request->nim)->first();
 
-        if($poinPenilaianLaporan != $hitungrowNilaiLaporan){
-            return redirect()->back()->with('gagal','Terdapat Kompnen yang Belum Dinilai');
-        }else{
-            $revisiLaporan = revisiLaporan::updateOrCreate([
-                'nim'   => $request->nim,
-                'kode_dosen' => $request->kode_dosen,
-            ],[
-                'status'   => 1
-            ]);
-    
-            if (!$revisiLaporan) {
-                return redirect()->back()->with('gagal','Nilai Gagal Difinalisasi');
-            }else{
-                return redirect()->back()->with('sukses','Nilai Berhasil Difinalisasi');
+        if($laporanTA->jenis_judulta == 4){
+            $poinPenilaianLaporan_antenna = poinPenilaianLaporan::where('jenis','like','%4%')->count();
+
+            if($poinPenilaianLaporan_antenna != $hitungrowNilaiLaporan){
+                return redirect()->back()->with('gagal','Terdapat Kompnen yang Belum Dinilai');
             }
+
+        }elseif($laporanTA->jenis_judulta == 3){
+            $poinPenilaianLaporan_SWHW = poinPenilaianLaporan::where('jenis','like','%3%')->count();
+            if($poinPenilaianLaporan_SWHW != $hitungrowNilaiLaporan){
+                return redirect()->back()->with('gagal','Terdapat Kompnen yang Belum Dinilai');
+            }
+        }elseif($laporanTA->jenis_judulta == 2){
+            $poinPenilaianLaporan_SW = poinPenilaianLaporan::where('jenis','like','%2%')->count();
+            if($poinPenilaianLaporan_SW != $hitungrowNilaiLaporan){
+                return redirect()->back()->with('gagal','Terdapat Kompnen yang Belum Dinilai');
+            }
+        }elseif($laporanTA->jenis_judulta == 1){
+            $poinPenilaianLaporan_HW = poinPenilaianLaporan::where('jenis','like','%1%')->count();
+            if($poinPenilaianLaporan_HW != $hitungrowNilaiLaporan){
+                return redirect()->back()->with('gagal','Terdapat Kompnen yang Belum Dinilai');
+            }
+        }else{
+            return redirect()->back()->with('gagal','Tidak ada jenis judul TA');
         }
+        //return "saved";
+        
+        $revisiLaporan = revisiLaporan::updateOrCreate([
+            'nim'   => $request->nim,
+            'kode_dosen' => $request->kode_dosen,
+        ],[
+            'status'   => 1
+        ]);
+
+        if (!$revisiLaporan) {
+            return redirect()->back()->with('gagal','Nilai Gagal Difinalisasi');
+        }else{
+            return redirect()->back()->with('sukses','Nilai Berhasil Difinalisasi');
+        }
+        
     }
 
     public function listMahasiswapanitia(){

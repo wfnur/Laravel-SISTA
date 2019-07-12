@@ -175,7 +175,7 @@
         Majelis Sidang Tugas Akhir,
     </div>
 
-    <table  style="width: 109%;margin-left:-30px;" border="1">
+    <table  style="width: 109%;margin-left:-30px;">
         <tr>
             <td>
                 <div style="text-align: center;">
@@ -186,7 +186,7 @@
 
                 <div style="text-align: left;">
                     <span style='font-size:14px;'>{{$jadwalSidang->ketua_pengujiRelasi->nama}}</span><br>
-                    NIP:{{$jadwalSidang->ketua_pengujiRelasi->NIP}}
+                    NIP:{{$jadwalSidang->ketua_pengujiRelasi->nip}}
                 </div>
             </td>
             <td>
@@ -197,7 +197,7 @@
 
                 <div style="text-align: left;">
                     <span style='font-size:14px;'>{{$jadwalSidang->penguji1Relasi->nama}}</span><br>
-                    NIP:{{$jadwalSidang->penguji1Relasi->NIP}}
+                    NIP:{{$jadwalSidang->penguji1Relasi->nip}}
                 </div>
             </td>
             <td>
@@ -208,7 +208,7 @@
 
                 <div style="text-align: left;">
                     <span style='font-size:14px;'>{{$jadwalSidang->penguji2Relasi->nama}}</span><br>
-                    NIP:{{$jadwalSidang->penguji2Relasi->NIP}}
+                    NIP:{{$jadwalSidang->penguji2Relasi->nip}}
                 </div>
             </td>
             <td>
@@ -219,14 +219,16 @@
 
                 <div style="text-align: left;">
                     <span style='font-size:14px;'>{{$jadwalSidang->pembimbingRelasi->nama}}</span><br>
-                    NIP:{{$jadwalSidang->pembimbingRelasi->NIP}}
+                    NIP:{{$jadwalSidang->pembimbingRelasi->nip}}
                 </div>
             </td>
         </tr>
         
     </table>
 
-    
+    @php
+        $a= "80.00<=A<=100.00, 75.00<=AB<=79.99, 70.00<=B<=74.99, 65.00<=BC<=69.99, 60.00<=C<=64.99, 55.00<=CD<=59.99, 40.00<=D<=54.99, 0.00<=E<=39.99, -1.00<=T<=-1.00.";
+    @endphp
     <div style="font-size: 10px;" >
         Catatan :<br>
         <ul>
@@ -234,7 +236,7 @@
             <li>Mahasiswa dinyatakan LULUS BERSYARAT sidang Tugas Akhir bila nilai minimal C dan salah satu penguji memberikan revisi laporan Tugas Akhir.</li>
             <li>Mahasiswa dinyatakan TIDAK LULUS sidang Tugas Akhir bila nilai dibawah C.</li>
             <li>Indeks nilai akhir mengikuti aturan sebagai berikut. <br>
-            80.00<=A<=100.00, 75.00<=AB<=79.99, 70.00<=B<=74.99, 65.00<=BC<=69.99, 60.00<=C<=64.99, 55.00<=CD<=59.99, 40.00<=D<=54.99, 0.00<=E<=39.99, -1.00<=T<=-1.00.
+                {{$a}}
             </li>
 
         </ul>

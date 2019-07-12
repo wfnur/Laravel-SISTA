@@ -100,9 +100,9 @@ class nilaiPKMPublikasiController extends Controller
             
         ]);
         if ($nilai_pkmpublikasi) {
-            return redirect()->back()->with('sukses','Berhasil Ubah/Simpan Data');
+            return redirect('/Nilai-PKM-Publikasi')->with('sukses','Berhasil Ubah/Simpan Data');
         }else{
-            return redirect()->back()->with('gagal','Gagal Ubah/Simpan Data');
+            return redirect('/Nilai-PKM-Publikasi')->with('gagal','Gagal Ubah/Simpan Data');
         }
         
     }

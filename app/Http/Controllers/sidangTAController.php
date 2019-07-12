@@ -225,23 +225,36 @@ class sidangTAController extends Controller
         $nilai_penguji = round(hitungNilaiPenguji($request->nim), 2);
         //nilai Pembimbing
         $nilai_pembimbing = round(hitungNilaiPembimbing($request->nim),2);
+        
+
+        //Pembagi nilai laporan
+        $pembagi = pembagiNilaiLaporan($request->nim);
+
         //nilai Laporan
         $nilai_laporan = round(hitungNilaiLaporan($request->nim),2);
-        $nilai_laporanFIX = ($nilai_laporan/1190)*15;
+        $nilai_laporanFIX = ($nilai_laporan/$pembagi)*15;
 
         $hari =  Carbon::now()->formatLocalized('%A');
         $tanggal = Carbon::now()->formatLocalized('%d %B %Y');
 
         $nilai_pembimbing_all = $nilai_pembimbing + $nilai_pkm + $nilai_publikasi ;
+        
         $total_nilai = $nilai_pembimbing_all  + $nilai_laporanFIX + $nilai_penguji;
 
-        // echo "Nilai Pembimbing = ".$nilai_pembimbing."<br>";
-        // echo "Nilai PKM = ".$nilai_pkm."<br>";
-        // echo "Nilai Publikasi = ".$nilai_publikasi."<br>";
-        // echo "Nilai Penguji = ".$nilai_penguji."<br>";
-        // echo "Nilai Laporan = ".$nilai_laporanFIX."<br>";
-        // echo "Nilai Total = ".$total_nilai."<br>";
-
+        if($total_nilai > 100){
+            $total_nilai = 100;
+        }
+        
+        /*
+         echo "<br> Nilai nilai : <br>";
+         echo "Nilai Pembimbing = ".$nilai_pembimbing."<br>";
+         echo "Nilai PKM = ".$nilai_pkm."<br>";
+         echo "Nilai Publikasi = ".$nilai_publikasi."<br>";
+         echo "Nilai Penguji = ".$nilai_penguji."<br>";
+         echo "Nilai Laporan = ".$nilai_laporanFIX."<br>";
+         echo "Nilai Total = ".$total_nilai."<br>";
+        */
+         
         $pdf = PDF::loadView('SidangTA.beritaAcara',
         compact('laporanTA',
         'nilai_pembimbing_all',
@@ -254,6 +267,8 @@ class sidangTAController extends Controller
         'tanggal',
         'jadwalSidang'));
         return $pdf->stream();  
+        
+
         /*
         if ($nilai_penguji == 0.0) {
             # code...
@@ -262,5 +277,79 @@ class sidangTAController extends Controller
         */
 
         
+    }
+
+    public function listMahasiswapanitia(){
+        $mahasiswa = DB::table('mahasiswa')
+            ->leftJoin('laporanta', 'laporanta.nim', '=', 'mahasiswa.nim')
+            ->leftJoin('jadwal_sidang', 'jadwal_sidang.nim', '=', 'mahasiswa.nim')
+            ->orderBy('mahasiswa.NIM', 'ASC')
+            ->get();
+
+        return view('SidangTA.ListMahasiswa_panitia',compact('mahasiswa'));
+    }
+
+    public function penilaianSidangTAPanitia(Request $request,$nim,$kode_dosen){
+        $kode_dosen = $request->kode_dosen;
+        $nim = $request->nim;
+
+
+        $sekarang = date('Y-m-d');
+        // LAPORAN TUGAS AKHIR
+        $laporanTA = laporanTA::where('nim','=', $nim)->first();
+
+        // POIN PENILAIAN
+        $poinPenilaianSTA_Pembimbing = PoinPenilaian::where('kategori','=','Nilai Pembimbing')->get();
+        $poinPenilaianSTA_Presentasi = PoinPenilaian::where('kategori','=','Nilai Presentasi')->get();
+        $poinPenilaianSTA_DemoAlat = PoinPenilaian::where('kategori','=','Nilai Demo Alat')->get();
+        $poinPenilaianSTA_TanyaJawab = PoinPenilaian::where('kategori','=','Nilai Tanya Jawab')->get();
+
+        // AMBIL DATA DARI JADWAL SIDANG
+        $jadwalSidang = JadwalSidang::where('nim','=',$nim)
+        ->Where(function ($query) use ($kode_dosen) {
+            $query->where('ketua_penguji','=',$kode_dosen)
+                ->orWhere('penguji1','=',$kode_dosen)
+                ->orWhere('penguji2','=',$kode_dosen)
+                ->orWhere('pembimbing','=',$kode_dosen);
+        })
+        ->first();
+
+        // untuk tombol print nilai akhir
+        $getKetuaPenguji = JadwalSidang::where('nim','=',$nim)
+        ->where('ketua_penguji','=',$kode_dosen)
+        ->where('tanggal','=',$sekarang)
+        ->first();
+
+
+        if(isset($getKetuaPenguji)){
+            $ketuaPenguji = "ok";
+        }
+
+        
+        // REVISI LAPORAN
+        $revisiLaporan = revisiLaporan::where('nim','=',$nim)
+        ->where('kode_dosen','=',$kode_dosen)
+        ->first();
+
+        if($kode_dosen == $jadwalSidang->ketua_penguji){
+            $statusDosen = "Ketua Penguji";
+            
+            return view('SidangTA.penilaianSidangTA_penguji_panitia',compact('ketuaPenguji','revisiLaporan','statusDosen','laporanTA','poinPenilaianSTA_Presentasi','poinPenilaianSTA_DemoAlat','poinPenilaianSTA_TanyaJawab','nim','kode_dosen'));
+        }elseif($kode_dosen == $jadwalSidang->penguji1){
+            $statusDosen = "Penguji 1 ";
+            return view('SidangTA.penilaianSidangTA_penguji_panitia',compact('revisiLaporan','statusDosen','laporanTA','poinPenilaianSTA_Presentasi','poinPenilaianSTA_DemoAlat','poinPenilaianSTA_TanyaJawab','nim','kode_dosen'));
+            
+        }elseif($kode_dosen == $jadwalSidang->penguji2){
+            $statusDosen = "Penguji 2 ";
+            return view('SidangTA.penilaianSidangTA_penguji_panitia',compact('revisiLaporan','statusDosen','laporanTA','poinPenilaianSTA_Presentasi','poinPenilaianSTA_DemoAlat','poinPenilaianSTA_TanyaJawab','nim','kode_dosen'));
+            
+        }elseif($kode_dosen == $jadwalSidang->pembimbing){
+            $statusDosen = "Pembimbing ";
+            return view('SidangTA.penilaianSidangTA_pembimbing_panitia',compact('statusDosen','laporanTA','poinPenilaianSTA_Pembimbing','nim','kode_dosen'));
+            
+            
+        }else{
+            $statusDosen = "error";
+        }
     }
 }

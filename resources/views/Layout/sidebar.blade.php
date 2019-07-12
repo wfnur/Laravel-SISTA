@@ -289,6 +289,16 @@
               </a>
             </li>
 
+            <!--Nilai Sidang TA-->
+            <li class="nav-item">
+              <a href="{{url('/SidangTA/Nilai/List-Mahasiswa')}}" class="nav-link" {{ Request::getPathInfo() == "/Laporan/Nilai/List-Mahasiswa" ? "active" : "" }}>
+                <i class="nav-icon fa fa-star"></i>
+                <p>
+                  Nilai Sidang TA
+                </p>
+              </a>
+            </li>
+
             <!--Nilai PKM publikasi-->
             <li class="nav-item">
               <a href="{{url('/Nilai-PKM-Publikasi')}}" class="nav-link" {{ Request::getPathInfo() == "/Nilai-PKM-Publikasi" ? "active" : "" }}>
