@@ -21,7 +21,7 @@
         <div class="col-sm-6" style="margin-top:7px;">
         <ol class="breadcrumb float-sm-left">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Bab</li>
+            <li class="breadcrumb-item active">BAB</li>
         </ol>
         </div><!-- /.col -->
     </div><!-- /.row -->
@@ -42,13 +42,13 @@
             <div class="card-header">
             <h3 class="card-title p-3">
                 <i class="fa fa-pie-chart mr-1"></i>
-                Data Bab
+                Data BAB
             </h3>
             </div><!-- /.card-header -->
             <div class="card-body" style="padding:30px">
                 <div class="row">
                     <div class="col-10">
-                        <h1>Data Bab</h1>
+                        <h1>Data BAB</h1>
                     </div>
                     
                     <div class="col-2">
@@ -109,7 +109,7 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Tambah BAB</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

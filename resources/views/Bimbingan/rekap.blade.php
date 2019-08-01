@@ -159,7 +159,7 @@ use \App\Bimbingan;
             <!-- Custom tabs (Charts with tabs)-->
             <div class="card">
                 <div class="card-body">
-                    <form method="GET" action="/Bimbingan/Rekap">
+                    <form method="GET" action="{{url('/Bimbingan/Rekap')}}">
                         <div class="form-group">
                             <label>Pilih Kelas : </label>
                             <select name="kelas" class='form-control'>

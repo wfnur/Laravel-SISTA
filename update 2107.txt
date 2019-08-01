@@ -1,0 +1,3 @@
+udah di database
+tabel mahasiswa :
+    - kolom foto bawaan null

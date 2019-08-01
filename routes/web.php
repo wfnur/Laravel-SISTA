@@ -24,9 +24,9 @@ Route::group(['middleware' => ['auth','checkRole:admin']], function () {
     Route::get('/Dashboard-Admin', 'DashboardController@admin');
     Route::get('/Mahasiswa', 'MahasiswaController@index');
     Route::post('/Mahasiswa/create', 'MahasiswaController@create');
-    Route::get('/Mahasiswa/{NIM}/edit', 'MahasiswaController@edit');
-    Route::post('/Mahasiswa/{NIM}/update', 'MahasiswaController@update');
-    Route::get('/Mahasiswa/{NIM}/delete', 'MahasiswaController@delete');
+    Route::get('/Mahasiswa/edit/{NIM}', 'MahasiswaController@edit');
+    Route::post('/Mahasiswa/update/{NIM}', 'MahasiswaController@update');
+    Route::get('/Mahasiswa/delete/{NIM}', 'MahasiswaController@delete');
     Route::get('/Mahasiswa/CreateUser', 'MahasiswaController@createUserMahasiswa');
 
     Route::get('/Dosen/Create', 'DosenController@create');

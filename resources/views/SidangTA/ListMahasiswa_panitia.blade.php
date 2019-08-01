@@ -89,19 +89,19 @@
                                                     <td>
                                                         @if (isset($item->pembimbing))
                                                         <?php $nama_pembimbing = getNamaDosen($item->pembimbing); ?>
-                                                            <a href={{url('/SidangTA/Penilaian/Panitia/'.$item->NIM.'/'.$item->ketua_penguji )}}> {{$nama_pembimbing}} </a>
+                                                            <a href={{url('/SidangTA/Penilaian/Panitia/'.$item->NIM.'/'.$item->pembimbing )}}> {{$nama_pembimbing}} </a>
                                                         @else
                                                             Pembimbing
                                                         @endif
                                                     </td>
-                                                    <td>{!! cekNilaiLaporanDosen($item->NIM, $item->ketua_penguji) !!}</td>
+                                                    <td>{!! cekNilaiLaporanDosen($item->NIM, $item->pembimbing) !!}</td>
                                                     <td>
                                                         <form onsubmit='unlock({{$item->NIM}}); return false;' id={{$item->NIM}}_1 action='' method='post'>
                                                             {{ csrf_field() }}
                                                             <input type="hidden" name="nim" value={{$item->NIM}}>
-                                                            <input type="hidden" name="kode_dosen" value={{$item->ketua_penguji}}>
+                                                            <input type="hidden" name="kode_dosen" value={{$item->pembimbing}}>
                                                             <div id="ok1">
-                                                                {!! cekFinalisasiNilaiLaporanDosen($item->NIM, $item->ketua_penguji) !!}
+                                                                {!! cekFinalisasiNilaiLaporanDosen($item->NIM, $item->pembimbing) !!}
                                                             </div>
                                                             <div id="ok2"></div>
                                                         </form>

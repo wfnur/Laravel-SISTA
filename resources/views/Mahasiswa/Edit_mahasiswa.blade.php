@@ -11,7 +11,7 @@
         <h1>Edit Mahasiswa</h1>
     </div>
     <div class="col-8 offset-2">
-        <form action="/Mahasiswa/{{$mahasiswa->NIM}}/update" method="POST">
+        <form action="{{url('/Mahasiswa/update',[$mahasiswa->NIM])}}" method="POST">
             {{ csrf_field() }}
             <div class="form-group">
                 <label>NIM</label>

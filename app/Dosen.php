@@ -15,4 +15,9 @@ class Dosen extends Model
     {
         return $this->hasMany('App\JadwalSidang','pembimbing','kode_dosen');
     }
+
+    public function revisiLaporan()
+    {
+        return $this->hasMany('App\revisilaporan','kode_dosen','kode_dosen');
+    }
 }

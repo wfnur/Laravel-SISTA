@@ -27,7 +27,7 @@ class Mahasiswa extends Model
     }
 
     public function paper(){
-        return $this->hasOne('App\paper','nim','id');
+        return $this->hasOne('App\paper','nim','nim');
     }
    
 

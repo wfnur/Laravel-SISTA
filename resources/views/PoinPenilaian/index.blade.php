@@ -18,12 +18,12 @@
     <div class="container-fluid">
     <div class="row mb-2">
         <div class="">
-        <h1 class="m-0 text-dark">Dashboard</h1>
+        <h1 class="m-0 text-dark">Poin Penilaian Sidang</h1>
         </div><!-- /.col -->
         <div class="col-sm-6" style="margin-top:7px;">
         <ol class="breadcrumb float-sm-left">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Sub BAB</li>
+            <li class="breadcrumb-item active">Poin Penilaian Sidang</li>
         </ol>
         </div><!-- /.col -->
     </div><!-- /.row -->
@@ -44,13 +44,13 @@
             <div class="card-header">
             <h3 class="card-title p-3">
                 <i class="fa fa-pie-chart mr-1"></i>
-                Data Bab
+                Data Poin Penilaian Sidang
             </h3>
             </div><!-- /.card-header -->
             <div class="card-body" style="padding:30px">
                 <div class="row">
                     <div class="col-10">
-                        <h1>Data Sub BAB</h1>
+                        <h1>Data Poin Penilaian Sidang</h1>
                     </div>
                     
                     <div class="col-2">

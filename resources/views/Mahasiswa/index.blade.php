@@ -52,7 +52,7 @@
                         <h1>Data Mahasiswa</h1>
                     </div>
                     <div class="col-4">
-                        <form class="form-inline float-right" method="GET" action="/Mahasiswa" >
+                        <form class="form-inline float-right" method="GET" action="{{url('/Mahasiswa')}}" >
                             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="cari">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
@@ -98,8 +98,8 @@
                                     <td>{{ $item->ttl }}</td>
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->telpon }}</td>
-                                    <td><a href="/Mahasiswa/{{ $item->NIM }}/edit" class="btn btn-warning">Edit</a></td>
-                                    <td><a href="/Mahasiswa/{{ $item->NIM }}/delete" class="btn btn-danger" onclick="return confirm('Yakin anda akan menghapus data ini ?')">Hapus</a></td>
+                                    <td><a href="{{ url('/Mahasiswa/edit', [$item->NIM]) }}" class="btn btn-warning">Edit</a></td>
+                                    <td><a href="{{ url('/Mahasiswa/delete',[$item->NIM]) }}" class="btn btn-danger" onclick="return confirm('Yakin anda akan menghapus data ini ?')">Hapus</a></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -133,7 +133,7 @@
             </button>
             </div>
             <div class="modal-body">
-                <form action="/Mahasiswa/create" method="POST">
+                <form action="{{url('/Mahasiswa/create')}}" method="POST">
                     {{ csrf_field() }}
                     <div class="form-group">
                         <label>NIM</label>

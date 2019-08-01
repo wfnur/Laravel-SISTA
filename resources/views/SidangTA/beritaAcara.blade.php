@@ -105,7 +105,7 @@
             <td style="text-align: center">A</td>
             <td>Nilai Pembimbing</td>
             <td style="text-align: center">45</td>
-            <td style="text-align: center">{{$nilai_pembimbing_all}}</td>
+            <td style="text-align: center">{{$nilai_pembimbing}}</td>
         </tr>
         <tr>
             <td style="text-align: center">B</td>
@@ -119,7 +119,12 @@
             <td style="text-align: center">15</td>
             <td style="text-align: center">{{$nilai_laporanFIX}}</td>
         </tr>
-        
+        <tr>
+            <td style="text-align: center">D</td>
+            <td>Nilai Bonus</td>
+            <td style="text-align: center">13</td>
+            <td style="text-align: center">{{$nilai_bonus}}</td>
+        </tr>
         <tr>
             <td colspan="3"><center>Total</center></td>
             <td style="text-align: center" >{{$total_nilai}}</td>
@@ -151,10 +156,14 @@
     </table>
 
     @php
-    if ($total_nilai <=100 and $total_nilai >=80) {
-        $lulus ="<b>LULUS</b>
-        <span style='text-decoration:line-through'>/LULUS BERSYARAT/TUNDA</span>
-        ";
+    if ($total_nilai <=100 and $total_nilai >=80 ) {
+        if($status_revisi == "kosong"){
+            $lulus ="<b>LULUS</b>
+            <span style='text-decoration:line-through'>/LULUS BERSYARAT/TUNDA</span>";
+        }else{
+            $lulus ="<span style='text-decoration:line-through'>LULUS</span>
+            /<b>LULUS BERSYARAT</b>/<span style='text-decoration:line-through'>TUNDA</span>";
+        }
     }elseif($total_nilai < 80 and $total_nilai >=60){
         $lulus ="<span style='text-decoration:line-through'>LULUS</span>
         /<b>LULUS BERSYARAT</b>/<span style='text-decoration:line-through'>TUNDA</span>
@@ -182,7 +191,7 @@
                     Ketua Sidang,<br>
                     Pendamping
                 </div>
-                <br><br><br><br><br><br><br><br>
+                <br><br><br><br><br><br><br>
 
                 <div style="text-align: left;">
                     <span style='font-size:14px;'>{{$jadwalSidang->ketua_pengujiRelasi->nama}}</span><br>
@@ -193,7 +202,7 @@
                 <div style="text-align: center;">
                    <center> Penguji I</center>
                 </div>
-                <br><br><br><br><br><br><br><br><br>
+                <br><br><br><br><br><br><br>
 
                 <div style="text-align: left;">
                     <span style='font-size:14px;'>{{$jadwalSidang->penguji1Relasi->nama}}</span><br>
@@ -204,7 +213,7 @@
                 <div style="text-align: center;">
                     <center>Penguji II</center>
                 </div>
-                <br><br><br><br><br><br><br><br><br>
+                <br><br><br><br><br><br><br>
 
                 <div style="text-align: left;">
                     <span style='font-size:14px;'>{{$jadwalSidang->penguji2Relasi->nama}}</span><br>
@@ -215,7 +224,7 @@
                 <div style="text-align: center;">
                    <center> Pembimbing </center>
                 </div>
-                <br><br><br><br><br><br><br><br><br>
+                <br><br><br><br><br><br><br>
 
                 <div style="text-align: left;">
                     <span style='font-size:14px;'>{{$jadwalSidang->pembimbingRelasi->nama}}</span><br>

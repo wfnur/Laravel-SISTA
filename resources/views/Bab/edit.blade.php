@@ -11,12 +11,12 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="offset-2">
-                <h1 class="m-0 text-dark">Edit Data Dosen</h1>
+                <h1 class="m-0 text-dark">Edit Data BAB</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-left" style="margin-top:7px;">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item">Dosen</li>
+                <li class="breadcrumb-item">BAB</li>
                 <li class="breadcrumb-item active">{{$data_bab->bab}}</li>
             </ol>
             </div><!-- /.col -->

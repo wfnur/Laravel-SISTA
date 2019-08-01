@@ -453,6 +453,23 @@ function cekFinalisasiNilaiLaporanDosen($nim, $kode_dosen){
     return $status;
 }
 
+function cekFinalisasiSidangLaporanDosen($nim, $kode_dosen){
+    $revisiLaporan = revisiLaporan::where('nim','=',$nim)
+    ->where('kode_dosen','=',$kode_dosen)
+    ->first();
+
+    if($revisiLaporan->status_nilaiSidang == 1){
+        if($revisiLaporan->status == 1){
+            $status = "<button class='btn' id='{{$nim}}'><i class='fa fa-lock fa-2x text-danger'></i></button>";
+        }else{
+            $status = "<i class='fa fa-unlock fa-2x text-success'></i>";
+        }
+    }else{
+        $status = "<i class='fa fa-unlock fa-2x text-success'></i>";
+    }
+    return $status;
+}
+
 function getNamaDosen($kode_dosen){
     $namaDosen = \App\Dosen::where('kode_dosen','=',$kode_dosen)->first();
     if (isset($namaDosen->nama)) {
@@ -550,6 +567,7 @@ function hitungNilaiPenguji($nim){
                 $Arr_nilaiKaliBobot[] = $nilai_akhir*$value->bobot;
                 //echo "Nilai Total :".$nilai_akhir." x ".$value->bobot." = ".$nilaiKaliBobot."<br>";
                 unset($Arr_nilaiBaru);
+                unset($Arr_nilai);
 
                 //echo "<br>";
             }

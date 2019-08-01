@@ -157,7 +157,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col-12">
-                        <form action="/Bimbingan/store" method="POST" enctype="multipart/form-data">              
+                        <form action="{{url('/Bimbingan/store')}}" method="POST" enctype="multipart/form-data">              
                             {{csrf_field()}}
                             <div class="form-group">
                                 <label>Tanggal Bimbingan</label>

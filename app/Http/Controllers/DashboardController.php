@@ -17,7 +17,12 @@ class DashboardController extends Controller
     
     public function mahasiswa(){
         $user = \App\Mahasiswa::find(auth()->user()->username);
-        return view('Dashboard.mahasiswa',['user' => $user]);
+        $revisi = \App\revisiLaporan::where('nim','=',auth()->user()->username)
+        ->where('status','=',1)
+        ->where('status_nilaiSidang','=',1)
+        ->get();
+        
+        return view('Dashboard.mahasiswa',compact('user','revisi'));
     }
     
 }
